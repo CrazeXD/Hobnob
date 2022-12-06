@@ -1,7 +1,11 @@
+# Python enviornments
 venv/
+env/
 
+# IDEs
 .idea/
 
 .vscode/
 
-*.pyc
+# Flutter
+
