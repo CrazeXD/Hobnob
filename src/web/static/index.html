@@ -7,18 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hobnob</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="flex flex-row justify-between items-center bg-gray-100 p-4">
+    <!--Navbar-->
+    <div class="flex flex-row justify-between items-center bg-gray-100 dark:bg-slate-800 p-4">
         <div class="flex flex-row items-center">
-            <h1 class="text-2xl font-bold ml-2">Hobnob</h1>
+            <h1 class="text-2xl font-bold ml-2 dark:text-white">Hobnob<strong>.</strong></h1>
         </div>
         <div class="flex flex-row items-center">
-            <a href="#" class="text-gray-500 hover:text-gray-900">Home</a>
-            <a href="#" class="text-gray-500 hover:text-gray-900 ml-4">About</a>
-            <a href="#" class="text-gray-500 hover:text-gray-900 ml-4">Contact</a>
+            <a href="#" class="text-gray-500 dark:text-white hover:text-gray-900">Home</a>
+            <a href="#" class="text-gray-500 dark:text-white hover:text-gray-900 ml-4">About</a>
+            <a href="#" class="text-gray-500 dark:text-white hover:text-gray-900 ml-4">Contact</a>
         </div>
+    </div>
+    <!--End Navbar-->
+    <!--Hero-->
+    <div class="flex flex-col justify-left items-left bg-slate-700 p-20">
+        <h1 class="text-4xl font-bold dark:text-white">Hobnob<strong>.</strong></h1>
+        <br>
+        <p class="text-gray-500 dark:text-white">A simple video chat app that connects peers.</p>
+    </div>
 </body>
 
 </html>
