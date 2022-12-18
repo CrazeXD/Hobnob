@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,10 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
+  <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
@@ -45,9 +46,6 @@
               <a href="#">
                 <img src="../images/app-page/images/buttons/google-play.svg" alt=""></a>
             </div> -->
-            <div class="buttons is-centered">
-              <a class="button is-primary is-medium" href="signup.html">Sign Up</a>
-              <a class="button is-primary is-medium" href="login.html">Login</a>
           </div>
         </div>
         <!--Features-->
@@ -137,10 +135,9 @@
     </section>
     <section class="hero">
       <div class="hero-body has-text-centered">
-        <a href="" class="button is-link is-large is-responsive is-rounded">Start Calling</a>
+        <a href="call.html" class="button is-link is-large is-responsive is-rounded">Start Calling</a>
       </div>
     </section>
-
     <footer class="section">
       <div class="container">
         <div class="pb-5 is-flex is-flex-wrap-wrap is-justify-content-between is-align-items-center">
