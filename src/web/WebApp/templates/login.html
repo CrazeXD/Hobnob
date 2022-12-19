@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hobnob</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+{% block content %}
+<h2 class="title is-2">Log In</h2>
+<form method="post" action="{% url 'login' %}" class="form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="field is-grouped">
+        <div class="control">
+            <button type="submit" class="button is-link">Log In</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
