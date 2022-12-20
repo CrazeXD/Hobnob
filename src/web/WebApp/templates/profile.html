@@ -25,13 +25,26 @@
                 </a>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item" href="/profile"> <!--Needs to be created-->
+                <a class="navbar-item" href="/profile">
                     <img src="https://imgs.search.brave.com/e5o6Hsc1L6OK-_0WXTD7j6HrHUHPlLL-yzJKZuoZ8fI/rs:fit:1143:947:1/g:ce/aHR0cHM6Ly93d3cu/cG5nYXJ0cy5jb20v/ZmlsZXMvMTAvRGVm/YXVsdC1Qcm9maWxl/LVBpY3R1cmUtVHJh/bnNwYXJlbnQtSW1h/Z2UucG5n" alt="Profile Icon">
                 </a>
             </div>
         </div>
     </nav>
-    <div>
-
-    </div>
+    <section class="section is-fullheight has-text-centered">
+        {% block content %}
+        <h2 class="title is-2">Profile Editor</h2>
+        <div class="form">
+            <form method="post" action="{% url 'signup' %}" class="form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-light is-link">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endblock %}
+    </section>
 </body>

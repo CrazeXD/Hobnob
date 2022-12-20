@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm, UserEditForm
 
 def index(request):
     return render(request, 'index.html')
@@ -34,6 +34,17 @@ def loginuser(request):
             if user is not None:
                 login(request, user)
                 return redirect('call')
+    elif request.user.is_authenticated:
+        return redirect('call')
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+def profile(request):
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+    else:
+        form = UserEditForm(instance=request.user)
+    return render(request, 'profile.html', {'form': form})

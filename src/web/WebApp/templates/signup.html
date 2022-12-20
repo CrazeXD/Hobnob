@@ -11,11 +11,40 @@
     <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-{% block content %}
-<h2>Sign Up</h2>
-<form method="post" action="{% url 'signup' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Sign Up">
-</form>
-{% endblock %}
+
+<body>
+    <div class="columns is-multiline"></div>
+    <nav class="navbar py-4">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <h1 class="title">Hobnob<strong>.</strong></h1>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary" href="/login"><strong>Log in</strong></a>
+                        <a class="button is-light" href="/signup">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section is-fullheight has-text-centered">
+        {% block content %}
+        <h2 class="title is-2">Signup</h2>
+        <div class="form">
+            <form method="post" action="{% url 'signup' %}" class="form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-light is-link">Signup</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endblock %}
+    </section>
+</body>
