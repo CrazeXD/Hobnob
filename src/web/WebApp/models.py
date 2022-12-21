@@ -17,11 +17,11 @@ class User(AbstractUser):
             "unique": _("A user with that username already exists."),
         },
     )
-    password_validator = PasswordValidator()
+    #password_validator = PasswordValidator()
     password = models.CharField(
         _("password"), 
         max_length=128, 
-        validators=[password_validator]
+        #validators=[password_validator]
     )
     grade_choices = (
         (9, '9'),

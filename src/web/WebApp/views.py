@@ -6,7 +6,7 @@ def index(request):
     return render(request, 'index.html')
 
 def call(request):
-    return render(request, 'call.html')
+    return render(request, 'callhomepage.html')
 
 def signup(request):
     if request.method == 'POST':

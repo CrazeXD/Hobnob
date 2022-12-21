@@ -35,7 +35,7 @@
         {% block content %}
         <h2 class="title is-2">Profile Editor</h2>
         <div class="form">
-            <form method="post" action="{% url 'signup' %}" class="form">
+            <form method="post" action="{% url 'profile' %}" class="form">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <div class="field has-text-centered">
