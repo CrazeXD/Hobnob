@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm, LoginForm, UserEditForm
 
 def index(request):
@@ -39,6 +39,10 @@ def loginuser(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+def logoutuser(request):
+    logout(request)
+    return redirect('index')
 
 def profile(request):
     if request.method == "POST":

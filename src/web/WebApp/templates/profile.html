@@ -44,6 +44,15 @@
                     </div>
                 </div>
             </form>
+            <br>
+            <form method="post" action="{% url 'logout' %}" class="form">
+                {% csrf_token %}
+                <div class="field has-text-centered">
+                    <div class="control">
+                        <button type="submit" class="button is-danger">Logout</button>
+                    </div>
+                </div>
+            </form>
         </div>
         {% endblock %}
     </section>
