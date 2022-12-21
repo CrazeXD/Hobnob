@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hobnob</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="columns is-multiline"></div>
+    <nav class="navbar py-4">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <h1 class="title">Hobnob<strong>.</strong></h1>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary" href="/login"><strong>Log in</strong></a>
+                        <a class="button is-light" href="/signup">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section is-fullheight has-text-centered">
+        {% block content %}
+        <h2 class="title is-2">Log In</h2>
+        <form method="post" action="{% url 'login' %}" class="form">
+            {% csrf_token %}
+            <div class="field">
+                <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Username</p>
+                {{ form.username }}
+            </div>
+            <div class="field">
+                <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Password</p>
+                {{ form.password }}
+            </div>
+            <div class="field has-text-centered">
+                <div class="control">
+                    <button type="submit" class="button is-success">Log In</button>
+                </div>
+            </div>
+        </form>
+        {% endblock %}
+    </section>
+</body>
