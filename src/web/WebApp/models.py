@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from .validators import UsernameValidator, PasswordValidator
 from django.utils.translation import gettext_lazy as _
 
+
 class User(AbstractUser):
     username_validator = UsernameValidator()
     username = models.CharField(
@@ -17,11 +18,11 @@ class User(AbstractUser):
             "unique": _("A user with that username already exists."),
         },
     )
-    #password_validator = PasswordValidator()
+    password_validator = PasswordValidator()
     password = models.CharField(
-        _("password"), 
-        max_length=128, 
-        #validators=[password_validator]
+        _("password"),
+        max_length=128,
+        validators=[password_validator]
     )
     grade_choices = (
         (9, '9'),
@@ -37,8 +38,10 @@ class User(AbstractUser):
         ('Prefer Not To Say', 'Prefer Not To Say'),
     )
     pronouns = models.CharField(
-        choices=pronoun_choices, 
-        max_length=20, 
+        choices=pronoun_choices,
+        max_length=20,
         default='Prefer Not To Say'
     )
-    REQUIRED_FIELDS = ["email", "first_name", "last_name", "grade", "pronouns", "password"]
+    school = models.CharField(max_length=100, default='')
+    REQUIRED_FIELDS = ["email", "first_name", "last_name", "grade", "pronouns", "school", "password"]
+

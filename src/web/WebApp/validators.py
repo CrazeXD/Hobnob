@@ -12,7 +12,8 @@ class UsernameValidator(validators.RegexValidator):
 
 @deconstructible
 class PasswordValidator(validators.RegexValidator):
-    regex = r"^(?=[^~`]*[~`])(?=[^,]*[,])[^~`,]{8,}$"
+    # Create a regex expression that can contain any character except for a space, ~, `, and , and must be at least 8 characters long
+    regex = r"^[^\s~`,]{8,}$"
     message = _(
         "Enter a valid password. This value may contain any characters except ~, `, and , and must be greater than 8 units."
     )
