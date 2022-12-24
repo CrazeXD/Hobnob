@@ -10,9 +10,7 @@ def add_user_to_queue(user: User) -> QueueItem:
 
 def remove_from_queue(user):
     items = QueueItem.objects.all()
-    print(items)
     item = items.filter(user=user)
-    print(item)
     item.delete()  # NoneType object has no attribute 'delete'
     return item
 

@@ -4,7 +4,6 @@ env/
 
 # IDEs
 .idea/
-
 .vscode/
 
 .pycache

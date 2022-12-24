@@ -76,7 +76,6 @@ def add_to_queue(request) -> HttpResponse | None:
     if request.method != "POST":
         return None
     pair_func = pair(request.user)
-    print(type(request.user))
     if pair_func is None:
         add_user_to_queue(request.user)
         while True:
