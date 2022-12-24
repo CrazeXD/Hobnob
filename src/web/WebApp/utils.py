@@ -1,5 +1,6 @@
 from .models import *
 
+import random
 
 # Queue Functionality
 def add_user_to_queue(user: User) -> QueueItem:
@@ -26,10 +27,21 @@ def should_pair(user1: User, user2: User) -> bool:
 # IT WORKED HAHAHAHHAHAHAHAHHA
 def pair(user: User) -> ChatRoom | None:
     items = QueueItem.objects.all()
-    for item in items:
-        if should_pair(user, item.user):
-            remove_from_queue(item.user)
-            room = ChatRoom.objects.create(user1=user, user2=item.user)
-            room.save()
-            return room
-    return None
+    matches = [item.user for item in items if should_pair(user, item.user)]
+    if not matches:
+        return None
+    # Code for we have a match
+    elif len(matches) <= len(user.recent_calls.all()):
+        usertoadd = matches[random.randint(0, len(matches) - 1)]
+    else:
+        for match in matches:
+            if match in user.recent_calls.all():
+                matches.remove(match)
+        usertoadd = matches[random.randint(0, len(matches) - 1)]
+    user.recent_calls.add(usertoadd)
+    if len(user.recent_calls.all()) > 5:
+        user.recent_calls.remove(user.recent_calls.all()[0])
+    remove_from_queue(usertoadd)
+    room = ChatRoom.objects.create(user1=user, user2=usertoadd)
+    room.save()
+    return room
