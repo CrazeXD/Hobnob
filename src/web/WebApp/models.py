@@ -45,3 +45,12 @@ class User(AbstractUser):
     school = models.CharField(max_length=100, default='')
     REQUIRED_FIELDS = ["email", "first_name", "last_name", "grade", "pronouns", "school", "password"]
 
+
+class QueueItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class ChatRoom(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user2')
+    room_id = models.AutoField(primary_key=True)

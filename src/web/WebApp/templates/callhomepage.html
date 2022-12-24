@@ -37,6 +37,13 @@
     <div class="columns">
         <div class="column is-three-quarters">
             <!--Video Calling Software Here-->
+            <form method="post" action="{% url 'add_to_queue' %}" class="form">
+                {% csrf_token %}
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-success">Add To Queue</button>
+                    </div>
+            </form>
         </div>
         <div class="column">
             <!--Friends Menu -->

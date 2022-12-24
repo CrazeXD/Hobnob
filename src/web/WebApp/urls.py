@@ -9,4 +9,5 @@ urlpatterns = [
     path('login/', views.loginuser, name='login'),
     path('profile/', views.profile, name='profile'),
     path('logout/', views.logoutuser, name='logout'),
+    path('add_to_queue/', views.add_to_queue, name='add_to_queue'),
 ]

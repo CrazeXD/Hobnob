@@ -1,16 +1,22 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.db.models import QuerySet
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render, redirect
+
 from .forms import SignupForm, LoginForm, UserEditForm
-from .models import User
-def index(request):
+from .utils import *
+
+
+def index(request: HttpRequest) -> HttpResponse:
     return render(request, "index.html")
 
 
-def signup(request):
+def signup(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
-        form = SignupForm(request.POST)
+        form: SignupForm = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user: User = form.save()
             # Save the user's password separately because the form doesn't include it
             user.set_password(form.cleaned_data["password"])
             user.save()
@@ -18,46 +24,68 @@ def signup(request):
             login(request, user)
             return redirect("call")
     else:
-        form = SignupForm()
+        form: SignupForm = SignupForm()
     return render(request, "signup.html", {"form": form})
 
 
-def loginuser(request):
+def loginuser(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form: LoginForm = LoginForm(request.POST)
         if form.is_valid():
             # Authenticate the user and log them in
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user = authenticate(request, username=username, password=password)
+            user: User = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect("call")
     elif request.user.is_authenticated:
         return redirect("call")
     else:
-        form = LoginForm()
+        form: LoginForm = LoginForm()
     return render(request, 'login.html', {"form": form})
 
 
-def logoutuser(request):
+def logoutuser(request: HttpRequest) -> HttpResponse:
     logout(request)
     return redirect("index")
 
 
-def profile(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
-    elif request.method == "POST":
-        form = UserEditForm(request.POST, instance=request.user)
+@login_required(login_url="login")
+def profile(request: HttpRequest) -> HttpResponse:
+    if request.method == "POST":
+        form: UserEditForm = UserEditForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
     else:
-        form = UserEditForm(instance=request.user)
+        form: UserEditForm = UserEditForm(instance=request.user)
     return render(request, "profile.html", {"form": form})
 
 
-def callhomepage(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
-    return render(request, "callhomepage.html")
+@login_required(login_url="login")
+def callhomepage(request: HttpRequest) -> HttpResponse:
+    return (
+        render(request, "callhomepage.html")
+        if request.user.is_authenticated
+        else redirect("login")
+    )
+
+
+@login_required(login_url="login")
+def add_to_queue(request) -> HttpResponse | None:
+    if request.method != "POST":
+        return None
+    pair_func = pair(request.user)
+    print(type(request.user))
+    if pair_func is None:
+        add_user_to_queue(request.user)
+        while True:
+            chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.all()
+            for chatroom in chatrooms:
+                if chatroom.user1 == request.user or chatroom.user2 == request.user:
+                    room_id = chatroom.room_id
+                    chatroom.delete()
+                    return redirect(f"/chatroom/{room_id}")
+    else:
+        room_id: int = pair_func.room_id
+        return redirect(f"/chatroom/{room_id}")

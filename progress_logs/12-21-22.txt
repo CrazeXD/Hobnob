@@ -6,9 +6,7 @@ Functionalities Completed Today (well technically up to this point since it's th
 - Landing Page
 - User Model (still needs pfp and other features can be added later)
 - User signup, login, edit, and logout (figure out password and delete account stuff later)
-- Created Queue Model (untested)
-- Created queue functionality (untested, needs features to filter out users based on their attributes)
 
-Last Thing I Did: Created queue functionality (untested)
+Last Thing I Did:
 
 What I Need To Do Tommorow: Start looking into ways of creating the chatroom and figure out how to remove from queue on tab close

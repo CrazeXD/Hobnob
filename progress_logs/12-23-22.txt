@@ -1,0 +1,12 @@
+Hobnob Project Log
+
+Date: 12/23/22
+
+Functionalities Completed Today
+- Pair Users and Redirect them to shared URL :)
+- General patches
+- Type annotations for views
+- Added models
+Last Thing I Did:
+
+What I Need To Do Tommorow:
