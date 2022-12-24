@@ -34,6 +34,7 @@
 </nav>
 <!-- Page Content -->
 <section class="section">
+    <p style="padding-bottom: 20px;">To add yourself to the queue, please press the below button. Once you do, the page will load until a match is made, then you will be redirected.</p>
     <form method="post" action="{% url 'add_to_queue' %}" class="form">
         {% csrf_token %}
         <div class="field">
