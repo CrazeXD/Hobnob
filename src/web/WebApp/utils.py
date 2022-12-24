@@ -31,7 +31,7 @@ def pair(user: User) -> ChatRoom | None:
     if not matches:
         return None
     # Code for we have a match
-    elif len(matches) <= len(user.recent_calls.all()):
+    elif len(matches) <= len([i for i in user.recent_calls.all() if i not in matches]):
         usertoadd = matches[random.randint(0, len(matches) - 1)]
     else:
         for match in matches:

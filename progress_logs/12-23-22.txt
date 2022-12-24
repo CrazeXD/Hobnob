@@ -3,10 +3,14 @@ Hobnob Project Log
 Date: 12/23/22
 
 Functionalities Completed Today
-- Pair Users and Redirect them to shared URL :)
+- Pair Users and Redirect them to shared URL with inbuilt randomization:)
 - General patches
 - Type annotations for views
 - Added models
-Last Thing I Did:
+- Config for the url of the call
 
+Last Thing I Did:
+Config for the url of the call
 What I Need To Do Tommorow:
+Integrate: https://www.agora.io/en/
+Educative Resources: https://education.github.com/pack/offers
