@@ -11,4 +11,5 @@ urlpatterns = [
     path('logout/', views.logoutuser, name='logout'),
     path('add_to_queue/', views.add_to_queue, name='add_to_queue'),
     path('chat/<int:room_id>/<str:partner_user>', views.chat, name='chat'),
+    path('remove_from_queue/', views.remove_from_queue_view, name="remove_from_queue"),
 ]

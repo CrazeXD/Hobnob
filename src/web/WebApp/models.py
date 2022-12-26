@@ -43,7 +43,7 @@ class User(AbstractUser):
         default='Prefer Not To Say'
     )
     school = models.CharField(max_length=100, default='')
-    recent_calls = models.ManyToManyField('self', blank=True, related_name='recent_calls')
+    recent_calls = models.ManyToManyField('self', blank=True)
     REQUIRED_FIELDS = ["email", "first_name", "last_name", "grade", "pronouns", "school", "password"]
 
 
@@ -55,3 +55,4 @@ class ChatRoom(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
     user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user2')
     room_id = models.AutoField(primary_key=True)
+

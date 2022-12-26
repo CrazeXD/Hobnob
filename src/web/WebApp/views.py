@@ -88,6 +88,13 @@ def add_to_queue(request) -> HttpResponse | None:
         return redirect(f"/chatroom/{room_id}/{partner_user.username}")
 
 @login_required(login_url="login")
+def remove_from_queue_view(request) -> HttpResponse | None:
+    if request.method != "POST":
+        return None
+    remove_from_queue(request.user)
+    return HttpResponse("Success")
+
+@login_required(login_url="login")
 def chat(request: HttpRequest, room_id: int, partner_username: str) -> HttpResponse:
     partner_user: User = User.objects.get(username=partner_username)
     return render(request, "chat.html")
