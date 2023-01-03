@@ -30,14 +30,7 @@ def pair(user: User) -> ChatRoom | None:
     matches = [item.user for item in items if should_pair(user, item.user)]
     if not matches:
         return None
-    # Code for we have a match
-    elif len(matches) <= len([i for i in user.recent_calls.all() if i not in matches]):
-        usertoadd = matches[random.randint(0, len(matches) - 1)]
-    else:
-        for match in matches:
-            if match in user.recent_calls.all():
-                matches.remove(match)
-        usertoadd = matches[random.randint(0, len(matches) - 1)]
+    usertoadd = random.choice(matches)
     user.recent_calls.add(usertoadd)
     if len(user.recent_calls.all()) > 5:
         user.recent_calls.remove(user.recent_calls.all()[0])

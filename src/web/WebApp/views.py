@@ -95,6 +95,13 @@ def remove_from_queue_view(request) -> HttpResponse | None:
     remove_from_queue(request.user)
     return HttpResponse("Success")
 
+
+
 @login_required(login_url="login")
-def chat(request: HttpRequest, room_id: int) -> HttpResponse:
-    return render(request, "chat.html")
+def video_call(request: HttpRequest, room_id: int) -> JsonResponse:
+    account_sid = 'AC22154799dd1437de8ffe0340bd21f2fc'
+    api_key = 'SK4312c52a34a95be998d8430a8e7ff366'
+    api_secret = 'aJ6Y8fs4DufsNeBwKlx1l4DCDlJc6Nh6'
+
+    # Create an Access Token
+    return render(request, 'call.html', {'access_token': token.to_jwt(), 'room_id': room_id})
