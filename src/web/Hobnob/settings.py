@@ -119,7 +119,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-TWILIO_ACCOUNT_SID = 'ACd6cef5c4918a3899f63ed3235af7e008'
-TWILIO_API_KEY_SID = 'SKad510bc1302248d9eb6e0f7ba282a63d'
-TWILIO_ACCOUNT_KEY_SECRET = 'SKad510bc1302248d9eb6e0f7ba282a63d'

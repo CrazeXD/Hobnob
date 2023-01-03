@@ -14,17 +14,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        window.addEventListener("beforeunload", function (e) {
-          $.ajax({
-            type: "POST",
-            url: "{% url 'remove_from_queue' %}",
-            data: {
-              // Data to be sent to the Django view goes here
-            },
-          });
-        });
-      </script>
 </head>
 
 <body>

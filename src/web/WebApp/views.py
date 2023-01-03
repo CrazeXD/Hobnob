@@ -67,6 +67,7 @@ def callhomepage(request: HttpRequest) -> HttpResponse:
     return render(request, "callhomepage.html")
 
 
+
 @login_required(login_url="login")
 def add_to_queue(request) -> HttpResponse | None:
     if request.method != "POST":
@@ -81,11 +82,11 @@ def add_to_queue(request) -> HttpResponse | None:
                     room_id = chatroom.room_id
                     partner_user = chatroom.user1 if chatroom.user2 == request.user else chatroom.user2
                     chatroom.delete()
-                    return redirect(f"/chatroom/{room_id}/{partner_user.username}")
+                    return redirect(f"/chatroom/{room_id}")
     else:
         room_id: int = pair_func.room_id
         partner_user = pair_func.user1 if pair_func.user2 == request.user else pair_func.user2
-        return redirect(f"/chatroom/{room_id}/{partner_user.username}")
+        return redirect(f"/chatroom/{room_id}")
 
 @login_required(login_url="login")
 def remove_from_queue_view(request) -> HttpResponse | None:
@@ -95,6 +96,5 @@ def remove_from_queue_view(request) -> HttpResponse | None:
     return HttpResponse("Success")
 
 @login_required(login_url="login")
-def chat(request: HttpRequest, room_id: int, partner_username: str) -> HttpResponse:
-    partner_user: User = User.objects.get(username=partner_username)
+def chat(request: HttpRequest, room_id: int) -> HttpResponse:
     return render(request, "chat.html")
