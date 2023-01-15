@@ -9,11 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/call.css' %}">
     <link rel="icon" href="">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
@@ -37,7 +39,14 @@
         <div class="columns">
             <div class="column is-three-quarters">
                 <!--Video Calling Software Here-->
+                <section id="video-streams">
+                    <div class="video-container" id="user-container-1">
+                        <div class="video-player" id="user-1"></div>
+                    </div>
+                </section>
             </div>
+            <script src="{% static 'js/AgoraRTC_N-4.8.1.js' %}"></script>
+            <script src="{% static 'js/main.js' %}"></script>
             <div class="column">
                 <!--Friends Menu -->
             </div>

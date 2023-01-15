@@ -8,6 +8,7 @@ from .forms import SignupForm, LoginForm, UserEditForm
 from .utils import *
 
 
+
 def index(request: HttpRequest) -> HttpResponse:
     return render(request, "index.html")
 
@@ -35,7 +36,8 @@ def loginuser(request: HttpRequest) -> HttpResponse:
             # Authenticate the user and log them in
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user: User = authenticate(request, username=username, password=password)
+            user: User = authenticate(
+                request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect("call")
@@ -67,7 +69,6 @@ def callhomepage(request: HttpRequest) -> HttpResponse:
     return render(request, "callhomepage.html")
 
 
-
 @login_required(login_url="login")
 def add_to_queue(request) -> HttpResponse | None:
     if request.method != "POST":
@@ -85,8 +86,9 @@ def add_to_queue(request) -> HttpResponse | None:
                     return redirect(f"/chatroom/{room_id}")
     else:
         room_id: int = pair_func.room_id
-        partner_user = pair_func.user1 if pair_func.user2 == request.user else pair_func.user2
+        partner_user = pair_func.user1 if pair_func.user2 == request.user else pair_func.user2 
         return redirect(f"/chatroom/{room_id}")
+
 
 @login_required(login_url="login")
 def remove_from_queue_view(request) -> HttpResponse | None:
@@ -96,12 +98,6 @@ def remove_from_queue_view(request) -> HttpResponse | None:
     return HttpResponse("Success")
 
 
-
 @login_required(login_url="login")
-def video_call(request: HttpRequest, room_id: int) -> JsonResponse:
-    account_sid = 'AC22154799dd1437de8ffe0340bd21f2fc'
-    api_key = 'SK4312c52a34a95be998d8430a8e7ff366'
-    api_secret = 'aJ6Y8fs4DufsNeBwKlx1l4DCDlJc6Nh6'
-
-    # Create an Access Token
-    return render(request, 'call.html', {'access_token': token.to_jwt(), 'room_id': room_id})
+def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
+    return render(request, 'call.html')
