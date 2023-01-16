@@ -3,7 +3,7 @@ from .models import User
 
 class SignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
-
+    location = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school']

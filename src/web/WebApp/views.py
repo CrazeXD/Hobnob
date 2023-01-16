@@ -21,12 +21,56 @@ def signup(request: HttpRequest) -> HttpResponse:
             # Save the user's password separately because the form doesn't include it
             user.set_password(form.cleaned_data["password"])
             user.save()
-            # Log the user in and redirect to the home page
+            # Get the school from the form
+            school = form.cleaned_data["school"]
+            # Get user ip
+            user_coordinates = form.cleaned_data["location"].split()
+            related_schools = find_school_address(school)
+            if len(related_schools) == 0:
+                user.delete()
+                # TODO: Create contact email
+                return render(request, "signup.html", {"form": form, "error": "School not found. If you believe this is an error, please contact us at email address."})
+            # Get the school's coordinates
+            school_coordinates = [get_school_coordinates(list(i.values())[1]) for i in related_schools]
+            indexes_to_pop = []
+            indexpopdifference = 0
+            for index, i in enumerate(school_coordinates):
+                if i is None:
+                    indexes_to_pop.append(index)
+                    school_coordinates.pop(index)
+            for i in indexes_to_pop:
+                related_schools.pop(i-indexpopdifference)
+                indexpopdifference += 1
+            
+            # Get the distance between the user and the school
+            distances = [get_distance(tuple(user_coordinates), i) for i in school_coordinates]
+            # Find indexes of distances greater than 50. Remove them from related_schools
+            indexpopcount = 0
+            for index, i in enumerate(distances):
+                if i > 50:
+                    related_schools.pop(index-indexpopcount)
+                    indexpopcount += 1
+                
+            if len(related_schools) == 0:
+                # TODO: Create contact email
+                user.delete()
+                return render(request, "signup.html", {"form": form, "error": "That school is not within range. If you believe this is an error, please contact us at email address."})
+                # Failed user signup
+            if len(related_schools) == 1:
+                user.school = list(related_schools.pop().values())[0]
+                user.save()
+                print(user.school)
+                # Completed user signup
+            if len(related_schools)>1:
+                # TODO: Create signup2.html as seperate view, redirect to it with arguments of related schools
+                print(related_schools, distances)
+                return render(request, "signup.html", {"schools": related_schools})
+                # Needs more information to complete signup (change to signup2)
             login(request, user)
             return redirect("call")
     else:
         form: SignupForm = SignupForm()
-    return render(request, "signup.html", {"form": form})
+    return render(request, "signup.html", {"form": form, "error": ""})
 
 
 def loginuser(request: HttpRequest) -> HttpResponse:

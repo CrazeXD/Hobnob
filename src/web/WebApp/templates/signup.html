@@ -34,17 +34,40 @@
     <section class="section is-fullheight has-text-centered">
         {% block content %}
         <h2 class="title is-2">Signup</h2>
+        <p>{{ error }}</p>
         <div class="form">
             <form method="post" action="{% url 'signup' %}" class="form">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <div class="field has-text-centered">
                     <div class="control">
-                        <button type="submit" class="button is-light is-link">Signup</button>
+                        <button type="submit" id="submit" class="button is-light is-link">Signup</button>
                     </div>
                 </div>
             </form>
         </div>
+        <script>
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var hiddenInput = document.getElementById('id_location');
+                hiddenInput.value = position.coords.latitude + ' ' + position.coords.longitude;
+                document.getElementById('submit').disabled = false
+            }, function(error) {
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("Location services are required to use this website. Please enable location services and refresh the page.")
+                        document.getElementById('submit').disabled = true
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location services are required to use this website. Please enable location services and refresh the page.")
+                        document.getElementById('submit').disabled = true
+                    case error.TIMEOUT:
+                        alert("Location services timed out. Please enable location services and refresh the page.")
+                        document.getElementById('submit').disabled = true;
+                    default:
+                        alert("Location services are required.")
+                        document.getElementById('submit').disabled = true;
+                }
+            });
+        </script>
         {% endblock %}
     </section>
 </body>
