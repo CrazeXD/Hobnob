@@ -17,4 +17,5 @@ class UserEditForm(forms.ModelForm):
     # Create a form to change the attributes of the User model
     class Meta:
         model = User
+        # TODO: Add school validator
         fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'school']

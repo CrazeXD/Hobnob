@@ -65,7 +65,6 @@ def signupFormFunctionality(form, request):
         # Completed user signup
     if len(related_schools)>1:
         # TODO: Create signup2.html as seperate view, redirect to it with arguments of related schools
-        print(related_schools, distances)
         return render(request, "signup.html", {"schools": related_schools})
         # Needs more information to complete signup (change to signup2)
     login(request, user)
