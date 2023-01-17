@@ -79,13 +79,14 @@ def find_school_address(school_name: str):
 def get_school_coordinates(address):
     address = address.rsplit(' ', 1)[0]
     words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th', 'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 'ninth': '9th'}
-    for word in words_to_nums:
-        if word in address:
-            school_name = school_name.replace(word, words_to_nums[word])
+    # If any of the keys in words_to_nums are in address (case doesn't matter), replace it with the corresponding value
+    for key in words_to_nums:
+        if key in address.lower():
+            address = address.lower().replace(key, words_to_nums[key])
     geolocator = Nominatim(user_agent="Hobnob")
     try:
         location = geolocator.geocode(address)
-    except Exception:
+    except Exception as e:
         return None
         
     return None if location is None else (location.latitude, location.longitude)
