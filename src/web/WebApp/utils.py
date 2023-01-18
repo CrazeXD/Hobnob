@@ -93,3 +93,8 @@ def get_school_coordinates(address):
     
 def get_distance(coordpair1, coordpair2):
     return geopy.distance.distance(coordpair1, coordpair2).miles
+
+def checkSchool(school):
+    cases = ['high school', 'middle school', 'elementary school', 'school', 'elementary', 'middle', 'high']
+    if any(x in school.lower() for x in cases):
+        return False

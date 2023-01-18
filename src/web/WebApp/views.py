@@ -30,6 +30,9 @@ def signupFormFunctionality(form, request):
     user.save()
     # Get the school from the form
     school = form.cleaned_data["school"]
+    if checkSchool(school) is False:
+        user.delete()
+        return render(request, "signup.html", {"form": form, "error": "School not specific enough."})
     # Get user ip
     user_coordinates = form.cleaned_data["location"].split()
     related_schools = find_school_address(school)
