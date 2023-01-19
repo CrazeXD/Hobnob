@@ -1,0 +1,11 @@
+div.form p::after {
+    content: "\A\A";
+    white-space: pre;
+}
+div.form p span.helptext {
+    font-size: 10px;
+}
+div.form p span.helptext::before {
+    content: "\A";
+    white-space: pre;
+}
