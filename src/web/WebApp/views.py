@@ -4,7 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import SignupForm, LoginForm, UserEditForm
+from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
 from .utils import *
 
 
@@ -67,11 +67,26 @@ def signupFormFunctionality(form, request):
         user.save()
         # Completed user signup
     if len(related_schools)>1:
-        # TODO: Create signup2.html as seperate view, redirect to it with arguments of related schools
-        return render(request, "signup.html", {"schools": related_schools})
-        # Needs more information to complete signup (change to signup2)
+        string_template = ''
+        for i in related_schools:
+            string_template = string_template+i+' '
+        user.school = string_template
+        user.save()
+        login(request, user)
+        return redirect(f'schoolvalidation/{string_template}/')
     login(request, user)
     return redirect("call")
+
+def schoolselector(request, schools):
+    if request.method == "POST":
+        form = SchoolSelector(request.POST)
+        if form.is_valid():
+            user = request.user
+            user.school = form.cleaned_data["school"]
+            user.save()
+            return redirect("call")
+    form = SchoolSelector(schools=schools.split())
+    return render(request, "schoolselect.html", {"form": form})
 
 def loginuser(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -125,12 +140,10 @@ def add_to_queue(request) -> HttpResponse | None:
             for chatroom in chatrooms:
                 if chatroom.user1 == request.user or chatroom.user2 == request.user:
                     room_id = chatroom.room_id
-                    partner_user = chatroom.user1 if chatroom.user2 == request.user else chatroom.user2
                     chatroom.delete()
                     return redirect(f"/chatroom/{room_id}/{chatroom.user1.username}/{chatroom.user2.username}")
     else:
         room_id: int = pair_func.room_id
-        partner_user = pair_func.user1 if pair_func.user2 == request.user else pair_func.user2 
         return redirect(f"/chatroom/{room_id}/{pair_func.user1.username}/{pair_func.user2.username}")
 
 
