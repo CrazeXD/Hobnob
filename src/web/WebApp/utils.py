@@ -96,5 +96,5 @@ def get_distance(coordpair1, coordpair2):
 
 def checkSchool(school):
     cases = ['high school', 'middle school', 'elementary school', 'school', 'elementary', 'middle', 'high']
-    if any(x in school.lower() for x in cases):
-        return False
+    if school.lower() in cases:
+        return False    

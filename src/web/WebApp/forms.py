@@ -8,8 +8,6 @@ class SignupForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school']
 
-# TODO: Create form template using this form class and save the user's school
-# Integrate with signp view
 class SchoolSelector(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SchoolSelector, self).__init__(*args, **kwargs)

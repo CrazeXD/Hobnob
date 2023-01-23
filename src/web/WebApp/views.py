@@ -67,15 +67,19 @@ def signupFormFunctionality(form, request):
         user.save()
         # Completed user signup
     if len(related_schools)>1:
-        string_template = ''
-        for i in related_schools:
-            string_template = string_template+i+' '
-        user.school = string_template
-        user.save()
-        login(request, user)
-        return redirect(f'schoolvalidation/{string_template}/')
+        return moreThanOneSchool(related_schools, user, request)
     login(request, user)
     return redirect("call")
+
+
+def moreThanOneSchool(related_schools, user, request):
+    string_template = ''
+    for i in related_schools:
+        string_template = string_template+i+' '
+    user.school = string_template
+    user.save()
+    login(request, user)
+    return redirect(f'schoolvalidation/{string_template}/')
 
 def schoolselector(request, schools):
     if request.method == "POST":
