@@ -1,43 +1,20 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Hobnob</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/call.css' %}">
-    <link rel="icon" href="">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-</head>
+<html>
+<script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
 
 <body>
-    <nav class="navbar py-4">
-        <div class="container is-fluid">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <h1 class="title">Hobnob<strong>.</strong></h1>
-                </a>
-            </div>
-            <div class="navbar-end">
-                <a class="navbar-item" href="/profile">
-                    <img src="https://imgs.search.brave.com/e5o6Hsc1L6OK-_0WXTD7j6HrHUHPlLL-yzJKZuoZ8fI/rs:fit:1143:947:1/g:ce/aHR0cHM6Ly93d3cu/cG5nYXJ0cy5jb20v/ZmlsZXMvMTAvRGVm/YXVsdC1Qcm9maWxl/LVBpY3R1cmUtVHJh/bnNwYXJlbnQtSW1h/Z2UucG5n"
-                        alt="Profile Icon">
-                </a>
-            </div>
-        </div>
-    </nav>
-    <!-- Page Content -->
-    <section class="section">
-        <!--Video Calling Software Here-->
-        <!-- <script src="{% static 'js/AgoraRTC_N-4.8.1.js' %}"></script> -->
-        <script src="{% static 'js/main.js' %}"></script>
-    </section>
+    <script>
+        callFrame = window.DailyIframe.createFrame({
+            showLeaveButton: true,
+            iframeStyle: {
+                position: 'fixed',
+                top: '0',
+                left: '0',
+                width: '100%',
+                height: '100%',
+            },
+        });
+        callFrame.join({ url: '{{ url }}' });
+    </script>
 </body>
+
+</html>

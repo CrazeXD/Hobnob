@@ -7,6 +7,8 @@ from geopy.geocoders import Nominatim
 import geopy.distance
 
 # Queue Functionality
+
+
 def add_user_to_queue(user: User) -> QueueItem:
     item: QueueItem = QueueItem.objects.create(user=user)
     item.save()
@@ -43,6 +45,7 @@ def pair(user: User) -> ChatRoom | None:
     room.save()
     return room
 
+
 def find_school_address(school_name: str):
     # Convert things like sixth to 6th
     url = f"https://nces.ed.gov/ccd/schoolsearch/school_list.asp?Search=1&InstName={school_name.replace(' ','+')}&SchoolID=&Address=&City=&State=&Zip=&Miles=&PhoneAreaCode=&Phone=&DistrictName=&DistrictID=&SchoolType=1&SchoolType=2&SchoolType=3&SchoolType=4&SpecificSchlTypes=all&IncGrade=-1&LoGrade=-1&HiGrade=-1"
@@ -51,7 +54,8 @@ def find_school_address(school_name: str):
     # Parse the HTML response
     school_data = response.text
     # Find the line where school_detail.asp is, since it contains the school
-    matched_lines = [line for line in school_data.split('\n') if "school_detail.asp" in line]
+    matched_lines = [line for line in school_data.split(
+        '\n') if "school_detail.asp" in line]
     schools = []
     # In the line, find the index where the word 'strong' ends
     for matched_line in matched_lines:
@@ -76,9 +80,11 @@ def find_school_address(school_name: str):
         schools.append({'name': school_name, 'address': school_address})
     return schools
 
+
 def get_school_coordinates(address):
     address = address.rsplit(' ', 1)[0]
-    words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th', 'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 'ninth': '9th'}
+    words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
+                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 'ninth': '9th'}
     # If any of the keys in words_to_nums are in address (case doesn't matter), replace it with the corresponding value
     for key in words_to_nums:
         if key in address.lower():
@@ -88,13 +94,26 @@ def get_school_coordinates(address):
         location = geolocator.geocode(address)
     except Exception as e:
         return None
-        
+
     return None if location is None else (location.latitude, location.longitude)
-    
+
+
 def get_distance(coordpair1, coordpair2):
     return geopy.distance.distance(coordpair1, coordpair2).miles
 
+
 def checkSchool(school):
-    cases = ['high school', 'middle school', 'elementary school', 'school', 'elementary', 'middle', 'high']
+    cases = ['high school', 'middle school', 'elementary school',
+             'school', 'elementary', 'middle', 'high']
     if school.lower() in cases:
-        return False    
+        return False
+
+
+def create_room(room_id):
+    r = requests.post(url='https://api.daily.co/v1/rooms/', headers={"Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
+                      json={"name": str(room_id)})
+    if r.status_code == 200:
+        return r.json()['url']
+    else:
+        return f'https://hobnob.daily.co/{room_id}'
+

@@ -8,7 +8,6 @@ from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
 from .utils import *
 
 
-
 def index(request: HttpRequest) -> HttpResponse:
     return render(request, "index.html")
 
@@ -163,4 +162,8 @@ def remove_from_queue_view(request) -> HttpResponse | None:
 def video_call(request: HttpRequest, room_id: int, user1: str, user2: str) -> HttpResponse:
     if request.user.username not in [user1, user2]:
         return redirect("call")
-    return render(request, 'call.html')
+    
+    url = create_room(room_id)
+    context = {'url': url}
+    return render(request, 'call.html', context)
+
