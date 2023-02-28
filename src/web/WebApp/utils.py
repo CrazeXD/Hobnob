@@ -120,10 +120,4 @@ def create_room(room_id):
     print(r.json())
     if r.status_code == 200:
         return r.json()['url']
-    else:
-        return (
-            f'https://hobnob.daily.co/{room_id}'
-            if r.json()['error'] == 'Room name already taken'
-            else None
-        )
 

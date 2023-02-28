@@ -164,8 +164,6 @@ def video_call(request: HttpRequest, room_id: int, user1: str, user2: str) -> Ht
         return redirect("call")
 
     url = create_room(room_id)
-    if url is None:
-        return redirect("call", context={"error": "Room does not exist."})
     context = {'url': url, 'username': request.user.username}
     return render(request, 'call.html', context)
 
