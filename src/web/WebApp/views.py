@@ -128,7 +128,7 @@ def profile(request: HttpRequest) -> HttpResponse:
 
 @login_required(login_url="login")
 def callhomepage(request: HttpRequest) -> HttpResponse:
-    return render(request, "callhomepage.html")
+    return render(request, "callhomepage.html", context={"error": ""})
 
 
 @login_required(login_url="login")
@@ -162,8 +162,10 @@ def remove_from_queue_view(request) -> HttpResponse | None:
 def video_call(request: HttpRequest, room_id: int, user1: str, user2: str) -> HttpResponse:
     if request.user.username not in [user1, user2]:
         return redirect("call")
-    
+
     url = create_room(room_id)
-    context = {'url': url}
+    if url is None:
+        return redirect("call", context={"error": "Room does not exist."})
+    context = {'url': url, 'username': request.user.username}
     return render(request, 'call.html', context)
 

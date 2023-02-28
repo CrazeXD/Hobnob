@@ -9,3 +9,15 @@ div.form p span.helptext::before {
     content: "\A";
     white-space: pre;
 }
+
+body {
+    background-color: #133B5C; 
+    box-shadow: 0px 5px 5px #1D2D50;
+}
+
+nav.navbar {
+    background-color: #1D2D50; 
+    box-shadow: 0px 10px 5px #1D2D50;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+

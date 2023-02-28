@@ -6,10 +6,15 @@ import requests
 from geopy.geocoders import Nominatim
 import geopy.distance
 
+import time
 # Queue Functionality
 
 
 def add_user_to_queue(user: User) -> QueueItem:
+    # Check if user is already in queue
+    items = QueueItem.objects.all()
+    if items.filter(user=user):
+        return items.filter(user=user)[0]
     item: QueueItem = QueueItem.objects.create(user=user)
     item.save()
     return item
@@ -111,9 +116,14 @@ def checkSchool(school):
 
 def create_room(room_id):
     r = requests.post(url='https://api.daily.co/v1/rooms/', headers={"Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
-                      json={"name": str(room_id)})
+                      json={"name": str(room_id), "properties": {"exp": int(time.time())+3600}})
+    print(r.json())
     if r.status_code == 200:
         return r.json()['url']
     else:
-        return f'https://hobnob.daily.co/{room_id}'
+        return (
+            f'https://hobnob.daily.co/{room_id}'
+            if r.json()['error'] == 'Room name already taken'
+            else None
+        )
 

@@ -37,11 +37,11 @@
         <form method="post" action="{% url 'login' %}" class="form" id="form">
             {% csrf_token %}
             <div class="field">
-                <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Username</p>
+                <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Username:</p>
                 {{ form.username }}
             </div>
             <div class="field">
-                <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Password</p>
+                <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Password:</p>
                 {{ form.password }}
             </div>
             <div class="field has-text-centered">
