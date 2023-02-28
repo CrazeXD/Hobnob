@@ -34,7 +34,7 @@
     <section class="section is-fullheight has-text-centered">
         {% block content %}
         <h2 class="title is-2">Log In</h2>
-        <form method="post" action="{% url 'login' %}" class="form">
+        <form method="post" action="{% url 'login' %}" class="form" id="form">
             {% csrf_token %}
             <div class="field">
                 <p class="subtitle" style="padding-bottom: 1px; margin-bottom: 0;">Username</p>
@@ -46,10 +46,17 @@
             </div>
             <div class="field has-text-centered">
                 <div class="control">
-                    <button type="submit" class="button is-success">Log In</button>
+                    <button type="submit" class="button is-success" id="submit">Log In</button>
                 </div>
             </div>
         </form>
+        <script>
+            const form = document.getElementById('form');
+            form.addEventListener('submit', function (event) {
+                // Turn the submit button into a loading indicator
+                document.getElementById('submit').classList.add('is-loading');
+            });
+        </script>
         {% endblock %}
     </section>
 </body>

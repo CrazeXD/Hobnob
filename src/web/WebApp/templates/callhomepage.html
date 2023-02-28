@@ -35,7 +35,7 @@
 <!-- Page Content -->
 <section class="section">
     <p style="padding-bottom: 20px;">To add yourself to the queue, please press the below button. Once you do, the page will load until a match is made, then you will be redirected.</p>
-    <form method="post" action="{% url 'add_to_queue' %}" class="form">
+    <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
         {% csrf_token %}
         <div class="field">
             <div class="control">
@@ -43,6 +43,13 @@
             </div>
         </div>
     </form>
+    <script>
+        const form = document.getElementById('form');
+            form.addEventListener('submit', function (event) {
+                // Turn the submit button into a loading indicator
+                document.getElementById('queue').classList.add('is-loading');
+            });
+    </script>
 </section>
 
 </body>
