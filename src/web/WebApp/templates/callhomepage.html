@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}" />
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="">
@@ -17,41 +17,41 @@
 </head>
 
 <body>
-<nav class="navbar py-4">
-    <div class="container is-fluid">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <h1 class="title">Hobnob<strong>.</strong></h1>
-            </a>
-        </div>
-        <div class="navbar-end">
-            <a class="navbar-item" href="/profile">
-                <img src="{% static 'images/profile.png' %}"
-                     alt="Profile Icon">
-            </a>
-        </div>
-    </div>
-</nav>
-<!-- Page Content -->
-<section class="section">
-    <p>{{ error }}</p>
-    <h2 class="title is-2">Call</h2>
-    <p style="padding-bottom: 20px;">To add yourself to the queue, please press the below button. Once you do, the page will load until a match is made, then you will be redirected.</p>
-    <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
-        {% csrf_token %}
-        <div class="field">
-            <div class="control">
-                <button type="submit" class="button is-primary is-rounded" id="queue">Add To Queue</button>
+    <nav class="navbar py-4">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <h1 class="title">Hobnob<strong>.</strong></h1>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="/profile">
+                    <img src="{% static 'images/profile.png' %}" alt="Profile Icon">
+                </a>
             </div>
         </div>
-    </form>
-    <script>
-        const form = document.getElementById('form');
+    </nav>
+    <!-- Page Content -->
+    <section class="section">
+        <p>{{ error }}</p>
+
+        <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
+            {% csrf_token %}
+            <div class="field has-text-centered">
+                <div class="control">
+                    <button type="submit" class="button is-info is-rounded is-large" id="queue">Add To Queue</button>
+                </div>
+            </div>
+        </form>
+
+
+        <script>
+            const form = document.getElementById('form');
             form.addEventListener('submit', function (event) {
                 // Turn the submit button into a loading indicator
                 document.getElementById('queue').classList.add('is-loading');
             });
-    </script>
-</section>
+        </script>
+    </section>
 
 </body>

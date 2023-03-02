@@ -4,12 +4,12 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('call/', views.callhomepage, name='call'),
+    path('call/', views.call_homepage, name='call'),
     path('signup/', views.signup, name='signup'),
-    path('schoolvalidation/<str:schools>/', views.schoolselector, name='school'),
-    path('login/', views.loginuser, name='login'),
+    path('schoolvalidation/<str:schools>/', views.school_selector, name='school'),
+    path('login/', views.login_user, name='login'),
     path('profile/', views.profile, name='profile'),
-    path('logout/', views.logoutuser, name='logout'),
+    path('logout/', views.logout_user, name='logout'),
     path('add_to_queue/', views.add_to_queue, name='add_to_queue'),
     path('chatroom/<int:room_id>/<str:user1>/<str:user2>', views.video_call, name='chat'),
     path('remove_from_queue/', views.remove_from_queue_view, name="remove_from_queue"),

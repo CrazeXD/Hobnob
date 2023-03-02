@@ -16,62 +16,51 @@ def signup(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form: SignupForm = SignupForm(request.POST)
         if form.is_valid():
-            return signupFormFunctionality(form, request)
+            return signup_form_functions(form, request)
     else:
         form: SignupForm = SignupForm()
     return render(request, "signup.html", {"form": form, "error": ""})
 
 
-def signupFormFunctionality(form, request):
-    user: User = form.save()
-    # Save the user's password separately because the form doesn't include it
-    user.set_password(form.cleaned_data["password"])
-    user.save()
+def signup_form_functions(form, request):
+    user = get_user(form)
     # Get the school from the form
     school = form.cleaned_data["school"]
-    if checkSchool(school) is False:
-        user.delete()
-        return render(request, "signup.html", {"form": form, "error": "School not specific enough."})
+    if is_generic_name(school) is False:
+        return signup_error(
+            user, "School not specific enough.", request, form
+        )
     # Get user ip
     user_coordinates = form.cleaned_data["location"].split()
     related_schools = find_school_address(school)
     if len(related_schools) == 0:
         user.delete()
         # TODO: Create contact email
-        return render(request, "signup.html", {"form": form, "error": "School not found. If you believe this is an error, please contact us at email address."})
-    # Get the school's coordinates
-    school_coordinates = [get_school_coordinates(list(i.values())[1]) for i in related_schools]
-    indexes_to_pop = []
-    for index, i in enumerate(school_coordinates):
-        if i is None:
-            indexes_to_pop.append(index)
-            school_coordinates.pop(index)
-    for indexpopdifference, i in enumerate(indexes_to_pop):
-        related_schools.pop(i-indexpopdifference)
-    # Get the distance between the user and the school
-    distances = [get_distance(tuple(user_coordinates), i) for i in school_coordinates]
-    # Find indexes of distances greater than 50. Remove them from related_schools
-    indexpopcount = 0
-    for index, i in enumerate(distances):
-        if i > 50:
-            related_schools.pop(index-indexpopcount)
-            indexpopcount += 1
+        error = '''School not found. 
+        If you believe this is an error, please contact us at email address.'''
+        return signup_error(user, error, request, form)
+    distances = get_distances(related_schools, user_coordinates)
+    related_schools = check_schools(related_schools, distances)
     if len(related_schools) == 0:
-        # TODO: Create contact email
-        user.delete()
-        return render(request, "signup.html", {"form": form, "error": "That school is not within range. If you believe this is an error, please contact us at email address."})
+        return signup_error(
+            user,
+            '''That school is not within range.
+            If you believe this is an error, please contact us at email address.''',
+            request,
+            form,
+        )
         # Failed user signup
     if len(related_schools) == 1:
         user.school = list(related_schools.pop().values())[0]
         user.save()
         # Completed user signup
-    if len(related_schools)>1:
-        return moreThanOneSchool(related_schools, user, request)
+    if len(related_schools) > 1:
+        return multiple_schools(related_schools, user, request)
     login(request, user)
     return redirect("call")
 
 
-def moreThanOneSchool(related_schools, user, request):
+def multiple_schools(related_schools, user, request):
     string_template = ''
     for i in related_schools:
         string_template = string_template+i+' '
@@ -80,7 +69,8 @@ def moreThanOneSchool(related_schools, user, request):
     login(request, user)
     return redirect(f'schoolvalidation/{string_template}/')
 
-def schoolselector(request, schools):
+
+def school_selector(request, schools):
     if request.method == "POST":
         form = SchoolSelector(request.POST)
         if form.is_valid():
@@ -91,7 +81,8 @@ def schoolselector(request, schools):
     form = SchoolSelector(schools=schools.split())
     return render(request, "schoolselect.html", {"form": form})
 
-def loginuser(request: HttpRequest) -> HttpResponse:
+
+def login_user(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form: LoginForm = LoginForm(request.POST)
         if form.is_valid():
@@ -110,7 +101,7 @@ def loginuser(request: HttpRequest) -> HttpResponse:
     return render(request, 'login.html', {"form": form})
 
 
-def logoutuser(request: HttpRequest) -> HttpResponse:
+def logout_user(request: HttpRequest) -> HttpResponse:
     logout(request)
     return redirect("index")
 
@@ -127,7 +118,7 @@ def profile(request: HttpRequest) -> HttpResponse:
 
 
 @login_required(login_url="login")
-def callhomepage(request: HttpRequest) -> HttpResponse:
+def call_homepage(request: HttpRequest) -> HttpResponse:
     return render(request, "callhomepage.html", context={"error": ""})
 
 
@@ -144,10 +135,12 @@ def add_to_queue(request) -> HttpResponse | None:
                 if chatroom.user1 == request.user or chatroom.user2 == request.user:
                     room_id = chatroom.room_id
                     chatroom.delete()
-                    return redirect(f"/chatroom/{room_id}/{chatroom.user1.username}/{chatroom.user2.username}")
+                    redirect_url = f"{room_id}/{chatroom.user1.username}/{chatroom.user2.username}"
+                    return redirect(f"/chatroom/{redirect_url}")
     else:
         room_id: int = pair_func.room_id
-        return redirect(f"/chatroom/{room_id}/{pair_func.user1.username}/{pair_func.user2.username}")
+        redirect_url = f"/chatroom/{room_id}/{pair_func.user1.username}/{pair_func.user2.username}"
+        return redirect(redirect_url)
 
 
 @login_required(login_url="login")
@@ -166,4 +159,3 @@ def video_call(request: HttpRequest, room_id: int, user1: str, user2: str) -> Ht
     url = create_room(room_id)
     context = {'url': url, 'username': request.user.username}
     return render(request, 'call.html', context)
-

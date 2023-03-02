@@ -1,12 +1,54 @@
-from .models import *
-
 import random
+import time
 
 import requests
 from geopy.geocoders import Nominatim
 import geopy.distance
+from django.shortcuts import render
 
-import time
+from .models import User, QueueItem, ChatRoom
+
+# Signup Functionality
+
+
+def signup_error(user, arg1, request, form):
+    user.delete()
+    error = arg1
+    return render(request, "signup.html", {"form": form, "error": error})
+
+
+def get_user(form):
+    user: User = form.save()
+    # Save the user's password separately because the form doesn't include it
+    user.set_password(form.cleaned_data["password"])
+    user.save()
+    return user
+
+
+def get_distances(related_schools, user_coordinates):
+    school_coordinates = [get_school_coordinates(
+        list(i.values())[1]) for i in related_schools]
+    indexes_to_pop = []
+    for index, i in enumerate(school_coordinates):
+        if i is None:
+            indexes_to_pop.append(index)
+            school_coordinates.pop(index)
+    for indexpopdifference, i in enumerate(indexes_to_pop):
+        related_schools.pop(i-indexpopdifference)
+    # Get the distance between the user and the school
+    distances = [get_distance(tuple(user_coordinates), i)
+                 for i in school_coordinates]
+    return distances
+
+
+def check_schools(related_schools, distances):
+    # Find indexes of distances greater than 50. Remove them from related_schools
+    indexpopcount = 0
+    for index, i in enumerate(distances):
+        if i > 50:
+            related_schools.pop(index-indexpopcount)
+            indexpopcount += 1
+    return related_schools
 # Queue Functionality
 
 
@@ -31,11 +73,6 @@ def should_pair(user1: User, user2: User) -> bool:
     return user1.school == user2.school
 
 
-# LOGIC BEFORE I FORGET IT: When new user is added, they call the pair function. The pair function checks if there is
-# a valid match. If there is, it creates a new chatroom and returns the room id. If there isn't, it runs an
-# asynchronous while true loop that checks if a chatroom with their user is in it. Eventually, another user will run
-# the pair function, get a match, and both users will be redirected.
-# IT WORKED HAHAHAHHAHAHAHAHHA
 def pair(user: User) -> ChatRoom | None:
     items = QueueItem.objects.all()
     matches = [item.user for item in items if should_pair(user, item.user)]
@@ -91,7 +128,7 @@ def get_school_coordinates(address):
     words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
                      'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 'ninth': '9th'}
     # If any of the keys in words_to_nums are in address (case doesn't matter), replace it with the corresponding value
-    for key in words_to_nums:
+    for key in list(words_to_nums.items()):
         if key in address.lower():
             address = address.lower().replace(key, words_to_nums[key])
     geolocator = Nominatim(user_agent="Hobnob")
@@ -99,7 +136,6 @@ def get_school_coordinates(address):
         location = geolocator.geocode(address)
     except Exception as e:
         return None
-
     return None if location is None else (location.latitude, location.longitude)
 
 
@@ -107,7 +143,7 @@ def get_distance(coordpair1, coordpair2):
     return geopy.distance.distance(coordpair1, coordpair2).miles
 
 
-def checkSchool(school):
+def is_generic_name(school):
     cases = ['high school', 'middle school', 'elementary school',
              'school', 'elementary', 'middle', 'high']
     if school.lower() in cases:
@@ -120,4 +156,3 @@ def create_room(room_id):
     print(r.json())
     if r.status_code == 200:
         return r.json()['url']
-
