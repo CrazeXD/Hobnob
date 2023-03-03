@@ -51,7 +51,7 @@ def check_schools(related_schools, distances):
 # Queue Functionality
 
 
-def add_user_to_queue(user: User) -> QueueItem:
+def add_user_to_queue(user: User):
     # Check if user is already in queue
     items = QueueItem.objects.all()
     if items.filter(user=user):
@@ -191,3 +191,5 @@ def create_room(room_id):
     print(request.json())
     if request.status_code == 200:
         return request.json()['url']
+    if request.json()['info'] == f"a room named {room_id} already exists":
+        return f"https://hobnob.daily.co/{room_id}"
