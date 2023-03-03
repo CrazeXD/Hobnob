@@ -88,6 +88,14 @@ def pair(user: User) -> ChatRoom | None:
 
 
 def find_school_address(school_name: str):
+    """Find the address of a school using the NCES website
+
+    Args:
+        school_name (str): Name of school from form
+
+    Returns:
+        [{str: str, str:str}]: Name and address of school
+    """ 
     url = f"https://nces.ed.gov/ccd/schoolsearch/school_list.asp?Search=1&InstName={school_name.replace(' ','+')}&SchoolID=&Address=&City=&State=&Zip=&Miles=&PhoneAreaCode=&Phone=&DistrictName=&DistrictID=&SchoolType=1&SchoolType=2&SchoolType=3&SchoolType=4&SpecificSchlTypes=all&IncGrade=-1&LoGrade=-1&HiGrade=-1"
     response = requests.get(url, timeout=5)
 
@@ -122,9 +130,18 @@ def find_school_address(school_name: str):
 
 
 def get_school_coordinates(address):
+    """Use Geopy to get the coordinates of a school address
+
+    Args:
+        address (string): Address of the school
+
+    Returns:
+        (int, int): If the address is valid, return the coordinates of the address
+        None: If the address is invalid, return None
+    """
     address = address.rsplit(' ', 1)[0]
     words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
-                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 
+                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th',
                      'ninth': '9th'}
     for key in list(words_to_nums.items()):
         if key in address.lower():
@@ -138,6 +155,15 @@ def get_school_coordinates(address):
 
 
 def get_distance(coordpair1, coordpair2):
+    """Gets the distance of the two coordinates in miles
+
+    Args:
+        coordpair1 (int, int): Location of user
+        coordpair2 (int, int): Location of school
+
+    Returns:
+        int: Distance in miles
+    """
     return geopy.distance.distance(coordpair1, coordpair2).miles
 
 
@@ -149,8 +175,19 @@ def is_generic_name(school):
 
 
 def create_room(room_id):
-    request = requests.post(url='https://api.daily.co/v1/rooms/', headers={"Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
-                      json={"name": str(room_id), "properties": {"exp": int(time.time())+3600}}, timeout=5)
+    """Makes an API request to Daily.co to create a room
+
+    Args:
+        room_id (int): Room ID
+
+    Returns:
+        str: URL of the room
+    """
+    properties = {"exp": int(time.time())+3600}
+    request = requests.post(url='https://api.daily.co/v1/rooms/',
+                            headers={
+                                "Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
+                            json={"name": str(room_id), "properties": properties}, timeout=5)
     print(request.json())
     if request.status_code == 200:
         return request.json()['url']
