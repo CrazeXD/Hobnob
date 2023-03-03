@@ -135,11 +135,13 @@ def add_to_queue(request) -> HttpResponse | None:
                 if chatroom.user1 == request.user or chatroom.user2 == request.user:
                     room_id = chatroom.room_id
                     chatroom.delete()
-                    redirect_url = f"{room_id}/{chatroom.user1.username}/{chatroom.user2.username}"
+                    redirect_url = f"{room_id}/"
+                    request.session['users'] = [request.user.username, chatroom.user2.username]
                     return redirect(f"/chatroom/{redirect_url}")
     else:
         room_id: int = pair_func.room_id
-        redirect_url = f"/chatroom/{room_id}/{pair_func.user1.username}/{pair_func.user2.username}"
+        redirect_url = f"/chatroom/{room_id}/"
+        request.session['users'] = [pair_func.user1.username, pair_func.user2.username]
         return redirect(redirect_url)
 
 
@@ -152,8 +154,8 @@ def remove_from_queue_view(request) -> HttpResponse | None:
 
 
 @login_required(login_url="login")
-def video_call(request: HttpRequest, room_id: int, user1: str, user2: str) -> HttpResponse:
-    if request.user.username not in [user1, user2]:
+def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
+    if request.user.username not in request.session['users']:
         return redirect("call")
 
     url = create_room(room_id)

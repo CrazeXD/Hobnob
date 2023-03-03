@@ -188,8 +188,7 @@ def create_room(room_id):
                             headers={
                                 "Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
                             json={"name": str(room_id), "properties": properties}, timeout=5)
-    print(request.json())
     if request.status_code == 200:
         return request.json()['url']
     if request.json()['info'] == f"a room named {room_id} already exists":
-        return f"https://hobnob.daily.co/{room_id}"
+        return f"https://hobnob.daily.co/{room_id}" 
