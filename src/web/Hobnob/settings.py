@@ -25,10 +25,11 @@ SECRET_KEY = 'django-insecure-r5su3&7(-=!=-ljcipr!)k+r=$skrur9n11cva7omni!0p-%_9
 DEBUG = True
 
 ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = [""]
+CSRF_TRUSTED_ORIGINS = []
 
 AUTH_USER_MODEL = 'WebApp.User'
 
+X_FRAME_OPTIONS = 'ALLOW-FROM https://hobnob.daily.co/'
 # Application definition
 
 INSTALLED_APPS = [
