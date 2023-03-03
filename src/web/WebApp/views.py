@@ -35,8 +35,8 @@ def signup_form_functions(form, request):
     related_schools = find_school_address(school)
     if len(related_schools) == 0:
         user.delete()
-        # TODO: Create contact email
-        error = '''School not found. 
+        # TODO: #10 Create contact email
+        error = '''School not found.
         If you believe this is an error, please contact us at email address.'''
         return signup_error(user, error, request, form)
     distances = get_distances(related_schools, user_coordinates)

@@ -3,6 +3,7 @@ import time
 
 import requests
 from geopy.geocoders import Nominatim
+from geopy.exc import GeopyError
 import geopy.distance
 from django.shortcuts import render
 
@@ -11,9 +12,8 @@ from .models import User, QueueItem, ChatRoom
 # Signup Functionality
 
 
-def signup_error(user, arg1, request, form):
+def signup_error(user, error, request, form):
     user.delete()
-    error = arg1
     return render(request, "signup.html", {"form": form, "error": error})
 
 
@@ -35,10 +35,9 @@ def get_distances(related_schools, user_coordinates):
             school_coordinates.pop(index)
     for indexpopdifference, i in enumerate(indexes_to_pop):
         related_schools.pop(i-indexpopdifference)
-    # Get the distance between the user and the school
-    distances = [get_distance(tuple(user_coordinates), i)
-                 for i in school_coordinates]
-    return distances
+    return [
+        get_distance(tuple(user_coordinates), i) for i in school_coordinates
+    ]
 
 
 def check_schools(related_schools, distances):
@@ -89,9 +88,8 @@ def pair(user: User) -> ChatRoom | None:
 
 
 def find_school_address(school_name: str):
-    # Convert things like sixth to 6th
     url = f"https://nces.ed.gov/ccd/schoolsearch/school_list.asp?Search=1&InstName={school_name.replace(' ','+')}&SchoolID=&Address=&City=&State=&Zip=&Miles=&PhoneAreaCode=&Phone=&DistrictName=&DistrictID=&SchoolType=1&SchoolType=2&SchoolType=3&SchoolType=4&SpecificSchlTypes=all&IncGrade=-1&LoGrade=-1&HiGrade=-1"
-    response = requests.get(url)
+    response = requests.get(url, timeout=5)
 
     # Parse the HTML response
     school_data = response.text
@@ -126,15 +124,15 @@ def find_school_address(school_name: str):
 def get_school_coordinates(address):
     address = address.rsplit(' ', 1)[0]
     words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
-                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 'ninth': '9th'}
-    # If any of the keys in words_to_nums are in address (case doesn't matter), replace it with the corresponding value
+                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 
+                     'ninth': '9th'}
     for key in list(words_to_nums.items()):
         if key in address.lower():
             address = address.lower().replace(key, words_to_nums[key])
     geolocator = Nominatim(user_agent="Hobnob")
     try:
         location = geolocator.geocode(address)
-    except Exception as e:
+    except GeopyError:
         return None
     return None if location is None else (location.latitude, location.longitude)
 
@@ -151,8 +149,8 @@ def is_generic_name(school):
 
 
 def create_room(room_id):
-    r = requests.post(url='https://api.daily.co/v1/rooms/', headers={"Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
-                      json={"name": str(room_id), "properties": {"exp": int(time.time())+3600}})
-    print(r.json())
-    if r.status_code == 200:
-        return r.json()['url']
+    request = requests.post(url='https://api.daily.co/v1/rooms/', headers={"Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
+                      json={"name": str(room_id), "properties": {"exp": int(time.time())+3600}}, timeout=5)
+    print(request.json())
+    if request.status_code == 200:
+        return request.json()['url']
