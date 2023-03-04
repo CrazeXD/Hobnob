@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
@@ -89,7 +89,7 @@ def login_user(request: HttpRequest) -> HttpResponse:
             # Authenticate the user and log them in
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user: User = authenticate(
+            user = authenticate(
                 request, username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -110,6 +110,7 @@ def logout_user(request: HttpRequest) -> HttpResponse:
 def profile(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form: UserEditForm = UserEditForm(request.POST, instance=request.user)
+        
         if form.is_valid():
             form.save()
     else:
@@ -123,7 +124,7 @@ def call_homepage(request: HttpRequest) -> HttpResponse:
 
 
 @login_required(login_url="login")
-def add_to_queue(request) -> HttpResponse | None:
+def add_to_queue(request) -> JsonResponse | None:
     if request.method != "POST":
         return None
     pair_func = pair(request.user)
@@ -135,14 +136,14 @@ def add_to_queue(request) -> HttpResponse | None:
                 if chatroom.user1 == request.user or chatroom.user2 == request.user:
                     room_id = chatroom.room_id
                     chatroom.delete()
-                    redirect_url = f"{room_id}/"
+                    redirect_url = f"/chatroom/{room_id}/"
                     request.session['users'] = [request.user.username, chatroom.user2.username]
-                    return redirect(f"/chatroom/{redirect_url}")
+                    return JsonResponse({"redirect_url": redirect_url})
     else:
         room_id: int = pair_func.room_id
         redirect_url = f"/chatroom/{room_id}/"
         request.session['users'] = [pair_func.user1.username, pair_func.user2.username]
-        return redirect(redirect_url)
+        return JsonResponse({"redirect_url": redirect_url})
 
 
 @login_required(login_url="login")

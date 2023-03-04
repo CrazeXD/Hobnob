@@ -48,8 +48,23 @@
         <script>
             const form = document.getElementById('form');
             form.addEventListener('submit', function (event) {
+                event.preventDefault();
                 // Turn the submit button into a loading indicator
                 document.getElementById('queue').classList.add('is-loading');
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', "{% url 'add_to_queue' %}");
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        window.location.replace(response.redirect_url);
+                    }
+                };
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.send(JSON.stringify({}));
+                xhr.send();
             });
         </script>
     </section>
