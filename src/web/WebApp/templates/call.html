@@ -18,6 +18,9 @@
             },
         });
         callFrame.join({ url: '{{ url }}', userName: '{{ username }}' });
+        callFrame.on('left-meeting', (event) => {
+            window.location.replace('/call')
+        })
     </script>
 </body>
 
