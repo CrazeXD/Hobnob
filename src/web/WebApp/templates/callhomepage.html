@@ -64,8 +64,16 @@
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                 xhr.setRequestHeader('X-CSRFToken', csrftoken);
                 xhr.send(JSON.stringify({}));
-                xhr.send();
             });
+            window.onbeforeunload = function() {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', "{% url 'remove_from_queue' %}");
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.send(JSON.stringify({}));
+                close();
+            }
         </script>
     </section>
 
