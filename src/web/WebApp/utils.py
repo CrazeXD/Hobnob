@@ -1,4 +1,3 @@
-import random
 import time
 
 import requests
@@ -77,7 +76,20 @@ def pair(user: User) -> ChatRoom | None:
     matches = [item.user for item in items if should_pair(user, item.user)]
     if not matches:
         return None
-    usertoadd = random.choice(matches)
+    usertoadd = matches[0]
+    if usertoadd == user :
+        if len(matches) == 1:
+            return None
+        matches.remove(user)
+        usertoadd = matches[0]
+    while usertoadd in user.recent_calls.all(): #While they are in the recent calls
+        if any(i not in user.recent_calls.all() for i in matches): #If there is a match that is not in recent calls
+            matches.remove(usertoadd)
+            usertoadd = matches[0]
+        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(2)): #If there is only one match and it is in the last 2 calls
+            return None
+        # If its outside the last 2 calls then it will just use that match
+    # Check if someone earlier in the queue can match with the user
     user.recent_calls.add(usertoadd)
     if len(user.recent_calls.all()) > 5:
         user.recent_calls.remove(user.recent_calls.all()[0])
@@ -143,7 +155,7 @@ def get_school_coordinates(address):
     words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
                      'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th',
                      'ninth': '9th'}
-    for key in list(words_to_nums.items()):
+    for key in list(words_to_nums.keys()):
         if key in address.lower():
             address = address.lower().replace(key, words_to_nums[key])
     geolocator = Nominatim(user_agent="Hobnob")

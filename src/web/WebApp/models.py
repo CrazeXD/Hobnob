@@ -43,7 +43,7 @@ class User(AbstractUser):
         default='Prefer Not To Say'
     )
     school = models.CharField(max_length=100, default='')
-    recent_calls = models.ManyToManyField('self', blank=True)
+    recent_calls = models.ManyToManyField('self', blank=True, symmetrical=False)
 
     REQUIRED_FIELDS = ["email", "first_name", "last_name",
                        "grade", "pronouns", "school", "password"]
