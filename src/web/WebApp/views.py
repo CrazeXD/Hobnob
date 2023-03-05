@@ -160,5 +160,5 @@ def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
         return redirect("call")
 
     url = create_room(room_id)
-    context = {'url': url, 'username': request.user.username}
+    context = {'url': url, 'username': f"{request.user.username} ({request.user.pronouns})"}
     return render(request, 'call.html', context)
