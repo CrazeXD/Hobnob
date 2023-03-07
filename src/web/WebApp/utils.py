@@ -86,7 +86,7 @@ def pair(user: User) -> ChatRoom | None:
         if any(i not in user.recent_calls.all() for i in matches): #If there is a match that is not in recent calls
             matches.remove(usertoadd)
             usertoadd = matches[0]
-        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(2)): #If there is only one match and it is in the last 2 calls
+        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)): #If there is only one match and it is in the last 2 calls
             return None
         # If its outside the last 2 calls then it will just use that match
     # Check if someone earlier in the queue can match with the user
