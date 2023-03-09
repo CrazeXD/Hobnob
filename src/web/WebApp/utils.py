@@ -55,12 +55,17 @@ def add_user_to_queue(user: User):
     items = QueueItem.objects.all()
     if items.filter(user=user):
         return items.filter(user=user)[0]
+    # Set user as in queue
+    user.in_queue = True
+    user.save()
     item: QueueItem = QueueItem.objects.create(user=user)
     item.save()
     return item
 
 
 def remove_from_queue(user):
+    user.in_queue = False
+    user.save()
     items = QueueItem.objects.all()
     item = items.filter(user=user)
     item.delete()
