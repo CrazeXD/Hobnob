@@ -9,4 +9,3 @@ div.form p span.helptext::before {
     content: "\A";
     white-space: pre;
 }
-

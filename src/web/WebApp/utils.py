@@ -43,7 +43,7 @@ def check_schools(related_schools, distances):
     # Find indexes of distances greater than 50. Remove them from related_schools
     indexpopcount = 0
     for index, i in enumerate(distances):
-        if i > 50:
+        if i > 25:
             related_schools.pop(index-indexpopcount)
             indexpopcount += 1
     return related_schools
@@ -91,6 +91,7 @@ def pair(user: User) -> ChatRoom | None:
         if any(i not in user.recent_calls.all() for i in matches): #If there is a match that is not in recent calls
             matches.remove(usertoadd)
             usertoadd = matches[0]
+        # TODO: Make this in range(2) for production
         elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)): #If there is only one match and it is in the last 2 calls
             return None
         # If its outside the last 2 calls then it will just use that match
@@ -114,7 +115,7 @@ def find_school_address(school_name: str):
         [{str: str, str:str}]: Name and address of school
     """ 
     url = f"https://nces.ed.gov/ccd/schoolsearch/school_list.asp?Search=1&InstName={school_name.replace(' ','+')}&SchoolID=&Address=&City=&State=&Zip=&Miles=&PhoneAreaCode=&Phone=&DistrictName=&DistrictID=&SchoolType=1&SchoolType=2&SchoolType=3&SchoolType=4&SpecificSchlTypes=all&IncGrade=-1&LoGrade=-1&HiGrade=-1"
-    response = requests.get(url, timeout=5)
+    response = requests.get(url)
 
     # Parse the HTML response
     school_data = response.text
