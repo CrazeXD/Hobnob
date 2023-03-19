@@ -4,9 +4,11 @@ from .models import User
 class SignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     location = forms.CharField(widget=forms.HiddenInput())
+    # Make the user bio field label above the text area
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school']
+        fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school', 'user_bio']
 
 class SchoolSelector(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -21,8 +23,8 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 class UserEditForm(forms.ModelForm):
-    # Create a form to change the attributes of the User model
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
     class Meta:
         model = User
         # TODO: Add school validator
-        fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns']
+        fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'user_bio']
