@@ -137,12 +137,14 @@ def add_to_queue(request) -> JsonResponse | None:
                     room_id = chatroom.room_id
                     chatroom.delete()
                     redirect_url = f"/chatroom/{room_id}/"
-                    request.session['users'] = [str(request.user), str(chatroom.user2)]
+                    request.session['users'] = [str(request.user), str(chatroom.user1)]
+                    print(request.session['users'])
                     return JsonResponse({"redirect_url": redirect_url})
     else:
         room_id: int = pair_func.room_id
         redirect_url = f"/chatroom/{room_id}/"
         request.session['users'] = [str(pair_func.user1), str(pair_func.user2)]
+        print(request.session['users'])
         return JsonResponse({"redirect_url": redirect_url})
 
 
@@ -158,9 +160,11 @@ def remove_from_queue_view(request) -> HttpResponse | None:
 def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
     if str(request.user) not in request.session['users']:
         return redirect("call")
-    
-    partner = request.session['users'][0] if request.session['users'][1] == str(request.user) else request.session['users'][1]
+    if request.session['users'][0] == str(request.user):
+        partner = request.session['users'][1]
+    else:
+        partner = request.session['users'][0]
     partner = User.objects.get(username=partner)
-    url = create_room(room_id)
+    url = create_room(room_id) 
     context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}
     return render(request, 'call.html', context)
