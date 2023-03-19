@@ -92,7 +92,7 @@ def pair(user: User) -> ChatRoom | None:
             matches.remove(usertoadd)
             usertoadd = matches[0]
         # TODO: Make this in range(2) for production
-        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(0)): #If there is only one match and it is in the last 2 calls
+        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)): #If there is only one match and it is in the last 2 calls
             return None
         # If its outside the last 2 calls then it will just use that match
     # Check if someone earlier in the queue can match with the user

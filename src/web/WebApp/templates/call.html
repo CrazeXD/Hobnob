@@ -3,22 +3,49 @@
 <head>
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sono&display=swap" rel="stylesheet">
     <title>Hobnob</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .columns {
+            height: 100%;
+            margin: 0;
+        }
+        .column {
+            height: 100%;
+            margin: 0;
+            background-color: #3e5a7a;
+        }
+        .sidebar {
+            border-color: #121a24;
+            border-style: solid;
+            border-width: 5px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="columns">
-        <div class="column">
-            <iframe id="daily-co" style="height: 100vh; width: 80vw;"></iframe>
-        </div>
-        <div class="column">
-            <h1 class="title has-text-centered py-5">Your Partner: {{ partner_user_name }}</h1>
-            <div class="content">
-                <p>{{ partner_user_bio }}</p>
+    <div class="content">
+        <div class="columns">
+            <div class="column is-four-fifths" style="padding: 0;">
+                <iframe id="daily-co" style="height: 100vh; width: 100%; border: none;"></iframe>
+            </div>
+            <div class="column sidebar">
+                <h1 class="title has-text-centered py-5" style="font-family: 'Sono', sans-serif; color: white;">Your Partner: {{ partner_user_name }}</h1>
+                <div class="content">
+                    
+                    <p class="has-text-white is-size-4">Partner About Me: <br>{{ partner_user_bio }}</p>
+                </div>
             </div>
         </div>
     </div>
-
     <script>
         callFrame = window.DailyIframe.wrap(document.getElementById('daily-co'), {
             showLeaveButton: true,
