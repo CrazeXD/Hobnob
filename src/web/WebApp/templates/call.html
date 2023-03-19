@@ -2,18 +2,30 @@
 
 <head>
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <title>Hobnob</title>
 </head>
 
 <body>
+    <div class="columns">
+        <div class="column">
+            <iframe id="daily-co" style="height: 100vh; width: 75vw;"></iframe>
+        </div>
+        <div class="column">
+            <h1 class="title has-text-centered py-5">Your Partner: {{ partner_user_name }}</h1>
+            <div class="content">
+                <p>{{ partner_user_bio }}</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        callFrame = window.DailyIframe.createFrame({
+        callFrame = window.DailyIframe.wrap(document.getElementById('daily-co'), {
             showLeaveButton: true,
             iframeStyle: {
                 position: 'fixed',
                 top: '0',
                 left: '0',
-                width: '100%',
                 height: '100%',
             },
         });
