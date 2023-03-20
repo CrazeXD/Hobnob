@@ -40,22 +40,20 @@ def get_distances(related_schools, user_coordinates):
 
 
 def check_schools(related_schools, distances):
-    # Find indexes of distances greater than 50. Remove them from related_schools
     indexpopcount = 0
     for index, i in enumerate(distances):
         if i > 25:
             related_schools.pop(index-indexpopcount)
             indexpopcount += 1
     return related_schools
+
 # Queue Functionality
 
 
 def add_user_to_queue(user: User):
-    # Check if user is already in queue
     items = QueueItem.objects.all()
     if items.filter(user=user):
         return items.filter(user=user)[0]
-    # Set user as in queue
     user.in_queue = True
     user.save()
     item: QueueItem = QueueItem.objects.create(user=user)
@@ -82,20 +80,18 @@ def pair(user: User) -> ChatRoom | None:
     if not matches:
         return None
     usertoadd = matches[0]
-    if usertoadd == user :
+    if usertoadd == user:
         if len(matches) == 1:
             return None
         matches.remove(user)
         usertoadd = matches[0]
-    while usertoadd in user.recent_calls.all(): #While they are in the recent calls
-        if any(i not in user.recent_calls.all() for i in matches): #If there is a match that is not in recent calls
+    while usertoadd in user.recent_calls.all():
+        if any(i not in user.recent_calls.all() for i in matches):
             matches.remove(usertoadd)
             usertoadd = matches[0]
-        # TODO: Make this in range(2) for production
-        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)): #If there is only one match and it is in the last 2 calls
+        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)):
             return None
-        # If its outside the last 2 calls then it will just use that match
-    # Check if someone earlier in the queue can match with the user
+
     user.recent_calls.add(usertoadd)
     if len(user.recent_calls.all()) > 5:
         user.recent_calls.remove(user.recent_calls.all()[0])
@@ -113,36 +109,36 @@ def find_school_address(school_name: str):
 
     Returns:
         [{str: str, str:str}]: Name and address of school
-    """ 
+    """
     url = f"https://nces.ed.gov/ccd/schoolsearch/school_list.asp?Search=1&InstName={school_name.replace(' ','+')}&SchoolID=&Address=&City=&State=&Zip=&Miles=&PhoneAreaCode=&Phone=&DistrictName=&DistrictID=&SchoolType=1&SchoolType=2&SchoolType=3&SchoolType=4&SpecificSchlTypes=all&IncGrade=-1&LoGrade=-1&HiGrade=-1"
     response = requests.get(url)
 
     # Parse the HTML response
     school_data = response.text
-    # Find the line where school_detail.asp is, since it contains the school
+
     matched_lines = [line for line in school_data.split(
         '\n') if "school_detail.asp" in line]
     schools = []
-    # In the line, find the index where the word 'strong' ends
+
     for matched_line in matched_lines:
         school_starting_index = matched_line.find('strong') + 7
-        # Look through the line starting from that index until you find <
+
         for j in range(school_starting_index, len(matched_line)):
             if matched_line[j] == '<':
                 school_ending_index = j
                 break
-        # The school name is between the two indices
+
         school_name = matched_line[school_starting_index:school_ending_index]
         address_starting_index = school_ending_index+32
-        # Look through the line starting from that index until you find <
+
         for j in range(address_starting_index, len(matched_line)):
             if matched_line[j] == '<':
                 address_ending_index = j
                 break
-        # The school address is between the two indices
+
         school_address = matched_line[address_starting_index:address_ending_index]
         school_address = school_address.replace('&nbsp;', ' ')
-        # Add the school name and address to the list of schools
+
         schools.append({'name': school_name, 'address': school_address})
     return schools
 
@@ -209,4 +205,4 @@ def create_room(room_id):
     if request.status_code == 200:
         return request.json()['url']
     if request.json()['info'] == f"a room named {room_id} already exists":
-        return f"https://hobnob.daily.co/{room_id}" 
+        return f"https://hobnob.daily.co/{room_id}"

@@ -127,7 +127,6 @@ def call_homepage(request: HttpRequest) -> HttpResponse:
 def add_to_queue(request) -> JsonResponse | None:
     if request.method != "POST":
         return None
-    print(request.user)
     pair_func = pair(request.user)
     if pair_func is None:
         add_user_to_queue(request.user)
