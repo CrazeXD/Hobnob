@@ -11,37 +11,45 @@
   <meta name="author" content="">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .background-image {
+      background-image: url(" {% static 'images/indexbackground.jpg' %} ");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-color: #999;
+    }
+  </style>
 </head>
 
-<body>
+<body class="background-image">
   <div>
+    <nav class="navbar py-4 has-background-warning-light">
+      <div class="container is-fluid">
+        <div class="navbar-brand">
+          <a class="navbar-item is-family-code	">
+            <h1 class="title">Hobnob<strong>.</strong></h1>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-warning" href="/login"><strong>Log in</strong></a>
+              <a class="button is-light" href="/signup">Sign up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
     <section class="section">
       <div class="container">
         <!--Hero-->
-        <section class="hero">
-          <div class="hero-head">
-            <nav class="navbar">
-              <div class="container is-fluid">
-                <div class="navbar-brand">
-                  <a class="navbar-item">
-                    <h1 class="title">Hobnob<strong>.</strong></h1>
-                  </a>
-                </div>
-                <div class="navbar-end">
-                  <div class="navbar-item">
-                    <div class="buttons">
-                      <a class="button is-primary" href="/login"><strong>Log in</strong></a>
-                      <a class="button is-light" href="/signup">Sign up</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </nav>
-          </div>
+        <section class="hero animatedHero fadeIn">
           <div class="hero-body">
-            <div class="container has-text-centered">
-              <h1 class="title is-size-1">
-                Hobnob
+            <div class="container has-text-centered has-text-white-dark	">
+              <h1 class="title is-size-1 is-family-monospace">
+                Hobnob.
               </h1>
               <br>
               <h2 class="subtitle is-size-3">
@@ -64,17 +72,17 @@
         </section>
         <!--Features-->
         <div class="columns is-multiline">
-          <div class="column is-12 is-4-desktop">
+          <div class="column is-12 is-4-desktop animatedFeatures scaleIn">
             <div class="mb-6 is-flex">
               <div class="ml-3">
-                <h4 class="is-size-4 has-text-weight-bold mb-2">Inter-School Conversation</h4>
-                <p class="subtitle has-text-grey">Have conversations with random people in your school.</p>
+                <h4 class="is-size-4 has-text-weight-bold has-text-white mb-2">Inter-School Conversation</h4>
+                <p class="subtitle has-text-white">Have conversations with random people in your school.</p>
               </div>
             </div>
             <div class="mb-6 is-flex">
               <div class="ml-3">
-                <h4 class="is-size-4 has-text-weight-bold mb-2">HD Video Calling and Chat</h4>
-                <p class="subtitle has-text-grey">Call with high-definition video and customizable backgrounds, with an
+                <h4 class="is-size-4 has-text-weight-bold has-text-white mb-2">HD Video Calling and Chat</h4>
+                <p class="subtitle has-text-white">Call with high-definition video and customizable backgrounds, with an
                   inbuilt chat.</p>
               </div>
             </div>
@@ -82,22 +90,62 @@
           <div class="column is-4 is-block-desktop is-hidden-touch">
             <div class="mx-auto mt-0-widescreen is-block"></div>
           </div>
-          <div class="column is-12 is-4-desktop">
+          <div class="column is-12 is-4-desktop animatedFeatures scaleIn">
             <div class="mb-6 is-flex">
               <div class="ml-3">
-                <h4 class="is-size-4 has-text-weight-bold mb-2">Use Reactions and Emojis</h4>
-                <p class="subtitle has-text-grey">Built in reactions to make your calls more entertaining.</p>
+                <h4 class="is-size-4 has-text-weight-bold has-text-white mb-2">Use Reactions and Emojis</h4>
+                <p class="subtitle has-text-white">Built in reactions to make your calls more entertaining.</p>
               </div>
             </div>
             <div class="mb-6 is-flex">
               <div class="ml-3">
-                <h4 class="is-size-4 has-text-weight-bold mb-2">Create custom bios</h4>
-                <p class="subtitle has-text-grey">Add an informational "About Me", visible to the people you call with
+                <h4 class="is-size-4 has-text-weight-bold has-text-white mb-2">Create custom bios</h4>
+                <p class="subtitle has-text-white">Add an informational "About Me", visible to the people you call with
                   during the call to find common interests.</p>
               </div>
             </div>
           </div>
         </div>
+
+        <style>
+          .animatedHero {
+            animation-duration: 2s;
+            animation-fill-mode: both;
+          }
+          .animatedFeatures {
+            animation-delay: 0.5s;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+          }
+
+          @keyframes fadeIn {
+            0% {
+              opacity: 0;
+            }
+
+            100% {
+              opacity: 1;
+            }
+          }
+          @keyframes scaleIn {
+            0% {
+              transform: scale(0.99);
+              opacity: 0;
+            }
+
+            100% {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+          .fadeIn {
+            animation-name: fadeIn;
+          }
+          .scaleIn {
+            animation-name: scaleIn;
+          }
+        </style>
+
       </div>
     </section>
 
