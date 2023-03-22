@@ -1,11 +1,65 @@
+/* Forms */
 div.form p::after {
     content: "\A\A";
     white-space: pre;
 }
+
 div.form p span.helptext {
     font-size: 10px;
 }
+
 div.form p span.helptext::before {
     content: "\A";
     white-space: pre;
+}
+
+/* Animations */
+.animatedHero {
+    animation-duration: 2s;
+    animation-fill-mode: both;
+}
+
+.animatedFeatures {
+    animation-delay: 0.5s;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0.99);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+.scaleIn {
+    animation-name: scaleIn;
+}
+
+/* Index */
+.index-background-image {
+    background-image: url("../images/indexbackground.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
