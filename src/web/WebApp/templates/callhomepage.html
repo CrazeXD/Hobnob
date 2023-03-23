@@ -16,7 +16,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body>
+<body class="background-image">
     <nav class="navbar py-4 has-background-warning-light">
         <div class="container is-fluid">
             <div class="navbar-brand">
@@ -38,7 +38,7 @@
             {% csrf_token %}
             <div class="field has-text-centered">
                 <div class="control">
-                    <button type="submit" class="button is-info is-rounded is-large" id="queue">Add To Queue</button>
+                    <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue">Add To Queue</button>
                 </div>
             </div>
         </form>

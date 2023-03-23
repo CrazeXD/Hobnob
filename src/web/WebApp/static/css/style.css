@@ -63,3 +63,27 @@ div.form p span.helptext::before {
     background-attachment: fixed;
     background-size: cover;
 }
+
+/* Global */
+body {
+    /* Make the body take up the full height of the page */
+    min-height: 100vh;
+    /* Make the body take up the full width of the page */
+    min-width: 100vw;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.background-image {
+    background-image: url("../images/indexbackground.jpg") ;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+input, textarea, select {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(255, 244, 173);
+}

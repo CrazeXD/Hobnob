@@ -1,23 +1,23 @@
-#video-streams {
-    display: flex;
-    flex-wrap: wrap;
-    height: 85vh;
-    width: 75%;
-    margin: 0 auto;
-}
-
-.video-container {
-    flex-basis: 500px;
-    flex-grow: 1;
-    max-height: 100%;
-    min-height: 350px;
-    border: 1px solid rgb(75, 95, 172, 1);
-    border-radius: 5px;
-    margin: 2px;
-    background-color: rgba(198, 202, 219, 1)
-}
-
-.video-player {
+html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
-    width: 100%;
+    overflow: hidden;
+}
+
+.columns {
+    height: 100%;
+    margin: 0;
+}
+
+.column {
+    height: 100%;
+    margin: 0;
+    background-color: #3e5a7a;
+}
+
+.sidebar {
+    border-color: #121a24;
+    border-style: solid;
+    border-width: 5px;
 }

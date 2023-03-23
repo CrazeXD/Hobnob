@@ -10,7 +10,6 @@ from .models import User, QueueItem, ChatRoom
 
 # Signup Functionality
 
-
 def signup_error(user, error, request, form):
     user.delete()
     return render(request, "signup.html", {"form": form, "error": error})
