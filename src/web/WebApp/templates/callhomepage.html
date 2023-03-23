@@ -34,47 +34,60 @@
     <!-- Page Content -->
     <section class="section">
         <p>{{ error }}</p>
-        <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
-            {% csrf_token %}
-            <div class="field has-text-centered">
-                <div class="control">
-                    <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue">Add To Queue</button>
+        <div class="columns">
+            <div class="column has-text-centered">
+                <div class="box has-background-danger-light">
+                    <h2 class="title is-4">Online Users</h2>
+                    <p class="">{{ online_user_count }}</p>
                 </div>
             </div>
-        </form>
+            <div class="column">
+                <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
+                    {% csrf_token %}
+                    <div class="field has-text-centered">
+                        <div class="control">
+                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue">Add To
+                                Queue</button>
+                        </div>
+                    </div>
+                </form>
+                <script>
+                    const form = document.getElementById('form');
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        // Turn the submit button into a loading indicator
+                        document.getElementById('queue').classList.add('is-loading');
 
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', "{% url 'add_to_queue' %}");
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        xhr.onload = function () {
+                            if (xhr.status === 200) {
+                                const response = JSON.parse(xhr.responseText);
+                                window.location.replace(response.redirect_url);
+                            }
+                        };
+                        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                        xhr.send(JSON.stringify({}));
+                    });
 
-        <script>
-            const form = document.getElementById('form');
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                // Turn the submit button into a loading indicator
-                document.getElementById('queue').classList.add('is-loading');
-
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', "{% url 'add_to_queue' %}");
-                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        window.location.replace(response.redirect_url);
+                    window.onbeforeunload = function () {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', "{% url 'remove_from_queue' %}");
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                        xhr.send(JSON.stringify({}));
+                        close();
                     }
-                };
-                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                xhr.setRequestHeader('X-CSRFToken', csrftoken);
-                xhr.send(JSON.stringify({}));
-            });
+                </script>
+            </div>
+            <div class="column">
+                <!--Ads here most likely-->
+            </div>
+        </div>
 
-            window.onbeforeunload = function() {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', "{% url 'remove_from_queue' %}");
-                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                xhr.setRequestHeader('X-CSRFToken', csrftoken);
-                xhr.send(JSON.stringify({}));
-                close();
-            }
-        </script>
     </section>
 
 </body>

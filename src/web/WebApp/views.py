@@ -120,7 +120,13 @@ def profile(request: HttpRequest) -> HttpResponse:
 
 @login_required(login_url="login")
 def call_homepage(request: HttpRequest) -> HttpResponse:
-    return render(request, "callhomepage.html", context={"error": ""})
+    user_school = request.user.school
+    users = User.objects.filter(school=user_school, in_queue=True)
+    if len(users) == 0:
+        return render(request, "callhomepage.html", context={"online_user_count": "No other users in your school", "error": ""})
+    online_user_count = len(users)
+    print(online_user_count)
+    return render(request, "callhomepage.html", context={"online_user_count": online_user_count, "error": ""})
 
 
 @login_required(login_url="login")
