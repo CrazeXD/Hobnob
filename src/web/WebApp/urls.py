@@ -13,4 +13,5 @@ urlpatterns = [
     path('add_to_queue/', views.add_to_queue, name='add_to_queue'),
     path('chatroom/<int:room_id>/', views.video_call, name='chat'),
     path('remove_from_queue/', views.remove_from_queue_view, name="remove_from_queue"),
+    path('get_online_user_count/', views.get_online_user_count, name='get_online_user_count'),
 ]
