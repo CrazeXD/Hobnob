@@ -37,7 +37,7 @@ def signup_form_functions(form, request):
         user.delete()
         # TODO: #10 Create contact email
         error = '''School not found.
-        If you believe this is an error, please contact us at email address.'''
+        If you believe this is an error, please contact us at meethobnob@gmail.com.'''
         return signup_error(user, error, request, form)
     distances = get_distances(related_schools, user_coordinates)
     related_schools = check_schools(related_schools, distances)
@@ -45,7 +45,7 @@ def signup_form_functions(form, request):
         return signup_error(
             user,
             '''That school is not within range.
-            If you believe this is an error, please contact us at email address.''',
+            If you believe this is an error, please contact us at meethobnob@gmail.com.''',
             request,
             form,
         )
