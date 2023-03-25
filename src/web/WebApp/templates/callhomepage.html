@@ -36,22 +36,6 @@
         <p>{{ error }}</p>
         <div class="columns">
             <div class="column has-text-centered">
-                <div class="box has-background-danger-light" style="height: 70vh; width: 100%">
-                    <h2 class="title is-4">Online Users</h2>
-                    <p id="user_count">{{ online_user_count }}</p>
-                </div>
-                <script>
-                    const user_count = document.getElementById('user_count');
-                    setInterval(function () {
-                        $.ajax({
-                            url: "{% url 'get_online_user_count' %}",
-                            type: "GET",
-                            success: function (data) {
-                                user_count.innerHTML = data;
-                            }
-                        });
-                    }, 1000);
-                </script>
             </div>
             <div class="column">
                 <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
