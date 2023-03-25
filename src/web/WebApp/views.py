@@ -174,3 +174,11 @@ def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
     url = create_room(room_id) 
     context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}
     return render(request, 'call.html', context)
+
+def get_online_user_count(request):
+    user_school = request.user.school
+    users = User.objects.filter(school=user_school, in_queue=True)
+    if len(users) == 0:
+        return JsonResponse({"online_user_count": "No other users in your school"})
+    online_user_count = len(users)
+    return JsonResponse({"online_user_count": online_user_count})
