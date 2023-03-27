@@ -123,7 +123,8 @@ def call_homepage(request: HttpRequest) -> HttpResponse:
     user_school = request.user.school
     users = User.objects.filter(school=user_school, in_queue=True)
     if len(users) == 0:
-        return render(request, "callhomepage.html", context={"online_user_count": "No other users in your school", "error": ""})
+        return render(request, "callhomepage.html", 
+                      context={"online_user_count": "No other users in your school", "error": ""})
     online_user_count = len(users)
     print(online_user_count)
     return render(request, "callhomepage.html", context={"online_user_count": online_user_count, "error": ""})
@@ -171,7 +172,7 @@ def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
     else:
         partner = request.session['users'][0]
     partner = User.objects.get(username=partner)
-    url = create_room(room_id) 
+    url = create_room(room_id)
     context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}
     return render(request, 'call.html', context)
 

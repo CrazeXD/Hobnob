@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from .validators import UsernameValidator, PasswordValidator
 from django.utils.translation import gettext_lazy as _
+from .validators import UsernameValidator, PasswordValidator
 
 
 class User(AbstractUser):
     def __str__(self):
-        return self.username
+        return str(self.username)
     username_validator = UsernameValidator()
     username = models.CharField(
         _("username"),
@@ -45,7 +45,8 @@ class User(AbstractUser):
         default='Prefer Not To Say'
     )
     school = models.CharField(max_length=100, default='')
-    recent_calls = models.ManyToManyField('self', blank=True, symmetrical=False)
+    recent_calls = models.ManyToManyField(
+        'self', blank=True, symmetrical=False)
     in_queue = models.BooleanField(default=False)
     user_bio = models.TextField(max_length=1000, default='')
     REQUIRED_FIELDS = ["email", "first_name", "last_name",
