@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +34,8 @@ CSRF_TRUSTED_ORIGINS = ["*"]
 AUTH_USER_MODEL = 'WebApp.User'
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://hobnob.daily.co/'
+
+
 # Application definition
 
 INSTALLED_APPS = [
