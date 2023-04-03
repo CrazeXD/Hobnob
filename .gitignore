@@ -9,3 +9,5 @@ env/
 .pycache
 *.pyc
 __pycache__/
+
+secret_key.txt
