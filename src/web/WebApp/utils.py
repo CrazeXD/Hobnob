@@ -197,10 +197,14 @@ def create_room(room_id):
         str: URL of the room
     """
     properties = {"exp": int(time.time())+3600, "max_participants": 2}
-    request = requests.post(url='https://api.daily.co/v1/rooms/',
-                            headers={
-                                "Authorization": f"Bearer {settings.config["DAILY"]["BEARER"]}"},
-                            json={"name": str(room_id), "properties": properties}, timeout=5)
+    request = requests.post(
+        url='https://api.daily.co/v1/rooms/',
+        headers={
+            "Authorization": f'Bearer {settings.config["DAILY"]["BEARER"]}'
+        },
+        json={"name": str(room_id), "properties": properties},
+        timeout=5,
+    )
     if request.status_code == 200:
         return request.json()['url']
     if request.json()['info'] == f"a room named {room_id} already exists":
