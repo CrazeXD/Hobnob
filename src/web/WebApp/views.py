@@ -140,7 +140,7 @@ def add_to_queue(request) -> JsonResponse | None:
         while True:
             chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.all()
             for chatroom in chatrooms:
-                if chatroom.user1 == request.user or chatroom.user2 == request.user:
+                if request.user in (chatroom.user1, chatroom.user2):
                     room_id = chatroom.room_id
                     chatroom.delete()
                     redirect_url = f"/chatroom/{room_id}/"
