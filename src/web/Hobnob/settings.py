@@ -21,13 +21,14 @@ config = json.load(open(BASE_DIR / 'config.json'))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r5su3&7(-=!=-ljcipr!)k+r=$skrur9n11cva7omni!0p-%_9'
+# SECRET_KEY = 'django-insecure-r5su3&7(-=!=-ljcipr!)k+r=$skrur9n11cva7omni!0p-%_9'
+SECRET_KEY = config["DJANGO"]["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = []
+ALLOWED_HOSTS = config["DJANGO"]["ALLOWED_HOSTS"]
+CSRF_TRUSTED_ORIGINS = config["DJANGO"]["CSRF_TRUSTED_ORIGINS"]
 
 AUTH_USER_MODEL = 'WebApp.User'
 
