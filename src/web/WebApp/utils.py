@@ -7,7 +7,7 @@ import geopy.distance
 from django.shortcuts import render
 
 from .models import User, QueueItem, ChatRoom
-
+from Hobnob import settings
 # Signup Functionality
 
 def signup_error(user, error, request, form):
@@ -199,7 +199,7 @@ def create_room(room_id):
     properties = {"exp": int(time.time())+3600, "max_participants": 2}
     request = requests.post(url='https://api.daily.co/v1/rooms/',
                             headers={
-                                "Authorization": "Bearer 63fa0d1c6f80702edb97240b61b2f874d876ceadc450065dc146d49dff0aaa08"},
+                                "Authorization": f"Bearer {settings.config["DAILY"]["BEARER"]}"},
                             json={"name": str(room_id), "properties": properties}, timeout=5)
     if request.status_code == 200:
         return request.json()['url']
