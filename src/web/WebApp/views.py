@@ -110,7 +110,7 @@ def logout_user(request: HttpRequest) -> HttpResponse:
 def profile(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form: UserEditForm = UserEditForm(request.POST, instance=request.user)
-        
+
         if form.is_valid():
             form.save()
     else:

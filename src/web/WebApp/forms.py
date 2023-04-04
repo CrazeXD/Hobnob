@@ -18,7 +18,7 @@ class SchoolSelector(forms.Form):
         self.fields['school'].choices = choices
     choices = []
     school = forms.ChoiceField(choices=choices)
-    
+
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
