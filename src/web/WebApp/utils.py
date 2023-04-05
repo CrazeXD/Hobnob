@@ -1,8 +1,6 @@
 import time
 
 import requests
-from geopy.geocoders import Nominatim
-from geopy.exc import GeopyError
 import geopy.distance
 from django.shortcuts import render
 
@@ -143,28 +141,23 @@ def find_school_address(school_name: str):
 
 
 def get_school_coordinates(address):
-    """Use Geopy to get the coordinates of a school address
-
-    Args:
-        address (string): Address of the school
-
-    Returns:
-        (int, int): If the address is valid, return the coordinates of the address
-        None: If the address is invalid, return None
-    """
-    address = address.rsplit(' ', 1)[0]
-    words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
-                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th',
-                     'ninth': '9th'}
-    for key in list(words_to_nums.keys()):
-        if key in address.lower():
-            address = address.lower().replace(key, words_to_nums[key])
-    geolocator = Nominatim(user_agent="Hobnob")
-    try:
-        location = geolocator.geocode(address)
-    except GeopyError:
-        return None
-    return None if location is None else (location.latitude, location.longitude)
+    base_url = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
+    params = {
+        "address": address,
+        "benchmark": "Public_AR_Current",
+        "format": "json"
+    }
+    response = requests.get(base_url, params=params)
+    if response.ok:
+        json_data = response.json()
+        if 'result' in json_data:
+            location = json_data['result']['addressMatches'][0]['coordinates']
+            return (location['y'], location['x']) # Return lat, long as a tuple
+        else:
+            print("No matches found.")
+    else:
+        print("Error getting data from Census API:", response.status_code)
+    return None
 
 
 def get_distance(coordpair1, coordpair2):
