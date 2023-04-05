@@ -141,6 +141,7 @@ def find_school_address(school_name: str):
 
 
 def get_school_coordinates(address):
+    address = address.rsplit(' ', 1)[0]
     base_url = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"
     params = {
         "address": address,
