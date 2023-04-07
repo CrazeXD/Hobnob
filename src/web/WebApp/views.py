@@ -30,12 +30,10 @@ def signup_form_functions(form, request):
         return signup_error(
             user, "School not specific enough.", request, form
         )
-    # Get user ip
     user_coordinates = form.cleaned_data["location"].split()
     related_schools = find_school_address(school)
     if len(related_schools) == 0:
         user.delete()
-        # TODO: #10 Create contact email
         error = '''School not found.
         If you believe this is an error, please contact us at meethobnob@gmail.com.'''
         return signup_error(user, error, request, form)
