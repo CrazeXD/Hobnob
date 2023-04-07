@@ -1,8 +1,6 @@
 import time
 
 import requests
-from geopy.geocoders import Nominatim
-from geopy.exc import GeopyError
 import geopy.distance
 from django.shortcuts import render
 
@@ -141,9 +139,8 @@ def find_school_address(school_name: str):
         schools.append({'name': school_name, 'address': school_address})
     return schools
 
-
 def get_school_coordinates(address):
-    """Use Geopy to get the coordinates of a school address
+    """Use Geocoding to get the coordinates of a school address
 
     Args:
         address (string): Address of the school
@@ -159,12 +156,14 @@ def get_school_coordinates(address):
     for key in list(words_to_nums.keys()):
         if key in address.lower():
             address = address.lower().replace(key, words_to_nums[key])
-    geolocator = Nominatim(user_agent="Hobnob")
-    try:
-        location = geolocator.geocode(address)
-    except GeopyError:
-        return None
-    return None if location is None else (location.latitude, location.longitude)
+    url = "https://geocode.maps.co/search?q={address}"
+    response = requests.get(url.format(address=address))
+    if response.status_code == 200:
+        data = response.json()
+        lat = data[0]['lat']
+        lon = data[0]['lon']
+        return (lat, lon)
+    return None
 
 
 def get_distance(coordpair1, coordpair2):
