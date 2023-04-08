@@ -1,6 +1,6 @@
 from django import forms
 from .models import User
-
+SCHOOL_HELP_TEXT = "School:\nThis is the school you attend. Do not include the word 'school' at the end of your school name.\nFor example, if you attend 'John Smith High School', please enter 'John Smith High'."
 BIO_HELP_TEXT = "About Me:\nThis is where you can tell other users about yourself. You can include your interests, hobbies, and anything else you want to share.\nThis will be visible to other users when calling."
 class SignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

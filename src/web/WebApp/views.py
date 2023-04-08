@@ -25,7 +25,7 @@ def signup(request: HttpRequest) -> HttpResponse:
 def signup_form_functions(form, request):
     user = get_user(form)
     # Get the school from the form
-    school = form.cleaned_data["school"]
+    school = form.cleaned_data["school"].strip()
     if is_generic_name(school) is False:
         return signup_error(
             user, "School not specific enough.", request, form
