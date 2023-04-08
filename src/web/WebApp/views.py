@@ -31,6 +31,15 @@ def signup_form_functions(form, request):
             user, "School not specific enough.", request, form
         )
     user_coordinates = form.cleaned_data["location"].split()
+    try:
+        user_coordinates = [float(i) for i in user_coordinates]
+    except ValueError:
+        return signup_error(
+            user,
+            "Location not found. Please enable location services and try again.",
+            request,
+            form,
+        )
     related_schools = find_school_address(school)
     if len(related_schools) == 0:
         user.delete()

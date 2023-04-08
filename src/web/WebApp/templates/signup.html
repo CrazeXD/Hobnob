@@ -17,6 +17,8 @@
     </style>
 </head>
 
+<noscript>Please enable javascript</noscript>
+
 <body class="background-image">
     <div class="columns is-multiline"></div>
     <nav class="navbar py-4 has-background-warning-light">
@@ -46,24 +48,30 @@
                 {{ form.as_p }}
                 <div class="field has-text-centered">
                     <div class="control">
-                        <button type="submit" id="submit" class="button is-light is-link">Signup</button>
+                        <button type="submit" id="submit_button" class="button is-light is-link">Signup</button>
                         <p>Please note, signup may take time to validate your school.</p>
                     </div>
                 </div>
             </form>
         </div>
         <script>
+            let coords;
             navigator.geolocation.getCurrentPosition(function (position) {
                 var hiddenInput = document.getElementById('id_location');
-                hiddenInput.value = position.coords.latitude + ' ' + position.coords.longitude;
-                document.getElementById('submit').disabled = false
+                coords = position.coords.latitude + ' ' + position.coords.longitude;
+                hiddenInput.value = coords;
+                document.getElementById('submit_button').disabled = false
             }, function (error) {
                 alert("Location services are required to use this website. Please enable location services and refresh the page.")
-                document.getElementById('submit').disabled = true
+                document.getElementById('submit_button').disabled = true
             });
             const form = document.getElementById('form');
             form.addEventListener('submit', function (event) {
-                document.getElementById('submit').classList.add('is-loading');
+                event.preventDefault();
+                document.getElementById('submit_button').classList.add('is-loading');
+                var hiddenInput = document.getElementById('id_location');
+                hiddenInput.value = coords;
+                form.submit();
             });
         </script>
         {% endblock %}
