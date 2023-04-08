@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+import requests
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
 from .utils import *
@@ -30,7 +31,9 @@ def signup_form_functions(form, request):
         return signup_error(
             user, "School not specific enough.", request, form
         )
-    user_coordinates = form.cleaned_data["location"].split()
+    user_ip = request.META.get("HTTP_X_REAL_IP")
+    ip_response = requests.get(f"https://tools.keycdn.com/geo.json?host={user_ip}", headers={"User-Agent": "keycdn-tools:https://www.hobnob.social"}).json()
+    user_coordinates = (ip_response["data"]["geo"]["latitude"], ip_response["data"]["geo"]["longitude"])
     try:
         user_coordinates = [float(i) for i in user_coordinates]
     except ValueError:
