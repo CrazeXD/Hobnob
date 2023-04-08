@@ -55,23 +55,9 @@
             </form>
         </div>
         <script>
-            let coords;
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var hiddenInput = document.getElementById('id_location');
-                coords = position.coords.latitude + ' ' + position.coords.longitude;
-                hiddenInput.value = coords;
-                document.getElementById('submit_button').disabled = false
-            }, function (error) {
-                alert("Location services are required to use this website. Please enable location services and refresh the page.")
-                document.getElementById('submit_button').disabled = true
-            });
             const form = document.getElementById('form');
             form.addEventListener('submit', function (event) {
-                event.preventDefault();
                 document.getElementById('submit_button').classList.add('is-loading');
-                var hiddenInput = document.getElementById('id_location');
-                hiddenInput.value = coords;
-                form.submit();
             });
         </script>
         {% endblock %}

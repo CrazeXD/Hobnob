@@ -4,7 +4,6 @@ SCHOOL_HELP_TEXT = "School:\nThis is the school you attend. Do not include the w
 BIO_HELP_TEXT = "About Me:\nThis is where you can tell other users about yourself. You can include your interests, hobbies, and anything else you want to share.\nThis will be visible to other users when calling."
 class SignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
-    location = forms.CharField(widget=forms.HiddenInput())
     # Make the user bio field label above the text area
     user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False, help_text=BIO_HELP_TEXT)
     school = forms.CharField(label='School', label_suffix=':\n', help_text=SCHOOL_HELP_TEXT)
