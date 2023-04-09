@@ -1,12 +1,10 @@
 from django import forms
 from .models import User
 
-BIO_HELP_TEXT = "About Me:\nThis is where you can tell other users about yourself. You can include your interests, hobbies, and anything else you want to share.\nThis will be visible to other users when calling."
 class SignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
-    location = forms.CharField(widget=forms.HiddenInput())
     # Make the user bio field label above the text area
-    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False, help_text=BIO_HELP_TEXT)
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school', 'user_bio']
@@ -24,7 +22,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 class UserEditForm(forms.ModelForm):
-    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False, help_text=BIO_HELP_TEXT)
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
     class Meta:
         model = User
         # TODO: Add school validator

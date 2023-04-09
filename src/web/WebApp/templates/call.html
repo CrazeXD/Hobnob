@@ -10,6 +10,8 @@
     <title>Hobnob</title>
 </head>
 
+<noscript>Please enable javascript</noscript>
+
 <body>
     <div class="content">
         <div class="columns">
@@ -17,9 +19,11 @@
                 <iframe id="daily-co" style="height: 100vh; width: 100%; border: none;"></iframe>
             </div>
             <div class="column sidebar">
-                <h1 class="title has-text-centered py-5" style="font-family: 'Sono', sans-serif; color: rgb(255, 255, 255);">Your Partner: {{ partner_user_name }}</h1>
+                <h1 class="title has-text-centered py-5"
+                    style="font-family: 'Sono', sans-serif; color: rgb(255, 255, 255);">Your Partner: {{
+                    partner_user_name }}</h1>
                 <div class="content">
-                    
+
                     <p class="has-text-white is-size-4">Partner About Me: <br>{{ partner_user_bio }}</p>
                 </div>
             </div>

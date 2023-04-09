@@ -1,9 +1,9 @@
+import contextlib
 import time
 
 import requests
-from geopy.geocoders import Nominatim
-from geopy.exc import GeopyError
 import geopy.distance
+import pandas as pd
 from django.shortcuts import render
 
 from .models import User, QueueItem, ChatRoom
@@ -11,7 +11,8 @@ from Hobnob import settings
 # Signup Functionality
 
 def signup_error(user, error, request, form):
-    user.delete()
+    with contextlib.suppress(ValueError):
+        user.delete()
     return render(request, "signup.html", {"form": form, "error": error})
 
 
@@ -22,10 +23,47 @@ def get_user(form):
     user.save()
     return user
 
+def is_generic_name(school):
+    cases = ['high school', 'middle school', 'elementary school',
+             'school', 'elementary', 'middle', 'high']
+    if school.lower() in cases:
+        return False
+
+
+def find_school_address(school_name: str):
+    """Find the address of a school using the HIFLD
+
+    Args:
+        school_name (str): Name of school from form
+
+    Returns:
+        [{str: str, str:(int, int)}]: Name and coordinates of school
+    """
+   
+
+    csv = pd.read_csv(settings.BASE_DIR / "assets/schools.csv")
+    return [
+        {'name': row['NAME'], 'coords': (row['LATITUDE'], row['LONGITUDE'])}
+        for index, row in csv.iterrows()
+        if school_name.lower() in row['NAME'].lower()
+    ]
+
+
+def get_distance(coordpair1, coordpair2):
+    """Gets the distance of the two coordinates in miles
+
+    Args:
+        coordpair1 (int, int): Location of user
+        coordpair2 (int, int): Location of school
+
+    Returns:
+        int: Distance in miles
+    """
+    return geopy.distance.distance(coordpair1, coordpair2).miles
+
 
 def get_distances(related_schools, user_coordinates):
-    school_coordinates = [get_school_coordinates(
-        list(i.values())[1]) for i in related_schools]
+    school_coordinates = [related_schools[i]["coords"] for i in range(len(related_schools))]
     indexes_to_pop = []
     for index, i in enumerate(school_coordinates):
         if i is None:
@@ -98,93 +136,6 @@ def pair(user: User) -> ChatRoom | None:
     room = ChatRoom.objects.create(user1=user, user2=usertoadd)
     room.save()
     return room
-
-
-def find_school_address(school_name: str):
-    """Find the address of a school using the NCES website
-
-    Args:
-        school_name (str): Name of school from form
-
-    Returns:
-        [{str: str, str:str}]: Name and address of school
-    """
-    url = f"https://nces.ed.gov/ccd/schoolsearch/school_list.asp?Search=1&InstName={school_name.replace(' ','+')}&SchoolID=&Address=&City=&State=&Zip=&Miles=&PhoneAreaCode=&Phone=&DistrictName=&DistrictID=&SchoolType=1&SchoolType=2&SchoolType=3&SchoolType=4&SpecificSchlTypes=all&IncGrade=-1&LoGrade=-1&HiGrade=-1"
-    response = requests.get(url)
-
-    # Parse the HTML response
-    school_data = response.text
-
-    matched_lines = [line for line in school_data.split(
-        '\n') if "school_detail.asp" in line]
-    schools = []
-
-    for matched_line in matched_lines:
-        school_starting_index = matched_line.find('strong') + 7
-
-        for j in range(school_starting_index, len(matched_line)):
-            if matched_line[j] == '<':
-                school_ending_index = j
-                break
-
-        school_name = matched_line[school_starting_index:school_ending_index]
-        address_starting_index = school_ending_index+32
-
-        for j in range(address_starting_index, len(matched_line)):
-            if matched_line[j] == '<':
-                address_ending_index = j
-                break
-
-        school_address = matched_line[address_starting_index:address_ending_index]
-        school_address = school_address.replace('&nbsp;', ' ')
-
-        schools.append({'name': school_name, 'address': school_address})
-    return schools
-
-
-def get_school_coordinates(address):
-    """Use Geopy to get the coordinates of a school address
-
-    Args:
-        address (string): Address of the school
-
-    Returns:
-        (int, int): If the address is valid, return the coordinates of the address
-        None: If the address is invalid, return None
-    """
-    address = address.rsplit(' ', 1)[0]
-    words_to_nums = {'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th',
-                     'fifth': '5th', 'sixth': '6th', 'seventh': '7th', 'eighth': '8th',
-                     'ninth': '9th'}
-    for key in list(words_to_nums.keys()):
-        if key in address.lower():
-            address = address.lower().replace(key, words_to_nums[key])
-    geolocator = Nominatim(user_agent="Hobnob")
-    try:
-        location = geolocator.geocode(address)
-    except GeopyError:
-        return None
-    return None if location is None else (location.latitude, location.longitude)
-
-
-def get_distance(coordpair1, coordpair2):
-    """Gets the distance of the two coordinates in miles
-
-    Args:
-        coordpair1 (int, int): Location of user
-        coordpair2 (int, int): Location of school
-
-    Returns:
-        int: Distance in miles
-    """
-    return geopy.distance.distance(coordpair1, coordpair2).miles
-
-
-def is_generic_name(school):
-    cases = ['high school', 'middle school', 'elementary school',
-             'school', 'elementary', 'middle', 'high']
-    if school.lower() in cases:
-        return False
 
 
 def create_room(room_id):

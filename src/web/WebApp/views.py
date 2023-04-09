@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+import requests
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
 from .utils import *
@@ -25,17 +26,26 @@ def signup(request: HttpRequest) -> HttpResponse:
 def signup_form_functions(form, request):
     user = get_user(form)
     # Get the school from the form
-    school = form.cleaned_data["school"]
+    school = form.cleaned_data["school"].strip()
     if is_generic_name(school) is False:
         return signup_error(
             user, "School not specific enough.", request, form
         )
-    # Get user ip
-    user_coordinates = form.cleaned_data["location"].split()
+    user_ip = request.META.get("HTTP_X_REAL_IP")
+    ip_response = requests.get(f"https://tools.keycdn.com/geo.json?host={user_ip}", headers={"User-Agent": "keycdn-tools:https://www.hobnob.social"}).json()
+    user_coordinates = (ip_response["data"]["geo"]["latitude"], ip_response["data"]["geo"]["longitude"])
+    try:
+        user_coordinates = [float(i) for i in user_coordinates]
+    except ValueError:
+        return signup_error(
+            user,
+            "Location not found. Please enable location services and try again.",
+            request,
+            form,
+        )
     related_schools = find_school_address(school)
     if len(related_schools) == 0:
         user.delete()
-        # TODO: #10 Create contact email
         error = '''School not found.
         If you believe this is an error, please contact us at meethobnob@gmail.com.'''
         return signup_error(user, error, request, form)
