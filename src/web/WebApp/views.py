@@ -44,7 +44,7 @@ def signup_form_functions(form, request):
             request,
             form,
         )
-    related_schools = find_school_address(school, user_state)
+    related_schools = find_school_coordinates(school, user_state)
     if len(related_schools) == 0:
         user.delete()
         error = '''School not found.

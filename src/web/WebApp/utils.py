@@ -30,8 +30,8 @@ def is_generic_name(school):
         return False
 
 
-def find_school_address(school_name: str, user_state: str):
-    """Find the address of a school using the HIFLD
+def find_school_coordinates(school_name: str, user_state: str):
+    """Find the coordinates of a school using the HIFLD
 
     Args:
         school_name (str): Name of school from form
