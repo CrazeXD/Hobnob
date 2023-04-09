@@ -30,11 +30,12 @@ def is_generic_name(school):
         return False
 
 
-def find_school_address(school_name: str):
+def find_school_address(school_name: str, user_state: str):
     """Find the address of a school using the HIFLD
 
     Args:
         school_name (str): Name of school from form
+        user_state (str): State of user as code
 
     Returns:
         [{str: str, str:(int, int)}]: Name and coordinates of school
@@ -45,7 +46,7 @@ def find_school_address(school_name: str):
     return [
         {'name': row['NAME'], 'coords': (row['LATITUDE'], row['LONGITUDE'])}
         for index, row in csv.iterrows()
-        if school_name.lower() in row['NAME'].lower()
+        if school_name.lower() in row['NAME'].lower() and user_state == row['STATE']
     ]
 
 

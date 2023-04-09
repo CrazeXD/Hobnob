@@ -34,6 +34,7 @@ def signup_form_functions(form, request):
     user_ip = request.META.get("HTTP_X_REAL_IP")
     ip_response = requests.get(f"https://tools.keycdn.com/geo.json?host={user_ip}", headers={"User-Agent": "keycdn-tools:https://www.hobnob.social"}).json()
     user_coordinates = (ip_response["data"]["geo"]["latitude"], ip_response["data"]["geo"]["longitude"])
+    user_state = ip_response["data"]["geo"]["region_code"]
     try:
         user_coordinates = [float(i) for i in user_coordinates]
     except ValueError:
@@ -43,7 +44,7 @@ def signup_form_functions(form, request):
             request,
             form,
         )
-    related_schools = find_school_address(school)
+    related_schools = find_school_address(school, user_state)
     if len(related_schools) == 0:
         user.delete()
         error = '''School not found.
