@@ -1,12 +1,11 @@
 from django import forms
 from .models import User
-SCHOOL_HELP_TEXT = "School:\nThis is the school you attend. Do not include the word 'school' at the end of your school name.\nFor example, if you attend 'John Smith High School', please enter 'John Smith High'."
-BIO_HELP_TEXT = "About Me:\nThis is where you can tell other users about yourself. You can include your interests, hobbies, and anything else you want to share.\nThis will be visible to other users when calling."
+from captcha.fields import CaptchaField
 class SignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     # Make the user bio field label above the text area
-    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False, help_text=BIO_HELP_TEXT)
-    school = forms.CharField(label='School', label_suffix=':\n', help_text=SCHOOL_HELP_TEXT)
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
+    captcha = CaptchaField(label_suffix=':\n')
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school', 'user_bio']
@@ -24,7 +23,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 class UserEditForm(forms.ModelForm):
-    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False, help_text=BIO_HELP_TEXT)
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
     class Meta:
         model = User
         # TODO: Add school validator
