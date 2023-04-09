@@ -15,18 +15,6 @@
             white-space: pre-line;
             color: black;
         }
-
-        img.captcha {
-            width: 10%;
-            height: 10%;
-            display: inline-block;
-            margin: 0 auto;
-        }
-
-        label[for="id_captcha_1"] {
-            font-size: larger;
-            color: white;
-        }
     </style>
 </head>
 
@@ -72,11 +60,6 @@
             form.addEventListener('submit', function (event) {
                 document.getElementById('submit_button').classList.add('is-loading');
             });
-            // Get all elements with class "captcha"
-            const captchaElement = document.getElementsByClassName("captcha")[0];
-            const lineBreak = document.createElement("br");
-            captchaElement.parentNode.insertBefore(lineBreak, captchaElement.nextSibling);
-
         </script>
         {% endblock %}
     </section>
