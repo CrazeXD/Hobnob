@@ -39,19 +39,40 @@
     <section class="section">
         <p>{{ error }}</p>
         <div class="columns">
-            <div class="column has-text-centered">
+            <div class="column">
+                <div class="card has-background-danger-light has-text-centered px-2 py-2">
+                    <h1 class="title has-text-centered py-5 has-text-black has-font-code">Call Rules</h1>
+                    <p class="has-text-left">
+                        1. No bullying, harassment, or hate speech will be tolerated. Users who engage in such behavior will be
+                        banned from the app. <br>
+                        2. Users must be at least 13 years old to use the app. Any users found to be younger will be removed
+                        from the app.<br>
+                        3. Users must follow all applicable laws and regulations while using the app, including those related
+                        to privacy, data protection, and online conduct.<br>
+                        4. Users will not use the website for illegal or immoral purposes, such as sharing or distributing
+                        illegal content.<br>
+                        5. Users will not use the website for commercial purposes, such as advertising products or services.<br>
+                        6. Users are responsible for their own safety and well-being while using the app. The website is not
+                        responsible for any damages or harm caused by the users during the call.
+                    </p>
+                    <button class="button is-danger is-centered" onclick="agree()">I Agree to The Rules</button>
+                </div>
             </div>
             <div class="column">
                 <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
                     {% csrf_token %}
                     <div class="field has-text-centered">
                         <div class="control">
-                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue">Add To
+                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue" disabled>Add To
                                 Queue</button>
                         </div>
                     </div>
                 </form>
                 <script>
+                    function agree() {
+                        const button = document.getElementById('queue');
+                        button.disabled = false;
+                    }
                     const form = document.getElementById('form');
                     form.addEventListener('submit', function (event) {
                         event.preventDefault();
