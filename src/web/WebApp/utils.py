@@ -30,11 +30,12 @@ def is_generic_name(school):
         return False
 
 
-def find_school_address(school_name: str):
-    """Find the address of a school using the HIFLD
+def find_school_coordinates(school_name: str, user_state: str):
+    """Find the coordinates of a school using the HIFLD
 
     Args:
         school_name (str): Name of school from form
+        user_state (str): State of user as code
 
     Returns:
         [{str: str, str:(int, int)}]: Name and coordinates of school
@@ -45,7 +46,7 @@ def find_school_address(school_name: str):
     return [
         {'name': row['NAME'], 'coords': (row['LATITUDE'], row['LONGITUDE'])}
         for index, row in csv.iterrows()
-        if school_name.lower() in row['NAME'].lower()
+        if school_name.lower() in row['NAME'].lower() and user_state == row['STATE']
     ]
 
 
@@ -147,7 +148,7 @@ def create_room(room_id):
     Returns:
         str: URL of the room
     """
-    properties = {"exp": int(time.time())+3600, "max_participants": 2}
+    properties = {"exp": int(time.time())+900, "max_participants": 2}
     request = requests.post(
         url='https://api.daily.co/v1/rooms/',
         headers={
