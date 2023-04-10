@@ -13,7 +13,11 @@
   <link rel="stylesheet" href="https://www.jsdelivr.com/package/npm/@creativebulma/bulma-divider">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <style>
-
+    @media (max-width:1023px) {
+      .shrink {
+        justify-content: space-between;
+      }
+    }
   </style>
 </head>
 
@@ -22,7 +26,7 @@
 <body class="index-background-image">
   <div>
     <nav class="navbar py-4 has-background-warning-light">
-      <div class="container is-fluid">
+      <div class="container shrink is-fluid is-flex-touch">
         <div class="navbar-brand">
           <a class="navbar-item is-family-code">
             <h1 class="title">Hobnob<strong>.</strong></h1>
@@ -72,8 +76,9 @@
               <div class="content">
                 <p>
                   <strong style="font-size: larger;">Note From the Developers</strong>
-                  <br>                
-                  Hobnob is currently in public beta and may have bugs. We are working hard to improve the website. If you have any suggestions or bug reports, please
+                  <br>
+                  Hobnob is currently in public beta and may have bugs. We are working hard to improve the website. If
+                  you have any suggestions or bug reports, please
                   contact us at <a href="mailto:meethobnob@gmail.com" class="has-text-danger">meethobnob@gmail.com</a>.
                 </p>
               </div>

@@ -10,6 +10,13 @@
     <meta name="author" content="">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        @media (max-width:1023px) {
+          .shrink {
+            justify-content: space-between;
+          }
+        }
+      </style>
 </head>
 
 <noscript>Please enable javascript</noscript>
@@ -17,7 +24,7 @@
 <body class="background-image">
     <div class="columns is-multiline"></div>
     <nav class="navbar py-4 has-background-warning-light">
-        <div class="container is-fluid">
+        <div class="container shrink is-fluid is-flex-touch>
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
                     <h1 class="title">Hobnob<strong>.</strong></h1>

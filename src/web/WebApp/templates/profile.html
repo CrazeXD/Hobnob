@@ -17,6 +17,11 @@
         label {
             white-space: pre-line;
         }
+        @media (max-width:1023px) {
+            .shrink {
+                justify-content: space-between;
+            }
+        }
     </style>
 
 </head>
@@ -25,7 +30,7 @@
 
 <body class="background-image">
     <nav class="navbar py-4 has-background-warning-light">
-        <div class="container is-fluid">
+        <div class="container shrink is-fluid is-flex-touch">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
                     <h1 class="title">Hobnob<strong>.</strong></h1>

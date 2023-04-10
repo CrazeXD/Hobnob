@@ -16,7 +16,6 @@ import json
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-config = json.load(open(BASE_DIR / 'config.json'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -27,7 +26,7 @@ SECRET_KEY = 'django-insecure-r5su3&7(-=!=-ljcipr!)k+r=$skrur9n11cva7omni!0p-%_9
 DEBUG = True
 
 ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = ["https://crazexd-ubiquitous-waffle-qg6wj675vx6fvw-8000.preview.app.github.dev"]
 
 AUTH_USER_MODEL = 'WebApp.User'
 
