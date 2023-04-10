@@ -148,7 +148,7 @@ def create_room(room_id):
     Returns:
         str: URL of the room
     """
-    properties = {"exp": int(time.time())+3600, "max_participants": 2}
+    properties = {"exp": int(time.time())+900, "max_participants": 2}
     request = requests.post(
         url='https://api.daily.co/v1/rooms/',
         headers={
