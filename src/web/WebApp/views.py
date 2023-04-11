@@ -131,14 +131,10 @@ def profile(request: HttpRequest) -> HttpResponse:
 
 @login_required(login_url="login")
 def call_homepage(request: HttpRequest) -> HttpResponse:
-    user_school = request.user.school
-    users = User.objects.filter(school=user_school, in_queue=True)
-    if len(users) == 0:
-        return render(request, "callhomepage.html", 
-                      context={"online_user_count": "No other users in your school", "error": ""})
-    online_user_count = len(users)
-    print(online_user_count)
-    return render(request, "callhomepage.html", context={"online_user_count": online_user_count, "error": ""})
+    if 'accepted_rules' not in request.session:
+        request.session['accepted_rules'] = "False"
+    print(request.session['accepted_rules'], type(request.session['accepted_rules']))
+    return render(request, "callhomepage.html", context={"accepted_rules": request.session['accepted_rules']})
 
 
 @login_required(login_url="login")
@@ -184,5 +180,13 @@ def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
         partner = request.session['users'][0]
     partner = User.objects.get(username=partner)
     url = create_room(room_id)
+    
     context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}
     return render(request, 'call.html', context)
+
+@login_required(login_url="login")
+def accept_rules_session(request: HttpRequest):
+    if request.method != "POST":
+        return HttpResponse("Error")
+    request.session['accepted_rules'] = "True"
+    return HttpResponse("Success")

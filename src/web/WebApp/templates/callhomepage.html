@@ -44,9 +44,12 @@
     </nav>
     <!-- Page Content -->
     <section class="section">
-        <p>{{ error }}</p>
         <div class="columns">
             <div class="column">
+                {% if accepted_rules == "False" %}
+                <script>
+                    console.log("{{ accepted_rules }}")
+                </script>
                 <div class="card has-background-danger-light has-text-centered px-2 py-2">
                     <h1 class="title has-text-centered py-5 has-text-black has-font-code">Call Rules</h1>
                     <p class="has-text-left">
@@ -64,13 +67,14 @@
                     </p>
                     <button class="button is-danger is-centered" onclick="agree()">I Agree to The Rules</button>
                 </div>
+                {% endif %}
             </div>
             <div class="column">
                 <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
                     {% csrf_token %}
                     <div class="field has-text-centered">
                         <div class="control">
-                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue" disabled>Add To
+                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue" {% if accepted_rules == "False" %} disabled {% endif %}>Add To
                                 Queue</button>
                         </div>
                     </div>
@@ -79,6 +83,18 @@
                     function agree() {
                         const button = document.getElementById('queue');
                         button.disabled = false;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', "{% url 'accept_rules_session' %}");
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                        xhr.send(JSON.stringify({}));
+                        xhr.onload = function () {
+                            if (xhr.responseText != "Success") {
+                                console.log(xhr.responseText);
+                            }
+                            console.log(xhr.responseText); 
+                        }
                     }
                     const form = document.getElementById('form');
                     form.addEventListener('submit', function (event) {
