@@ -133,7 +133,6 @@ def profile(request: HttpRequest) -> HttpResponse:
 def call_homepage(request: HttpRequest) -> HttpResponse:
     if 'accepted_rules' not in request.session:
         request.session['accepted_rules'] = "False"
-    print(request.session['accepted_rules'], type(request.session['accepted_rules']))
     return render(request, "callhomepage.html", context={"accepted_rules": request.session['accepted_rules']})
 
 
@@ -152,13 +151,11 @@ def add_to_queue(request) -> JsonResponse | None:
                     chatroom.delete()
                     redirect_url = f"/chatroom/{room_id}/"
                     request.session['users'] = [str(request.user), str(chatroom.user1)]
-                    print(request.session['users'])
                     return JsonResponse({"redirect_url": redirect_url})
     else:
         room_id: int = pair_func.room_id
         redirect_url = f"/chatroom/{room_id}/"
         request.session['users'] = [str(pair_func.user1), str(pair_func.user2)]
-        print(request.session['users'])
         return JsonResponse({"redirect_url": redirect_url})
 
 
