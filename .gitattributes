@@ -1,0 +1,3 @@
+src/web/settings.py merge=ours
+src/web/db.sqlite3 merge=ours
+src/web/static merge=ours
