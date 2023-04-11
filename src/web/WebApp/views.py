@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.db.models import Q
 import requests
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
@@ -144,14 +145,13 @@ def add_to_queue(request) -> JsonResponse | None:
     if pair_func is None:
         add_user_to_queue(request.user)
         while True:
-            chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.all()
-            for chatroom in chatrooms:
-                if request.user in (chatroom.user1, chatroom.user2):
-                    room_id = chatroom.room_id
-                    chatroom.delete()
-                    redirect_url = f"/chatroom/{room_id}/"
-                    request.session['users'] = [str(request.user), str(chatroom.user1)]
-                    return JsonResponse({"redirect_url": redirect_url})
+            chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+            chatroom = chatrooms[0]
+            room_id = chatroom.room_id
+            chatroom.delete()
+            redirect_url = f"/chatroom/{room_id}/"
+            request.session['users'] = [str(request.user), str(chatroom.user1)]
+            return JsonResponse({"redirect_url": redirect_url})
     else:
         room_id: int = pair_func.room_id
         redirect_url = f"/chatroom/{room_id}/"

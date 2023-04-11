@@ -11,3 +11,7 @@ env/
 __pycache__/
 
 config.json
+
+# Mobile
+flutter/
+
