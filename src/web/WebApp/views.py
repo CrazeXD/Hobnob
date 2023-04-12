@@ -177,7 +177,6 @@ def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
         partner = request.session['users'][0]
     partner = User.objects.get(username=partner)
     url = create_room(room_id)
-    
     context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}
     return render(request, 'call.html', context)
 
