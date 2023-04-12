@@ -146,6 +146,8 @@ def add_to_queue(request) -> JsonResponse | None:
         add_user_to_queue(request.user)
         while True:
             chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+            if len(chatrooms) == 0:
+                continue
             chatroom = chatrooms[0]
             room_id = chatroom.room_id
             chatroom.delete()
