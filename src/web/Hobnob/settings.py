@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import json
 import whitenoise
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +25,7 @@ config = json.load(open(BASE_DIR / 'config.json'))
 SECRET_KEY = config["DJANGO"]["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = config["DJANGO"]["ALLOWED_HOSTS"]
 CSRF_TRUSTED_ORIGINS = config["DJANGO"]["CSRF_TRUSTED_ORIGINS"]
 
@@ -134,4 +135,7 @@ USE_X_FORWARDED_HOST = True
 
 # Captcha
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
-CAPTCHA_FONT_SIZE = 40
+CAPTCHA_FONT_SIZE = 30
+CAPTCHA_LETTER_ROTATION = (-25, 25)
+CAPTCHA_2X_IMAGE = True
+CAPTCHA_FONT_PATH = os.path.join(BASE_DIR, "assets", "fonts", "INFILTRI.TTF")
