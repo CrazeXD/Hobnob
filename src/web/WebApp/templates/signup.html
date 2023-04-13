@@ -23,7 +23,7 @@
             height: 80px;
         }
         .container {
-            width: 20vw;
+            width: 25vw;
         }
 
         @media (max-width:1023px) {
@@ -46,7 +46,7 @@
             align-items: center;
             /* Set the height of the body to full viewport height */
         }
-        input {
+        input, textarea, select {
             width: 100%;
             border-radius: 20px;
             border: 1.5px solid #fbd06c;
@@ -78,9 +78,9 @@
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
-                <div class="container">
+                <div class="container box">
                     <h1 class="title has-text-centered">Sign Up</h1>
-                    <form method="post" action="/signup" class="box">
+                    <form method="post" action="/signup/">
                         <div class="field has-text-left">
                             <label class="label">Username:</label>
                             <div class="control">
@@ -121,6 +121,12 @@
                             <label class="label">School:</label>
                             <div class="control has-text-centered">
                                 {{ form.school }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">Bio:</label>
+                            <div class="control has-text-centered">
+                                {{ form.user_bio }}
                             </div>
                         </div>
                         <div class="field has-text-left">

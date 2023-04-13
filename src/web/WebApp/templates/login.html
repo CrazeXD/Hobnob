@@ -13,9 +13,33 @@
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
 
     <style>
+        label {
+            white-space: pre-line;
+            color: black;
+        }
+
+        .captcha {
+            width: 200px;
+            height: 80px;
+        }
+
+        .container {
+            width: 25vw;
+        }
+
         @media (max-width:1023px) {
             .shrink {
                 justify-content: space-between;
+            }
+
+            .container {
+                width: 40vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 80vw;
             }
         }
 
@@ -23,9 +47,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90.6vh;
-
             /* Set the height of the body to full viewport height */
+            height: 88vh;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border-radius: 20px;
+            border: 1.5px solid #fbd06c;
         }
     </style>
 </head>
@@ -52,25 +83,33 @@
         </div>
     </nav>
     <div class="centervert">
-        <section class="section is-fullheight has-text-centered" style="scale: 1.2;">
+        <section class="section has-text-centered">
             {% block content %}
-            <h2 class="title is-2 has-text-weight-bold has-text-black is-family-monospace">Login</h2>
-            <form method="post" action="{% url 'login' %}" class="form" id="form">
-                {% csrf_token %}
-                <div class="field">
-                    <p class="subtitle has-text-black" style="padding-bottom: 1px; margin-bottom: 0;">Username:</p>
-                    {{ form.username }}
-                </div>
-                <div class="field">
-                    <p class="subtitle has-text-black" style="padding-bottom: 1px; margin-bottom: 0;">Password:</p>
-                    {{ form.password }}
-                </div>
-                <div class="field has-text-centered">
-                    <div class="control">
-                        <button type="submit" class="button is-success" id="submit">Log In</button>
+            <div class="container box">
+                <h1 class="title has-text-centered">Login</h1>
+                <form method="post" action="/login/">
+                    <div class="field has-text-left">
+                        <label class="label">Username:</label>
+                        <div class="control">
+                            {{ form.username }}
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="field has-text-left">
+                        <label class="label">Password:</label>
+                        <div class="control">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-danger">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <p class="has-text-white has-text-centered">
+                Don't have an account? <a href="/signup">Signup.</a>
+            </p>
             <script>
                 const form = document.getElementById('form');
                 form.addEventListener('submit', function (event) {
