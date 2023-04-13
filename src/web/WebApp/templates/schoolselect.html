@@ -10,13 +10,15 @@
     <meta name="author" content="">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'images/logo.ico %}" type="image/x-icon">
+
     <style>
         @media (max-width:1023px) {
-          .shrink {
-            justify-content: space-between;
-          }
+            .shrink {
+                justify-content: space-between;
+            }
         }
-      </style>
+    </style>
 </head>
 
 <noscript>Please enable javascript</noscript>
@@ -25,19 +27,19 @@
     <div class="columns is-multiline"></div>
     <nav class="navbar py-4 has-background-warning-light">
         <div class="container shrink is-fluid is-flex-touch>
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <h1 class="title">Hobnob<strong>.</strong></h1>
-                </a>
-            </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-warning" href="/login"><strong>Login</strong></a>
-                        <a class="button is-light" href="/signup">Signup</a>
-                    </div>
+            <div class=" navbar-brand">
+            <a class="navbar-item" href="/">
+                <h1 class="title">Hobnob<strong>.</strong></h1>
+            </a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-warning" href="/login"><strong>Login</strong></a>
+                    <a class="button is-light" href="/signup">Signup</a>
                 </div>
             </div>
+        </div>
         </div>
     </nav>
     <section class="section is-fullheight has-text-centered">
