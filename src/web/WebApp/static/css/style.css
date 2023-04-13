@@ -1,5 +1,5 @@
 /* Forms */
-div.form p::after {
+div.form p:not(:has(#id_user_bio))::after {
     content: "\A\A";
     white-space: pre;
 }

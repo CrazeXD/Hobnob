@@ -10,4 +10,17 @@
     </div>
   </div>
 </div>
+<script>
+  var input = document.getElementById("id_captcha_1");
+  input.value = "Enter the text above."
+  input.style.textAlign = "center";
+  input.addEventListener("focus", function() {
+    input.value = "";
+  });
+  input.addEventListener("blur", function() {
+    if (input.value == "") {
+      input.value = "Enter the text above.";
+    }
+  });
+</script>
 {% endspaceless %}
