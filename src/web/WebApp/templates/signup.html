@@ -20,12 +20,20 @@
             width: 200px;
             height: 80px;
         }
+
         @media (max-width:1023px) {
             .shrink {
                 justify-content: space-between;
             }
         }
 
+        .centervert {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Set the height of the body to full viewport height */
+        }
     </style>
 </head>
 
@@ -43,35 +51,37 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-warning" href="/login"><strong>Log in</strong></a>
-                        <a class="button is-light" href="/signup">Sign up</a>
+                        <a class="button is-warning" href="/login"><strong>Login</strong></a>
+                        <a class="button is-light" href="/signup">Signup</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
-    <section class="section is-fullheight has-text-centered">
-        {% block content %}
-        <h2 class="title is-2">Signup</h2>
-        <p>{{ error }}</p>
-        <div class="form">
-            <form method="post" action="{% url 'signup' %}" class="form" id="form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="field has-text-centered">
-                    <div class="control">
-                        <button type="submit" id="submit_button" class="button is-light is-link">Signup</button>
-                        <p>Please note, signup may take time to validate your school.</p>
+    <div class="centervert">
+        <section class="section is-fullheight has-text-centered">
+            {% block content %}
+            <h2 class="title is-2 has-text-weight-bold has-text-black is-family-monospace">Signup</h2>
+            <p>{{ error }}</p>
+            <div class="form">
+                <form method="post" action="{% url 'signup' %}" class="form" id="form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="field has-text-centered">
+                        <div class="control">
+                            <button type="submit" id="submit_button" class="button is-light is-link">Signup</button>
+                            <p>Please note, signup may take time to validate your school.</p>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-        <script>
-            const form = document.getElementById('form');
-            form.addEventListener('submit', function (event) {
-                document.getElementById('submit_button').classList.add('is-loading');
-            });
-        </script>
-        {% endblock %}
-    </section>
+                </form>
+            </div>
+            <script>
+                const form = document.getElementById('form');
+                form.addEventListener('submit', function (event) {
+                    document.getElementById('submit_button').classList.add('is-loading');
+                });
+            </script>
+            {% endblock %}
+        </section>
+    </div>
 </body>

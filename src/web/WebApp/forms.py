@@ -4,7 +4,7 @@ from captcha.fields import CaptchaField, CaptchaTextInput
 
 # Util 
 class CustomCaptchaTextInput(CaptchaTextInput):
-    template_name = 'custom_field.html'
+    template_name = 'custom_captcha_field.html'
 
 # Forms
 
