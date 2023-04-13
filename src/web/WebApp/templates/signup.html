@@ -22,19 +22,34 @@
             width: 200px;
             height: 80px;
         }
+        .container {
+            width: 20vw;
+        }
 
         @media (max-width:1023px) {
             .shrink {
                 justify-content: space-between;
             }
+            .container {
+                width: 40vw;
+            }
         }
-
+        @media (max-width: 768px) {
+            .container {
+                width: 80vw;
+            }
+        }
+            
         .centervert {
             display: flex;
             justify-content: center;
             align-items: center;
-
             /* Set the height of the body to full viewport height */
+        }
+        input {
+            width: 100%;
+            border-radius: 20px;
+            border: 1.5px solid #fbd06c;
         }
     </style>
 </head>
@@ -61,29 +76,72 @@
         </div>
     </nav>
     <div class="centervert">
-        <section class="section is-fullheight has-text-centered">
+        <section class="section has-text-centered">
             {% block content %}
-            <h2 class="title is-2 has-text-weight-bold has-text-black is-family-monospace">Signup</h2>
-            <p>{{ error }}</p>
-            <div class="form">
-                <form method="post" action="{% url 'signup' %}" class="form" id="form">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div class="field has-text-centered">
-                        <div class="control">
-                            <button type="submit" id="submit_button" class="button is-light is-link">Signup</button>
-                            <p>Please note, signup may take time to validate your school.</p>
+                <div class="container">
+                    <h1 class="title has-text-centered">Sign Up</h1>
+                    <form method="post" action="/signup" class="box">
+                        <div class="field has-text-left">
+                            <label class="label">Username:</label>
+                            <div class="control">
+                                {{ form.username }}
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <script>
-                const form = document.getElementById('form');
-                form.addEventListener('submit', function (event) {
-                    document.getElementById('submit_button').classList.add('is-loading');
-                });
-            </script>
-            {% endblock %}
+                        <div class="field has-text-left">
+                            <label class="label">Password:</label>
+                            <div class="control">
+                                {{ form.password }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">First Name:</label>
+                            <div class="control">
+                                {{ form.first_name }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">Last Name:</label>
+                            <div class="control">
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">Email:</label>
+                            <div class="control">
+                                {{ form.email }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">Preferred Pronouns:</label>
+                            <div class="control has-text-centered">
+                                {{ form.pronouns }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">School:</label>
+                            <div class="control has-text-centered">
+                                {{ form.school }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
+                            <label class="label">Captcha:</label>
+                            <div class="control">
+                                {{ form.captcha }}
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-warning">Sign Up</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <p class="has-text-white has-text-centered">
+                    Already have an account? <a href="/login">Login.</a>
+                </p>
+                {% endblock %}
         </section>
     </div>
 </body>
+
+        
