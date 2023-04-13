@@ -24,7 +24,7 @@ config = json.load(open(BASE_DIR / 'config.json'))
 SECRET_KEY = config["DJANGO"]["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = config["DJANGO"]["ALLOWED_HOSTS"]
 CSRF_TRUSTED_ORIGINS = config["DJANGO"]["CSRF_TRUSTED_ORIGINS"]
 
@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
     'WebApp',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,7 @@ SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
+
+# Captcha
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+CAPTCHA_FONT_SIZE = 40

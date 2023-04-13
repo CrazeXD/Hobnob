@@ -4,6 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.views.decorators.cache import never_cache
 import requests
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
@@ -150,7 +151,6 @@ def add_to_queue(request) -> JsonResponse | None:
                 continue
             chatroom = chatrooms[0]
             room_id = chatroom.room_id
-            chatroom.delete()
             redirect_url = f"/chatroom/{room_id}/"
             request.session['users'] = [str(request.user), str(chatroom.user1)]
             return JsonResponse({"redirect_url": redirect_url})
@@ -168,15 +168,13 @@ def remove_from_queue_view(request) -> HttpResponse | None:
     remove_from_queue(request.user)
     return HttpResponse("Success")
 
-
+@never_cache
 @login_required(login_url="login")
 def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
-    if str(request.user) not in request.session['users']:
+    users = ChatRoom.objects.get(room_id=room_id).user1, ChatRoom.objects.get(room_id=room_id).user2
+    if request.user not in users:
         return redirect("call")
-    if request.session['users'][0] == str(request.user):
-        partner = request.session['users'][1]
-    else:
-        partner = request.session['users'][0]
+    partner = users[1] if users[0] == str(request.user) else users[0]
     partner = User.objects.get(username=partner)
     url = create_room(room_id)
     context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}

@@ -1,0 +1,13 @@
+{% load i18n %}
+{% spaceless %}
+<div class="form-group">
+  <div class="form-group">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <img src="{{ image }}" alt="captcha" class="captcha" />
+      </div>
+      {% include "django/forms/widgets/multiwidget.html" %}
+    </div>
+  </div>
+</div>
+{% endspaceless %}
