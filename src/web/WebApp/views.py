@@ -4,7 +4,7 @@ from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from django.views.decorators.cache import never_cache
+#from django.views.decorators.cache import never_cache
 import requests
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
@@ -168,7 +168,6 @@ def remove_from_queue_view(request) -> HttpResponse | None:
     remove_from_queue(request.user)
     return HttpResponse("Success")
 
-@never_cache
 @login_required(login_url="login")
 def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
     users = ChatRoom.objects.get(room_id=room_id).user1, ChatRoom.objects.get(room_id=room_id).user2
