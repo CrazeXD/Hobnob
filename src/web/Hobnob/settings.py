@@ -138,4 +138,4 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 CAPTCHA_FONT_SIZE = 30
 CAPTCHA_LETTER_ROTATION = (-25, 25)
 CAPTCHA_2X_IMAGE = True
-CAPTCHA_FONT_PATH = os.path.join(BASE_DIR, "assets", "fonts", "INFILTRI.TTF")
+CAPTCHA_FONT_PATH = os.path.join(BASE_DIR, "assets", "fonts", "SedgwickAveDisplay-Regular.ttf")
