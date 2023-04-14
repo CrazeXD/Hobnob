@@ -56,8 +56,8 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-dongle is-warning" href="/login"><strong>Login</strong></a>
-                        <a class="button is-dongle is-light" href="/signup">Signup</a>
+                        <a class="button is-patrickhand is-warning" href="/login"><strong>Login</strong></a>
+                        <a class="button is-patrickhand is-light" href="/signup">Signup</a>
                     </div>
                 </div>
             </div>
@@ -69,6 +69,7 @@
             <div class="container box">
                 <h1 class="title has-text-left is-dongle is-size-1">Login</h1>
                 <form method="post" action="/login/">
+                    {% csrf_token %}
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
                         <div class="control">
