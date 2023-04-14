@@ -34,16 +34,13 @@
         <div class="container is-fluid is-flex-touch">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    <h1 class="title">Hobnob<strong>.</strong></h1>
+                    <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
                 </a>
             </div>
             <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-warning" href="/login"><strong>Login</strong></a>
-                        <a class="button is-light" href="/signup">Signup</a>
-                    </div>
-                </div>
+                <a class="navbar-item" href="/profile">
+                    <img src="{% static 'images/profile.png' %}" alt="Profile Icon">
+                </a>
             </div>
         </div>
     </nav>

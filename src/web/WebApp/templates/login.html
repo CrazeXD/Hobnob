@@ -13,11 +13,6 @@
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
 
     <style>
-        label {
-            white-space: pre-line;
-            color: black;
-        }
-
         .captcha {
             width: 200px;
             height: 80px;
@@ -28,9 +23,6 @@
         }
 
         @media (max-width:1023px) {
-            .shrink {
-                justify-content: space-between;
-            }
 
             .container {
                 width: 40vw;
@@ -44,20 +36,9 @@
         }
 
         .centervert {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Set the height of the body to full viewport height */
-            height: 88vh;
+            height: 90.6vh;
         }
 
-        input,
-        textarea,
-        select {
-            width: 100%;
-            border-radius: 20px;
-            border: 1.5px solid #fbd06c;
-        }
     </style>
 </head>
 
@@ -69,14 +50,14 @@
         <div class="container is-fluid is-flex-touch">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    <h1 class="title">Hobnob<strong>.</strong></h1>
+                    <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
                 </a>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-warning" href="/login"><strong>Login</strong></a>
-                        <a class="button is-light" href="/signup">Signup</a>
+                        <a class="button is-dongle is-warning" href="/login"><strong>Login</strong></a>
+                        <a class="button is-dongle is-light" href="/signup">Signup</a>
                     </div>
                 </div>
             </div>
@@ -86,7 +67,7 @@
         <section class="section has-text-centered">
             {% block content %}
             <div class="container box">
-                <h1 class="title has-text-centered">Login</h1>
+                <h1 class="title has-text-left is-dongle is-size-1">Login</h1>
                 <form method="post" action="/login/">
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
@@ -107,8 +88,8 @@
                     </div>
                 </form>
             </div>
-            <p class="has-text-white has-text-centered">
-                Don't have an account? <a href="/signup">Signup.</a>
+            <p class="has-text-white has-text-centered is-size-5">
+                Don't have an account? <a href="/signup" class="has-text-link">Signup.</a>
             </p>
             <script>
                 const form = document.getElementById('form');
