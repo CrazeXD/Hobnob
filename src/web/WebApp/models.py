@@ -47,7 +47,6 @@ class User(AbstractUser):
     school = models.CharField(max_length=100, default='')
     recent_calls = models.ManyToManyField(
         'self', blank=True, symmetrical=False)
-    in_queue = models.BooleanField(default=False)
     user_bio = models.TextField(max_length=1000, default='')
     REQUIRED_FIELDS = ["email", "first_name", "last_name",
                        "grade", "pronouns", "school", "password"]

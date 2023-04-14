@@ -92,8 +92,6 @@ def add_user_to_queue(user: User):
     items = QueueItem.objects.all()
     if items.filter(user=user):
         return items.filter(user=user)[0]
-    user.in_queue = True
-    user.save()
     item: QueueItem = QueueItem.objects.create(user=user)
     item.save()
     return item

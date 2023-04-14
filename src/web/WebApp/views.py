@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
 from django.db.models import Q
 #from django.views.decorators.cache import never_cache
 import requests
@@ -159,14 +161,6 @@ def add_to_queue(request) -> JsonResponse | None:
         redirect_url = f"/chatroom/{room_id}/"
         request.session['users'] = [str(pair_func.user1), str(pair_func.user2)]
         return JsonResponse({"redirect_url": redirect_url})
-
-
-@login_required(login_url="login")
-def remove_from_queue_view(request) -> HttpResponse | None:
-    if request.method != "POST":
-        return None
-    remove_from_queue(request.user)
-    return HttpResponse("Success")
 
 @login_required(login_url="login")
 def video_call(request: HttpRequest, room_id: int) -> HttpResponse:

@@ -112,6 +112,12 @@
                             </div>
                         </div>
                         <div class="field has-text-left">
+                            <label class="label">Grade:</label>
+                            <div class="control has-text-centered">
+                                {{ form.grade }}
+                            </div>
+                        </div>
+                        <div class="field has-text-left">
                             <label class="label">Bio:</label>
                             <div class="control has-text-centered">
                                 {{ form.user_bio }}
@@ -131,7 +137,7 @@
                     </form>
                 </div>
                 <p class="has-text-white has-text-centered is-size-5">
-                    Alreadu have an account? <a href="/login" class="has-text-link">Login.</a>
+                    Already have an account? <a href="/login" class="has-text-link">Login.</a>
                 </p>
                 {% endblock %}
         </section>
