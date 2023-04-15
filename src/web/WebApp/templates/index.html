@@ -13,21 +13,14 @@
   <link rel="stylesheet" href="https://www.jsdelivr.com/package/npm/@creativebulma/bulma-divider">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
-  <style>
-    @media (max-width:1023px) {
-      .shrink {
-        justify-content: space-between;
-      }
-    }
-  </style>
 </head>
 
-<noscript>Please enable javascript</noscript>
+<noscript>Please enable JavaScript</noscript>
 
 <body class="background-image">
   <div>
     <nav class="navbar py-4 has-background-warning-light">
-      <div class="container shrink is-fluid is-flex-touch">
+      <div class="container is-fluid is-flex-touch">
         <div class="navbar-brand">
           <a class="navbar-item">
             <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
@@ -36,8 +29,8 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-patrickhand is-warning" href="/login"><strong>Login</strong></a>
-              <a class="button is-patrickhand is-light" href="/signup">Signup</a>
+              <a class="button is-neucha is-warning" href="/login"><strong>Login</strong></a>
+              <a class="button is-neucha is-light" href="/signup">Signup</a>
             </div>
           </div>
         </div>
@@ -87,15 +80,27 @@
           </article>
         </div>
         <!--Features-->
-        <div class="box" style="background-color: rgba(255, 148, 106, 0.592);">
+        <div class="box animatedFeatures fadeIn" style="background-color: rgba(255, 148, 106, 0.592);">
           <div class="columns">
-            <div class="column is-half">
+            <div class="column is-half is-hidden-mobile has-text-left">
               <div class="is-size-3 is-dosis has-text-white">High School Hangouts</div>
               <div class="subtitle has-text-white">Connect with new friends from your school through fun conversations!</div>
               <div class="is-size-3 is-dosis has-text-white">Crystal Clear Video Calls</div>
               <div class="subtitle has-text-white">Experience high-definition video calls with customizable backgrounds, and chat in real-time with your friends.</div>
             </div>
-            <div class="column is-half">
+            <div class="column is-half is-hidden-tablet has-text-centered">
+              <div class="is-size-3 is-dosis has-text-white">High School Hangouts</div>
+              <div class="subtitle has-text-white">Connect with new friends from your school through fun conversations!</div>
+              <div class="is-size-3 is-dosis has-text-white">Crystal Clear Video Calls</div>
+              <div class="subtitle has-text-white">Experience high-definition video calls with customizable backgrounds, and chat in real-time with your friends.</div>
+            </div>
+            <div class="column is-half is-hidden-mobile has-text-right">
+              <div class="is-size-3 is-dosis has-text-white">Express with Reactions</div>
+              <div class="subtitle has-text-white">Make your calls even more entertaining with built-in reactions and emojis to express your emotions.</div>
+              <div class="is-size-3 is-dosis has-text-white">Showcase Your Interests</div>
+              <div class="subtitle has-text-white">Create custom "About Me" bios that are visible to the people you call, and find common interests with your peers during your calls. Let your personality shine!</div>
+            </div>
+            <div class="column is-half is-hidden-tablet has-text-centered">
               <div class="is-size-3 is-dosis has-text-white">Express with Reactions</div>
               <div class="subtitle has-text-white">Make your calls even more entertaining with built-in reactions and emojis to express your emotions.</div>
               <div class="is-size-3 is-dosis has-text-white">Showcase Your Interests</div>

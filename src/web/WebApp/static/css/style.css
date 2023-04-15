@@ -33,6 +33,9 @@ select {
     border-radius: 20px;
     border: 1.5px solid #fbd06c;
 }
+input {
+    padding: 8px;
+}
 
 label {
     white-space: pre-line;
@@ -121,4 +124,8 @@ body {
 }
 .is-dosis {
     font-family: 'Dosis', sans-serif;
+}
+.button {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
 }
