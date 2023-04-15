@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DynaPuff&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap');
 
 /* Forms */
 div.form p:not(:has(#id_user_bio))::after {
@@ -117,4 +118,7 @@ body {
 }
 .is-patrickhand {
     font-family: 'Patrick Hand', cursive;
+}
+.is-dosis {
+    font-family: 'Dosis', sans-serif;
 }
