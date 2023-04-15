@@ -17,9 +17,20 @@
         label {
             white-space: pre-line;
         }
+
+        .container {
+            width: 25vw;
+        }
+
         @media (max-width:1023px) {
-            .shrink {
-                justify-content: space-between;
+            .container {
+                width: 40vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 80vw;
             }
         }
     </style>
@@ -47,63 +58,75 @@
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
-                <div class="container">
-                    <h1 class="title has-text-centered">Sign Up</h1>
-                    <form method="post" action="/signup" class="box">
-                        <div class="field has-text-left">
-                            <label class="label">Username:</label>
-                            <div class="control">
-                                {{ form.username }}
-                            </div>
+            <div class="container">
+                <h1 class="title has-text-centered">Profile</h1>
+                <form method="post" action="/profile" class="box">
+                    <div class="field has-text-left">
+                        <label class="label">Username:</label>
+                        <div class="control">
+                            {{ form.username }}
                         </div>
-                        <div class="field has-text-left">
-                            <label class="label">Password:</label>
-                            <div class="control">
-                                {{ form.password }}
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Password:</label>
+                        <div class="control">
+                            {{ form.password }}
                         </div>
-                        <div class="field has-text-left">
-                            <label class="label">First Name:</label>
-                            <div class="control">
-                                {{ form.first_name }}
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">First Name:</label>
+                        <div class="control">
+                            {{ form.first_name }}
                         </div>
-                        <div class="field has-text-left">
-                            <label class="label">Last Name:</label>
-                            <div class="control">
-                                {{ form.last_name }}
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Last Name:</label>
+                        <div class="control">
+                            {{ form.last_name }}
                         </div>
-                        <div class="field has-text-left">
-                            <label class="label">Email:</label>
-                            <div class="control">
-                                {{ form.email }}
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Email:</label>
+                        <div class="control">
+                            {{ form.email }}
                         </div>
-                        <div class="field has-text-left">
-                            <label class="label">Preferred Pronouns:</label>
-                            <div class="control has-text-centered">
-                                {{ form.pronouns }}
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Preferred Pronouns:</label>
+                        <div class="control has-text-centered">
+                            {{ form.pronouns }}
                         </div>
-                        <div class="field has-text-left">
-                            <label class="label">Preferred Pronouns:</label>
-                            <div class="control has-text-centered">
-                                {{ form.pronouns }}
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Preferred Pronouns:</label>
+                        <div class="control has-text-centered">
+                            {{ form.pronouns }}
                         </div>
-                        <div class="field">
-                            <div class="control">
-                                <button type="submit" class="button is-warning">Sign Up</button>
-                            </div>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Grade:</label>
+                        <div class="control has-text-centered">
+                            {{ form.grade }}
                         </div>
-                    </form>
-                </div>
-                <p class="has-text-white has-text-centered">
-                    Already have an account? <a href="/login">Login.</a>
-                </p>
+                    </div>
+                    <div class="field has-text-left">
+                        <label class="label">Bio:</label>
+                        <div class="control has-text-centered">
+                            {{ form.user_bio }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-warning">Save</button>
+                        </div>
+                    </div>
+                    <a href="/logout" class="button is-danger">Logout</a>
+                </form>
+                
+            </div>
             {% endblock %}
         </section>
     </div>
 </body>
+
 </html>

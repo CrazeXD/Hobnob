@@ -8,6 +8,8 @@ from django.shortcuts import render
 
 from .models import User, QueueItem, ChatRoom
 from Hobnob import settings
+
+csv = pd.read_csv(settings.BASE_DIR / "assets/schools.csv")
 # Signup Functionality
 
 def signup_error(user, error, request, form):
@@ -41,8 +43,6 @@ def find_school_coordinates(school_name: str, user_state: str):
         [{str: str, str:(int, int)}]: Name and coordinates of school
     """
    
-
-    csv = pd.read_csv(settings.BASE_DIR / "assets/schools.csv")
     return [
         {'name': row['NAME'], 'coords': (row['LATITUDE'], row['LONGITUDE'])}
         for index, row in csv.iterrows()
