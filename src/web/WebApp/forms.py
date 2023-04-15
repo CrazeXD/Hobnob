@@ -9,10 +9,11 @@ class CustomCaptchaTextInput(CaptchaTextInput):
 # Forms
 
 class SignupForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
     # Make the user bio field label above the text area
-    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
-    captcha = CaptchaField(widget=CustomCaptchaTextInput, label='')
+    user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', required=False)
+    captcha = CaptchaField(widget=CustomCaptchaTextInput)
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'password', 'school', 'user_bio']

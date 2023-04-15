@@ -16,15 +16,33 @@ from .utils import *
 def index(request: HttpRequest) -> HttpResponse:
     return render(request, "index.html")
 
-
+field_alt_names = {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "grade": "Grade",
+    "pronouns": "Pronouns",
+    "school": "School",
+    "user_bio": "Bio",
+}
 def signup(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form: SignupForm = SignupForm(request.POST)
         if form.is_valid():
             return signup_form_functions(form, request)
+        errors = list(form.errors.items())
+        for index, error in enumerate(errors):
+            if error[0] in field_alt_names:
+                error = list(error)
+                error[0] = field_alt_names[error[0]]
+                errors[index] = tuple(error)
+
+        return render(request, "signup.html", {"form": form, "errors": errors})
     else:
         form: SignupForm = SignupForm()
-    return render(request, "signup.html", {"form": form, "error": ""})
+    return render(request, "signup.html", {"form": form, "errors": None})
 
 
 def signup_form_functions(form, request):

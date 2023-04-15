@@ -1,13 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-from .validators import UsernameValidator, PasswordValidator
+from .validators import ForbiddenWordsValidator, UsernameValidator, PasswordValidator
 
 
 class User(AbstractUser):
     def __str__(self):
         return str(self.username)
-    username_validator = UsernameValidator()
+    username_validator = [UsernameValidator(), ForbiddenWordsValidator()]
     username = models.CharField(
         _("username"),
         max_length=20,
@@ -15,16 +15,16 @@ class User(AbstractUser):
         help_text=_(
             "20 characters or fewer. Letters, digits and ./_ only."
         ),
-        validators=[username_validator],
+        validators=username_validator,
         error_messages={
-            "unique": _("A user with that username already exists."),
+            "unique": _("Another user with that username already exists."),
         },
     )
-    password_validator = PasswordValidator()
+    password_validator = [PasswordValidator()]
     password = models.CharField(
-        _("password"),
+        _("Password"),
         max_length=128,
-        validators=[password_validator]
+        validators=password_validator
     )
     grade_choices = (
         (9, '9'),
@@ -47,7 +47,7 @@ class User(AbstractUser):
     school = models.CharField(max_length=100, default='')
     recent_calls = models.ManyToManyField(
         'self', blank=True, symmetrical=False)
-    user_bio = models.TextField(max_length=1000, default='')
+    user_bio = models.TextField(max_length=1000, default='', validators=[ForbiddenWordsValidator()])
     REQUIRED_FIELDS = ["email", "first_name", "last_name",
                        "grade", "pronouns", "school", "password"]
 
