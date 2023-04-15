@@ -70,6 +70,9 @@
                 <h1 class="title has-text-left is-dongle is-size-1">Login</h1>
                 <form method="post" action="/login/">
                     {% csrf_token %}
+                    {% if errors %}
+                        <p class="has-text-danger">{{ errors }}</p>
+                    {% endif %}
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
                         <div class="control">

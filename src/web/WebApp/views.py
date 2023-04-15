@@ -127,6 +127,9 @@ def login_user(request: HttpRequest) -> HttpResponse:
             if user is not None:
                 login(request, user)
                 return redirect("call")
+            else:
+                error = "Invalid username or password."
+                return render(request, 'login.html', {"form": form, "errors": error})
     elif request.user.is_authenticated:
         return redirect("call")
     else:
