@@ -46,9 +46,32 @@
             },
         });
         callFrame.join({ url: '{{ url }}', userName: '{{ username }}' });
+        callFrame.on('loaded', (event) => {
+            // Make a request to the server to update the user's status to in a call
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/user_in/');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            const url = window.location.href;
+            // Get only the room name from the url
+            const room_id = '{{ room_id }}';
+            console.log(room_id);
+            xhr.send(JSON.stringify({ 'room_id': room_id }));
+            xhr.onload = () => {
+                if (xhr.status != 200) {
+                    alert(`Error ${xhr.status}: ${xhr.statusText}`);
+                }
+                else if (xhr.responseText != 'Success') {
+                    alert(`Error: ${xhr.responseText}`);
+                }
+                else {
+                    console.log('User status updated to in a call');
+                }
+            };
+
+        });
         callFrame.on('left-meeting', (event) => {
             window.location.replace('/call')
-        })
+        });
     </script>
 </body>
 

@@ -62,4 +62,5 @@ class ChatRoom(models.Model):
     user2 = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='user2')
     room_id = models.AutoField(primary_key=True)
-    room_url = models.CharField(max_length=100, default='')
+    user1_in_room = models.BooleanField(default=False)
+    user2_in_room = models.BooleanField(default=False)

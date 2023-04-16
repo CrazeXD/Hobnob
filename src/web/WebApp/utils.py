@@ -157,3 +157,15 @@ def create_room(room_id):
         return request.json()['url']
     if request.json()['info'] == f"a room named {room_id} already exists":
         return f"https://hobnob.daily.co/{room_id}"
+
+def parse_rooms(request):
+    add_user_to_queue(request.user)
+    while True:
+        chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+        if len(chatrooms) == 0:
+            continue
+        chatroom = chatrooms[0]
+        room_id = chatroom.room_id
+        redirect_url = f"/chatroom/{room_id}/"
+        request.session['users'] = [str(request.user), str(chatroom.user1)]
+        return (redirect_url, request)

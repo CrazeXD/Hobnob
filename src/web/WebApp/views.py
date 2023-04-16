@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 #from django.views.decorators.cache import never_cache
 import requests
+import json
+import time
 
 from .forms import SignupForm, LoginForm, SchoolSelector, UserEditForm
 from .utils import *
@@ -165,33 +167,44 @@ def call_homepage(request: HttpRequest) -> HttpResponse:
 def add_to_queue(request) -> JsonResponse | None:
     if request.method != "POST":
         return None
-    pair_func = pair(request.user)
-    if pair_func is None:
-        add_user_to_queue(request.user)
-        while True:
-            chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.filter(Q(user1=request.user) | Q(user2=request.user))
-            if len(chatrooms) == 0:
-                continue
-            chatroom = chatrooms[0]
-            room_id = chatroom.room_id
-            redirect_url = f"/chatroom/{room_id}/"
-            request.session['users'] = [str(request.user), str(chatroom.user1)]
-            return JsonResponse({"redirect_url": redirect_url})
+    matched_user_chatroom = pair(request.user)
+    if matched_user_chatroom is None:
+        solution = parse_rooms(request)
+        redirect_url = solution[0]
+        request = solution[1]
     else:
-        room_id: int = pair_func.room_id
+        room_id: int = matched_user_chatroom.room_id
         redirect_url = f"/chatroom/{room_id}/"
-        request.session['users'] = [str(pair_func.user1), str(pair_func.user2)]
-        return JsonResponse({"redirect_url": redirect_url})
+        request.session['users'] = [str(matched_user_chatroom.user1), str(matched_user_chatroom.user2)]
+        timeout = time.time()+15
+        while (matched_user_chatroom.user1_in_room is False) and (matched_user_chatroom.user2_in_room is False):
+            matched_user_chatroom.refresh_from_db()
+            if time.time() > timeout:
+                matched_user_chatroom.delete()
+                failed_partner = matched_user_chatroom.user1 if matched_user_chatroom.user1 != request.user else matched_user_chatroom.user2
+                request.user.recent_calls.remove(failed_partner)
+                failed_partner.recent_calls.remove(request.user)
+                solution = parse_rooms(request)
+                redirect_url = solution[0]
+                request = solution[1]
+                return JsonResponse({"redirect_url": redirect_url})
+    return JsonResponse({"redirect_url": redirect_url})
+
+def remove_user_from_queue(request):
+    if request.method != "POST":
+        return None
+    remove_from_queue(request.user)
+    return JsonResponse({"success": True})
 
 @login_required(login_url="login")
 def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
     users = ChatRoom.objects.get(room_id=room_id).user1, ChatRoom.objects.get(room_id=room_id).user2
     if request.user not in users:
         return redirect("call")
-    partner = users[1] if users[0] == str(request.user) else users[0]
+    partner = users[1] if users[0] == request.user else users[0]
     partner = User.objects.get(username=partner)
     url = create_room(room_id)
-    context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio}
+    context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio, "room_id": room_id}
     return render(request, 'call.html', context)
 
 @login_required(login_url="login")
@@ -199,4 +212,22 @@ def accept_rules_session(request: HttpRequest):
     if request.method != "POST":
         return HttpResponse("Error")
     request.session['accepted_rules'] = "True"
+    return HttpResponse("Success")
+
+@csrf_exempt
+@login_required(login_url="login")
+def user_in(request: HttpRequest):
+    if request.method != "POST":
+        return HttpResponse("Error")
+    user = request.user
+    room = ChatRoom.objects.get(room_id=json.loads(request.body).get("room_id"))
+    if room.user1 == user:
+        room.user1_in_room = True
+        room.save()
+    elif room.user2 == user:
+        room.user2_in_room = True
+        room.save()
+    else:
+        return HttpResponse("Error")
+    
     return HttpResponse("Success")
