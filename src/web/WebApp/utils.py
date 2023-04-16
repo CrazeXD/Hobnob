@@ -42,12 +42,10 @@ def find_school_coordinates(school_name: str, user_state: str):
     Returns:
         [{str: str, str:(int, int)}]: Name and coordinates of school
     """
-   
-    return [
-        {'name': row['NAME'], 'coords': (row['LATITUDE'], row['LONGITUDE'])}
-        for index, row in csv.iterrows()
-        if school_name.lower() in row['NAME'].lower() and user_state == row['STATE']
-    ]
+    lower_school_name = school_name.lower()
+    return csv.query('NAME.str.lower().str.contains(@lower_school_name) and STATE == @user_state') \
+    .apply(lambda row: {'name': row['NAME'], 'coords': (row['LATITUDE'], row['LONGITUDE'])}, axis=1).tolist()
+
 
 
 def get_distance(coordpair1, coordpair2):
