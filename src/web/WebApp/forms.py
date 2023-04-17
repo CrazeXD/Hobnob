@@ -31,8 +31,9 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 class UserEditForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
     user_bio = forms.CharField(widget=forms.Textarea(), label='Bio', label_suffix=':\n', required=False)
     class Meta:
         model = User
         # TODO: Add school validator
-        fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'user_bio']
+        fields = ['username', 'email', 'first_name', 'last_name', 'grade', 'pronouns', 'user_bio', 'password']
