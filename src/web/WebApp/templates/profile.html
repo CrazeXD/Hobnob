@@ -37,6 +37,11 @@
                 width: 80vw;
             }
         }
+        @media (max-width:1023px) {
+            .shrink {
+                justify-content: space-between;
+            }
+        }
     </style>
 
 </head>
@@ -64,8 +69,7 @@
             {% block content %}
             <div class="container">
                 <form method="post" action="/profile" class="box">
-                    <h1 class="title has-text-centered">Profile</h1>
-
+                    <h1 class="title has-text-centered is-dongle is-size-1">Profile</h1>
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
                         <div class="control">
@@ -122,10 +126,10 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <button type="submit" class="button is-warning">Save</button>
+                            <button type="submit" class="button is-warning" style="width: 30%;">Save</button>
                         </div>
                     </div>
-                    <a href="/logout" class="button is-danger">Logout</a>
+                    <a href="/logout" class="button is-danger" style="width: 30%;">Logout</a>
                 </form>
 
             </div>

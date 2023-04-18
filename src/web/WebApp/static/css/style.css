@@ -106,26 +106,22 @@ body {
 }
 
 .is-dongle {
-    font-family: 'Dongle', sans-serif;
+    font-family: 'Dongle';
 }
 
 .is-dynapuff {
-    font-family: 'DynaPuff', cursive;
+    font-family: 'DynaPuff';
 }
 
 .is-montserrat {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat'
 }
 .is-neucha {
-    font-family: 'Neucha', cursive;
+    font-family: 'Neucha';
 }
 .is-patrickhand {
-    font-family: 'Patrick Hand', cursive;
+    font-family: 'Patrick Hand';
 }
 .is-dosis {
-    font-family: 'Dosis', sans-serif;
-}
-.button {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    font-family: 'Dosis';
 }
