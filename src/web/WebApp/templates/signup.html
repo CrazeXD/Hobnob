@@ -38,11 +38,10 @@
                 width: 80vw;
             }
         }
+
         textarea {
             padding: 10px;
         }
-            
-        
     </style>
 </head>
 
@@ -50,16 +49,23 @@
 
 <body class="background-image">
     <div class="columns is-multiline"></div>
-    <nav class="navbar py-4 has-background-warning-light">
-        <div class="container is-fluid is-flex-touch">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
-                </a>
-            </div>
+    <nav class="navbar px-5 py-2 has-background-warning-light has-background-warning-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+                <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="expanded">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="expanded" class="navbar-menu">
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <div class="buttons">
+                    <div class="buttons is-centered">
                         <a class="button is-neucha is-warning" href="/login"><strong>Login</strong></a>
                         <a class="button is-neucha is-light" href="/signup">Signup</a>
                     </div>
@@ -67,6 +73,30 @@
             </div>
         </div>
     </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+
+        });
+    </script>
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
@@ -76,9 +106,9 @@
                     {% csrf_token %}
                     {% if errors %}
                     <p class="has-text-danger">Please correct the errors below.</p>
-                        {% for field, error in errors %}
-                            {{ field }}: {{ error|escape }}
-                        {% endfor %}
+                    {% for field, error in errors %}
+                    {{ field }}: {{ error|escape }}
+                    {% endfor %}
                     {% endif %}
                     <div class="field has-text-left">
                         <label class="label">Username:</label>

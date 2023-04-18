@@ -19,16 +19,23 @@
 
 <body class="background-image">
   <div>
-    <nav class="navbar py-4 has-background-warning-light">
-      <div class="container is-fluid is-flex-touch">
-        <div class="navbar-brand">
-          <a class="navbar-item">
-            <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
-          </a>
-        </div>
+    <nav class="navbar px-5 py-2 has-background-warning-light has-background-warning-light" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="expanded">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="expanded" class="navbar-menu">
         <div class="navbar-end">
           <div class="navbar-item">
-            <div class="buttons">
+            <div class="buttons is-centered">
               <a class="button is-neucha is-warning" href="/login"><strong>Login</strong></a>
               <a class="button is-neucha is-light" href="/signup">Signup</a>
             </div>
@@ -36,6 +43,30 @@
         </div>
       </div>
     </nav>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+          el.addEventListener('click', () => {
+
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+
+          });
+        });
+
+      });
+    </script>
     <section class="section">
       <div class="container">
         <!--Hero-->
@@ -59,7 +90,8 @@
             </div> -->
             <div class="hero-foot">
               <div class="hero-body has-text-centered">
-                <a href="/call" class="button is-danger is-large is-responsive is-rounded is-montserrat">Start Calling Now</a>
+                <a href="/call" class="button is-danger is-large is-responsive is-rounded is-montserrat">Start Calling
+                  Now</a>
               </div>
             </div>
           </div>
@@ -84,27 +116,35 @@
           <div class="columns">
             <div class="column is-half is-hidden-mobile has-text-left">
               <div class="is-size-3 is-dosis has-text-white">High School Hangouts</div>
-              <div class="subtitle has-text-white">Connect with new friends from your school through fun conversations!</div>
+              <div class="subtitle has-text-white">Connect with new friends from your school through fun conversations!
+              </div>
               <div class="is-size-3 is-dosis has-text-white">Crystal Clear Video Calls</div>
-              <div class="subtitle has-text-white">Experience high-definition video calls with customizable backgrounds, and chat in real-time with your friends.</div>
+              <div class="subtitle has-text-white">Experience high-definition video calls with customizable backgrounds,
+                and chat in real-time with your friends.</div>
             </div>
             <div class="column is-half is-hidden-tablet has-text-centered">
               <div class="is-size-3 is-dosis has-text-white">High School Hangouts</div>
-              <div class="subtitle has-text-white">Connect with new friends from your school through fun conversations!</div>
+              <div class="subtitle has-text-white">Connect with new friends from your school through fun conversations!
+              </div>
               <div class="is-size-3 is-dosis has-text-white">Crystal Clear Video Calls</div>
-              <div class="subtitle has-text-white">Experience high-definition video calls with customizable backgrounds, and chat in real-time with your friends.</div>
+              <div class="subtitle has-text-white">Experience high-definition video calls with customizable backgrounds,
+                and chat in real-time with your friends.</div>
             </div>
             <div class="column is-half is-hidden-mobile has-text-right">
               <div class="is-size-3 is-dosis has-text-white">Express with Reactions</div>
-              <div class="subtitle has-text-white">Make your calls even more entertaining with built-in reactions and emojis to express your emotions.</div>
+              <div class="subtitle has-text-white">Make your calls even more entertaining with built-in reactions and
+                emojis to express your emotions.</div>
               <div class="is-size-3 is-dosis has-text-white">Showcase Your Interests</div>
-              <div class="subtitle has-text-white">Create custom "About Me" bios that are visible to the people you call, and find common interests with your peers during your calls. Let your personality shine!</div>
+              <div class="subtitle has-text-white">Create custom "About Me" bios that are visible to the people you
+                call, and find common interests with your peers during your calls. Let your personality shine!</div>
             </div>
             <div class="column is-half is-hidden-tablet has-text-centered">
               <div class="is-size-3 is-dosis has-text-white">Express with Reactions</div>
-              <div class="subtitle has-text-white">Make your calls even more entertaining with built-in reactions and emojis to express your emotions.</div>
+              <div class="subtitle has-text-white">Make your calls even more entertaining with built-in reactions and
+                emojis to express your emotions.</div>
               <div class="is-size-3 is-dosis has-text-white">Showcase Your Interests</div>
-              <div class="subtitle has-text-white">Create custom "About Me" bios that are visible to the people you call, and find common interests with your peers during your calls. Let your personality shine!</div>
+              <div class="subtitle has-text-white">Create custom "About Me" bios that are visible to the people you
+                call, and find common interests with your peers during your calls. Let your personality shine!</div>
             </div>
           </div>
         </div>

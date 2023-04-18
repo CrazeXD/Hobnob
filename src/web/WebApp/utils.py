@@ -5,6 +5,8 @@ import requests
 import geopy.distance
 import pandas as pd
 from django.shortcuts import render
+from django.db.models import QuerySet
+from django.db.models import Q
 
 from .models import User, QueueItem, ChatRoom
 from Hobnob import settings

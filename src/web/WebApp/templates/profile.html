@@ -26,7 +26,11 @@
             .container {
                 width: 40vw;
             }
+            .shrink {
+                justify-content: space-between;
+            }
         }
+
 
         @media (max-width: 768px) {
             .container {
@@ -42,7 +46,7 @@
 <body class="background-image">
     <div class="columns is-multiline"></div>
     <nav class="navbar py-4 has-background-warning-light">
-        <div class="container is-fluid is-flex-touch">
+        <div class="container is-fluid shrink is-flex-touch">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
                     <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
@@ -59,8 +63,9 @@
         <section class="section has-text-centered">
             {% block content %}
             <div class="container">
-                <h1 class="title has-text-centered">Profile</h1>
                 <form method="post" action="/profile" class="box">
+                    <h1 class="title has-text-centered">Profile</h1>
+
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
                         <div class="control">
@@ -122,7 +127,7 @@
                     </div>
                     <a href="/logout" class="button is-danger">Logout</a>
                 </form>
-                
+
             </div>
             {% endblock %}
         </section>
