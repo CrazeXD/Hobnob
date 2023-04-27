@@ -201,7 +201,8 @@ def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
     partner = users[1] if users[0] == request.user else users[0]
     partner = User.objects.get(username=partner)
     url = create_room(room_id)
-    context = {'url': url, 'username': f"{str(request.user)} ({request.user.pronouns})", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio, "room_id": room_id}
+    user_pronouns = "" if request.user.user_pronouns == "Prefer not to say" else f"({request.user.user_pronouns})"
+    context = {'url': url, 'username': f"{str(request.user)} {user_pronouns}", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio, "room_id": room_id}
     return render(request, 'call.html', context)
 
 @login_required(login_url="login")
