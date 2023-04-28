@@ -97,6 +97,10 @@ body {
     padding: 0;
 }
 
+.navbar {
+    height: 10vh;
+}
+
 .background-image {
     background-image: url("../images/indexbackground.jpg");
     background-position: center center;

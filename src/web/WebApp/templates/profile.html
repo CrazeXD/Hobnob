@@ -26,6 +26,7 @@
             .container {
                 width: 40vw;
             }
+
             .shrink {
                 justify-content: space-between;
             }
@@ -37,6 +38,7 @@
                 width: 80vw;
             }
         }
+
         @media (max-width:1023px) {
             .shrink {
                 justify-content: space-between;
@@ -50,19 +52,16 @@
 
 <body class="background-image">
     <div class="columns is-multiline"></div>
-    <nav class="navbar py-4 has-background-warning-light">
-        <div class="container is-fluid shrink is-flex-touch">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
-                </a>
-            </div>
-            <div class="navbar-end">
-                <a class="navbar-item" href="/call">
-                    <img src="{% static 'images/profile.png' %}" alt="Profile Icon">
-                </a>
-            </div>
+    <nav class="navbar px-5 py-2 has-background-warning-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
+            </a>
         </div>
+        <div class="navbar-end">
+            <a class="navbar-item" href="/call">
+                <img src="{% static 'images/profile.png' %}" alt="Profile Icon">
+            </a>
     </nav>
     <div class="centervert">
         <section class="section has-text-centered">
