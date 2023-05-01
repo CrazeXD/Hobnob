@@ -22,23 +22,16 @@
                 justify-content: space-between;
             }
         }
+
+        body {
+            height: 100vh;
+        }
     </style>
 </head>
 
 <noscript>Please enable javascript</noscript>
 
-<body class="background-image">
-    <nav class="navbar px-5 py-2 has-background-warning-light" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
-            </a>
-        </div>
-        <div class="navbar-end">
-            <a class="navbar-item" href="/profile">
-                <img src="{% static 'images/profile.png' %}" alt="Profile Icon">
-            </a>
-    </nav>
+<body style="background-color: rgb(18, 18, 18);">
     <!-- Page Content -->
     <section class="section">
         <div class="columns">
@@ -48,16 +41,22 @@
                     <h1 class="title has-text-centered py-2 has-text-black has-font-code">Call Rules</h1>
                     <p class="has-text-left">
                         1. No bullying, harassment, or hate speech will be tolerated. <br>
-                        2. Users must be at least 13 years old to use the site. Any users found to be younger will be removed
+                        2. Users must be at least 13 years old to use the site. Any users found to be younger will be
+                        removed
                         from the site.<br>
-                        3. Users must follow all applicable laws and regulations while using the app, including those related
+                        3. Users must follow all applicable laws and regulations while using the app, including those
+                        related
                         to privacy, data protection, and online conduct.<br>
-                        4. Users will not use the website for illegal or immoral purposes, such as sharing or distributing
+                        4. Users will not use the website for illegal or immoral purposes, such as sharing or
+                        distributing
                         illegal content.<br>
-                        5. Users will not use the website for commercial purposes, such as advertising products or services.<br>
-                        6. Users are responsible for their own safety and well-being while using the site. The website is not
+                        5. Users will not use the website for commercial purposes, such as advertising products or
+                        services.<br>
+                        6. Users are responsible for their own safety and well-being while using the site. The website
+                        is not
                         responsible for any damages or harm caused by the users during the call.<br>
-                        7. Recording calls, despite local laws, is not permitted without explicit permission from all parties. <br>
+                        7. Recording calls, despite local laws, is not permitted without explicit permission from all
+                        parties. <br>
                     </p>
                     <button class="button is-danger is-centered" onclick="agree()">I Agree to The Rules</button>
                 </div>
@@ -68,11 +67,19 @@
                     {% csrf_token %}
                     <div class="field has-text-centered">
                         <div class="control">
-                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue" {% if accepted_rules == "False" %} disabled {% endif %}>Add To
-                                Queue</button>
+                            <button type="submit" class="button is-info is-rounded is-large is-danger" id="queue" 
+                            {% if accepted_rules == "False" %}
+                                disabled 
+                            {% endif %}>Add To Queue</button>
                         </div>
                     </div>
                 </form>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <label class="has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once matched:</label>
+                    <div style="display: inline-flex;">
+                      <input type="checkbox" name="notifs" id="notifs" class="checkbox">
+                    </div>
+                  </div>
                 <script>
                     function agree() {
                         const button = document.getElementById('queue');
@@ -87,11 +94,19 @@
                             if (xhr.responseText != "Success") {
                                 console.log(xhr.responseText);
                             }
-                            console.log(xhr.responseText); 
+                            console.log(xhr.responseText);
                         }
                         const rules = document.getElementById("call-rules");
                         rules.classList.add("is-hidden");
                     }
+                    const checkbox = document.getElementById('notifs');
+                    checkbox.addEventListener('change', function () {
+                        if (checkbox.checked && Notification.permission === 'default' || Notification.permission === 'denied') {
+                            Notification.requestPermission().then(function (result) {
+                                console.log(result);
+                            });
+                        }
+                    });
                     const form = document.getElementById('form');
                     form.addEventListener('submit', function (event) {
                         event.preventDefault();
@@ -107,6 +122,14 @@
                         xhr.onload = function () {
                             if (xhr.status === 200) {
                                 const response = JSON.parse(xhr.responseText);
+                                // If checkbox is checked, send a notification
+                                if (checkbox.checked) {
+                                    var notification = new Notification("Hobnob", {
+                                        body: "Match made!",
+                                        icon: "{% static 'images/logo.ico' %'}"
+
+                                    });
+                                }
                                 window.location.replace(response.redirect_url);
                             }
                         };

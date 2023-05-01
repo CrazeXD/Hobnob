@@ -195,13 +195,16 @@ def remove_user_from_queue(request):
 
 @login_required(login_url="login")
 def video_call(request: HttpRequest, room_id: int) -> HttpResponse:
-    users = ChatRoom.objects.get(room_id=room_id).user1, ChatRoom.objects.get(room_id=room_id).user2
+    try:
+        users = ChatRoom.objects.get(room_id=room_id).user1, ChatRoom.objects.get(room_id=room_id).user2
+    except ChatRoom.DoesNotExist:
+        return redirect("call")
     if request.user not in users:
         return redirect("call")
     partner = users[1] if users[0] == request.user else users[0]
     partner = User.objects.get(username=partner)
     url = create_room(room_id)
-    user_pronouns = "" if request.user.user_pronouns == "Prefer not to say" else f"({request.user.user_pronouns})"
+    user_pronouns = "" if request.user.pronouns == "Prefer not to say" else f"({request.user.pronouns})"
     context = {'url': url, 'username': f"{str(request.user)} {user_pronouns}", 'partner_user_name': partner.username, 'partner_user_bio': partner.user_bio, "room_id": room_id}
     return render(request, 'call.html', context)
 
