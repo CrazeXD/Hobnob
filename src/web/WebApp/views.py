@@ -13,6 +13,8 @@ from .utils import *
 
 
 def index(request: HttpRequest) -> HttpResponse:
+    if request.user.is_authenticated:
+        return redirect("call")
     return render(request, "index.html")
 
 field_alt_names = {

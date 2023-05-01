@@ -4,6 +4,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gafata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unkempt&display=swap');
 
 /* Forms */
 div.form p:not(:has(#id_user_bio))::after {
@@ -32,6 +35,9 @@ select {
     width: 100%;
     border-radius: 20px;
     border: 1.5px solid #fbd06c;
+}
+select {
+    text-align: center;
 }
 input {
     padding: 8px;
@@ -106,26 +112,31 @@ body {
 }
 
 .is-dongle {
-    font-family: 'Dongle', sans-serif;
+    font-family: 'Dongle';
 }
 
 .is-dynapuff {
-    font-family: 'DynaPuff', cursive;
+    font-family: 'DynaPuff';
 }
 
 .is-montserrat {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat'
 }
 .is-neucha {
-    font-family: 'Neucha', cursive;
+    font-family: 'Neucha';
 }
 .is-patrickhand {
-    font-family: 'Patrick Hand', cursive;
+    font-family: 'Patrick Hand';
 }
 .is-dosis {
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Dosis';
 }
-.button {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+.is-mukta {
+    font-family: 'Mukta';
+}
+.is-gafata {
+    font-family: 'Gafata';
+}
+.is-unkempt {
+    font-family: 'Unkempt';
 }
