@@ -36,68 +36,20 @@
         }
 
         .centervert {
-            height: 92.3vh;
+            height: 100vh;
         }
     </style>
 </head>
 
 <noscript>Please enable javascript</noscript>
 
-<body class="background-image">
-    <div class="columns is-multiline"></div>
-    <nav class="navbar px-5 py-2 has-background-warning-light" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
-            </a>
-
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="expanded">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="expanded" class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons is-centered">
-                        <a class="button is-neucha is-warning" href="/login"><strong>Login</strong></a>
-                        <a class="button is-neucha is-light" href="/signup">Signup</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // Get all "navbar-burger" elements
-            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-            // Add a click event on each of them
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-
-                    // Get the target from the "data-target" attribute
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-
-                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-
-                });
-            });
-
-        });
-    </script>
+<body style="background-color: rgb(18, 18, 18);">
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
-            <div class="container box">
-                <h1 class="title has-text-left is-dongle is-size-1">Login</h1>
+            <div class="container box has-background-danger-light">
+                <h1 class="has-text-left is-dosis is-size-2">Login</h1>
+                <br>
                 <form method="post" action="/login/">
                     {% csrf_token %}
                     {% if errors %}
@@ -117,7 +69,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <button type="submit" class="button is-danger is-dosis">Login</button>
+                            <button type="submit" class="button is-danger is-montserrat" style="padding-left: 5%; padding-right: 5%;">Login</button>
                         </div>
                     </div>
                 </form>

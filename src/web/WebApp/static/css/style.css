@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DynaPuff&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
@@ -42,6 +42,9 @@ select {
 input {
     padding: 8px;
 }
+select {
+    padding: 8px;
+}
 
 label {
     white-space: pre-line;
@@ -71,36 +74,19 @@ label {
     }
 }
 
-@keyframes scaleIn {
-    0% {
-        transform: scale(0.99);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
 .fadeIn {
     animation-name: fadeIn;
 }
 
-.scaleIn {
-    animation-name: scaleIn;
-}
 
 /* Global */
 body {
-    /* Make the body take up the full height of the page */
-    min-height: 100vh;
-    /* Make the body take up the full width of the page */
-    min-width: 100vw;
-    height: 100%;
-    width: 100%;
     margin: 0;
     padding: 0;
+}
+
+.navbar {
+    height: 10vh;
 }
 
 .background-image {

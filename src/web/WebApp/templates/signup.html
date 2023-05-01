@@ -24,7 +24,7 @@
         }
 
         .container {
-            width: 25vw;
+            width: 30vw;
         }
 
         @media (max-width:1023px) {
@@ -47,61 +47,12 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body class="background-image">
-    <div class="columns is-multiline"></div>
-    <nav class="navbar px-5 py-2 has-background-warning-light" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <h1 class="title is-dynapuff">Hobnob<strong>.</strong></h1>
-            </a>
-
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="expanded">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="expanded" class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons is-centered">
-                        <a class="button is-neucha is-warning" href="/login"><strong>Login</strong></a>
-                        <a class="button is-neucha is-light" href="/signup">Signup</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // Get all "navbar-burger" elements
-            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-            // Add a click event on each of them
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-
-                    // Get the target from the "data-target" attribute
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-
-                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-
-                });
-            });
-
-        });
-    </script>
+<body style="background-color: rgb(18, 18, 18);">
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
-            <div class="container box">
-                <h1 class="title has-text-left is-dongle is-size-1">Sign Up</h1>
+            <div class="container box has-background-warning-light">
+                <a href="/" class="is-size-2 has-text-black is-dosis">Hobnob</a>
                 <form method="post" action="/signup/">
                     {% csrf_token %}
                     {% if errors %}
