@@ -33,6 +33,8 @@
 
 <body style="background-color: rgb(18, 18, 18);">
     <!-- Page Content -->
+    <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right is-hidden-desktop"></a>
+    <br class="is-hidden-desktop">
     <section class="section">
         <div class="columns">
             <div class="column">
@@ -135,10 +137,10 @@
                 </script>
             </div>
             <div class="column">
-                <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right"></a>
+                <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right is-hidden-touch"></a>
             </div>
         </div>
-
     </section>
-
 </body>
+
+</html>
