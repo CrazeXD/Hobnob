@@ -37,7 +37,7 @@
         <div class="columns">
             <div class="column">
                 {% if accepted_rules == "False" %}
-                <div class="card has-background-danger-light has-text-centered px-2 py-2" id="call-rules">
+                <div class="card has-warning-danger-light has-text-centered px-2 py-2" id="call-rules">
                     <h1 class="title has-text-centered py-2 has-text-black has-font-code">Call Rules</h1>
                     <p class="has-text-left">
                         1. No bullying, harassment, or hate speech will be tolerated. <br>
@@ -67,7 +67,7 @@
                     {% csrf_token %}
                     <div class="field has-text-centered">
                         <div class="control">
-                            <button type="submit" class="button is-rounded is-large is-danger is-unkempt" id="queue" {% if accepted_rules == "False" %} disabled {% endif %}>Add To
+                            <button type="submit" class="button is-rounded is-large is-danger is-gafata" id="queue" {% if accepted_rules == "False" %} disabled {% endif %}>Add To
                                 Queue</button>
                         </div>
                     </div>
@@ -134,8 +134,8 @@
                     });
                 </script>
             </div>
-            <div class="column is-align-items-end">
-                <a href="/profile"><img src="{% static 'images/profile.png' %}" style="width: 10%; height: 10%;"></a>
+            <div class="column">
+                <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right"></a>
             </div>
         </div>
 
