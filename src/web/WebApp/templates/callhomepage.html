@@ -122,11 +122,15 @@
                                 const tagElement = document.createElement('span');
                                 tagElement.classList.add('tag', 'is-medium', 'is-danger');
                                 tagElement.textContent = tag;
+                                tagElement.addEventListener('click', () => {
+                                    tagElement.remove();
+                                });
                                 tagsDiv.appendChild(tagElement);
                                 tagsInput.value = '';
                             }
                         }
                     });
+
                 </script>
             </div>
             <div class="column">
