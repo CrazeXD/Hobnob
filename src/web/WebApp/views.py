@@ -163,12 +163,17 @@ def call_homepage(request: HttpRequest) -> HttpResponse:
 
 
 @login_required(login_url="login")
-def add_to_queue(request) -> JsonResponse | None:
+def add_to_queue(request: HttpRequest) -> JsonResponse | None:
     if request.method != "POST":
         return None
-    matched_user_chatroom = pair(request.user)
+    data = json.loads(request.body)
+    interests = data.get("interests", [])
+    preferred_grade = int(data.get("preferred_grade", None))
+    if preferred_grade == 0:
+        preferred_grade = None
+    matched_user_chatroom = pair(request.user, interests, preferred_grade)
     if matched_user_chatroom is None:
-        solution = parse_rooms(request)
+        solution = parse_rooms(request, interests, preferred_grade)
         redirect_url = solution[0]
         request = solution[1]
     else:

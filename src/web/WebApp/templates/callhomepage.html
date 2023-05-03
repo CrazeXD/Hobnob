@@ -17,14 +17,9 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8907000010862659"
         crossorigin="anonymous"></script>
     <style>
-        @media (max-width:1023px) {
-            .shrink {
-                justify-content: space-between;
-            }
-        }
-
+        html,
         body {
-            height: max-content;
+            height: 100%;
         }
     </style>
 </head>
@@ -33,8 +28,13 @@
 
 <body style="background-color: rgb(18, 18, 18);">
     <!-- Page Content -->
-    <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right is-hidden-desktop"></a>
-    <br class="is-hidden-desktop">
+    <section class="section py-2">
+        <nav class="nav py-3">
+            <div class="nav-end">
+                <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right"></a>
+            </div>
+        </nav>
+    </section>
     <section class="section">
         <div class="columns">
             <div class="column">
@@ -69,78 +69,132 @@
                     {% csrf_token %}
                     <div class="field has-text-centered">
                         <div class="control">
-                            <button type="submit" class="button is-rounded is-large is-danger is-gafata" id="queue" {% if accepted_rules == "False" %} disabled {% endif %}>Add To
-                                Queue</button>
+                            <button type="submit" class="button is-rounded is-large is-danger is-gafata" id="queue" 
+                            {% if accepted_rules == "False" %} disabled {% endif %}>
+                                Add To Queue
+                            </button>
                         </div>
                     </div>
                 </form>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <label class="has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once matched:</label>
-                    <div style="display: inline-flex;">
-                      <input type="checkbox" name="notifs" id="notifs" class="checkbox">
+                <br>
+                <div class="field has-text-centered">
+                    <p class="has-text-white px-2 py-2 is-montserrat">Preferred Grade To
+                        Match:</p>
+                    
+                    <div class="select is-danger">
+                        <select name="grade" id="grade">
+                            <option value="0" selected="selected">No Preference</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
                     </div>
-                  </div>
+                </div>
+                
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div class="field">
+                        <label class="label has-text-white">Interests</label>
+                        <div id="tags" class="tags"></div>
+                        <div class="control">
+                            <input id="tags-input" class="input is-danger" type="text"
+                                placeholder="Type your interests here.">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <label class="has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once
+                        matched:</label>
+                    <div style="display: inline-flex;">
+                        <input type="checkbox" name="notifs" id="notifs" class="checkbox">
+                    </div>
+                </div>
+
                 <script>
-                    function agree() {
-                        const button = document.getElementById('queue');
-                        button.disabled = false;
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('POST', "{% url 'accept_rules_session' %}");
-                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
-                        xhr.send(JSON.stringify({}));
-                        xhr.onload = function () {
-                            if (xhr.responseText != "Success") {
-                                console.log(xhr.responseText);
+                    const tagsInput = document.getElementById('tags-input');
+                    const tagsDiv = document.getElementById('tags');
+                    tagsInput.addEventListener('keydown', (event) => {
+                        if (event.key === ' ' || event.key === 'Enter') {
+                            event.preventDefault();
+                            const tag = tagsInput.value.trim();
+                            if (tag !== '') {
+                                const tagElement = document.createElement('span');
+                                tagElement.classList.add('tag', 'is-medium', 'is-danger');
+                                tagElement.textContent = tag;
+                                tagsDiv.appendChild(tagElement);
+                                tagsInput.value = '';
                             }
-                            console.log(xhr.responseText);
                         }
-                        const rules = document.getElementById("call-rules");
-                        rules.classList.add("is-hidden");
-                    }
-                    const checkbox = document.getElementById('notifs');
-                    checkbox.addEventListener('change', function () {
-                        if (checkbox.checked && Notification.permission === 'default' || Notification.permission === 'denied') {
-                            Notification.requestPermission().then(function (result) {
-                                console.log(result);
-                            });
-                        }
-                    });
-                    const form = document.getElementById('form');
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault();
-                        // Turn the submit button into a loading indicator
-                        document.getElementById('queue').classList.add('is-loading');
-
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('POST', "{% url 'add_to_queue' %}");
-                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
-                        xhr.send(JSON.stringify({}));
-                        xhr.onload = function () {
-                            if (xhr.status === 200) {
-                                const response = JSON.parse(xhr.responseText);
-                                // If checkbox is checked, send a notification
-                                if (checkbox.checked) {
-                                    var notification = new Notification("Hobnob", {
-                                        body: "Match made!",
-                                        icon: "{% static 'images/logo.ico' %'}"
-
-                                    });
-                                }
-                                window.location.replace(response.redirect_url);
-                            }
-                        };
                     });
                 </script>
             </div>
             <div class="column">
-                <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right is-hidden-touch"></a>
             </div>
         </div>
     </section>
+    <script>
+        function agree() {
+            const button = document.getElementById('queue');
+            button.disabled = false;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', "{% url 'accept_rules_session' %}");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            const csrftoken = '{{ csrf_token }}'
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            xhr.send(JSON.stringify({}));
+            xhr.onload = function () {
+                if (xhr.responseText != "Success") {
+                    console.log(xhr.responseText);
+                }
+                console.log(xhr.responseText);
+            }
+            const rules = document.getElementById("call-rules");
+            rules.classList.add("is-hidden");
+        }
+        const checkbox = document.getElementById('notifs');
+        checkbox.addEventListener('change', function () {
+            if (checkbox.checked && Notification.permission === 'default' || Notification.permission === 'denied') {
+                Notification.requestPermission().then(function (result) {
+                    console.log(result);
+                });
+            }
+        });
+        const form = document.getElementById('form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            // Turn the submit button into a loading indicator
+            document.getElementById('queue').classList.add('is-loading');
+            grade = document.getElementById('grade').value;
+            // Get tags
+            const tags = document.getElementById('tags').children;
+            var tags_list = [];
+            for (var i = 0; i < tags.length; i++) {
+                tags_list.push(tags[i].textContent);
+            }
+            // Send AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', "{% url 'add_to_queue' %}");
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            xhr.send(JSON.stringify({ "preferred_grade": grade, "interests": tags_list}));
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    // If checkbox is checked, send a notification
+                    if (checkbox.checked) {
+                        var notification = new Notification("Hobnob", {
+                            body: "Match made!",
+                            icon: "{% static 'images/logo.ico' %'}"
+
+                        });
+                    }
+                    window.location.replace(response.redirect_url);
+                }
+            };
+        });
+    </script>
 </body>
 
 </html>

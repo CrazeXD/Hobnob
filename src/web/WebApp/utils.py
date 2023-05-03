@@ -88,11 +88,11 @@ def check_schools(related_schools, distances):
 # Queue Functionality
 
 
-def add_user_to_queue(user: User):
+def add_user_to_queue(user: User, interests: list[str], preferred_grade: int) -> QueueItem:
     items = QueueItem.objects.all()
     if items.filter(user=user):
         return items.filter(user=user)[0]
-    item: QueueItem = QueueItem.objects.create(user=user)
+    item: QueueItem = QueueItem.objects.create(user=user, interests=interests, preferred_grade=preferred_grade)
     item.save()
     return item
 
@@ -106,15 +106,32 @@ def remove_from_queue(user):
     return item
 
 
-def should_pair(user1: User, user2: User) -> bool:
-    return user1.school == user2.school
+def ideal_pair(user1: User, user2: User, interests, preferred_grade, user_queue_item) -> bool:
+    school_match = user1.school == user2.school
+    if preferred_grade is None and user_queue_item.preferred_grade is None:
+        grade_match = True
+    elif preferred_grade is None:
+        grade_match = user_queue_item.preferred_grade == user1.grade
+    elif user_queue_item.preferred_grade is None:
+        grade_match = preferred_grade == user2.grade
+    else:
+        grade_match = user_queue_item.preferred_grade == user1.grade and preferred_grade == user2.grade
+    interest_match = any(interest in user_queue_item.interests for interest in interests)
+    return all((school_match,grade_match,interest_match))
 
 
-def pair(user: User) -> ChatRoom | None:
+def pair(user: User, interests, preferred_grade) -> ChatRoom | None:
     items = QueueItem.objects.all()
-    matches = [item.user for item in items if should_pair(user, item.user)]
-    if not matches:
-        return None
+    if ideal_matches := [
+        item.user
+        for item in items
+        if ideal_pair(user, item.user, interests, preferred_grade, item)
+    ]:
+        matches = ideal_matches
+    else:
+        matches = [item.user for item in items if item.user.school == user.school]
+        if not matches:
+            return None
     usertoadd = matches[0]
     if usertoadd == user:
         if len(matches) == 1:
@@ -160,8 +177,8 @@ def create_room(room_id):
     if request.json()['info'] == f"a room named {room_id} already exists":
         return f"https://hobnob.daily.co/{room_id}"
 
-def parse_rooms(request):
-    add_user_to_queue(request.user)
+def parse_rooms(request, interests, preferred_grade):
+    add_user_to_queue(request.user, interests, preferred_grade)
     while True:
         chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.filter(Q(user1=request.user) | Q(user2=request.user))
         if len(chatrooms) == 0:

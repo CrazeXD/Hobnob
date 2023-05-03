@@ -54,6 +54,9 @@ class User(AbstractUser):
 
 class QueueItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    interests = models.JSONField(default=list)
+    grades = ((9, 9), (10,10), (11,11), (12,12), (0, "No Preference"))
+    preferred_grade = models.IntegerField(choices=grades, default=0)
 
 
 class ChatRoom(models.Model):
