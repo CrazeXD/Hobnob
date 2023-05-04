@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
 
@@ -47,16 +47,16 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body style="background-color: rgb(18, 18, 18);">
+<body style="background-color: rgb(0, 10, 14);">
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
-            <div class="container box has-background-warning-light">
+            <div class="container box has-background-link-light">
                 <a href="/" class="is-size-2 has-text-black is-dosis">Hobnob</a>
                 <form method="post" action="/signup/">
                     {% csrf_token %}
                     {% if errors %}
-                    <p class="has-text-danger">Please correct the errors below.</p>
+                    <p class="has-text-primary">Please correct the errors below.</p>
                     {% for field, error in errors %}
                     {{ field }}: {{ error|escape }}
                     {% endfor %}
@@ -123,7 +123,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <button type="submit" class="button is-warning">Sign Up</button>
+                            <button type="submit" class="button is-link">Sign Up</button>
                         </div>
                     </div>
                 </form>

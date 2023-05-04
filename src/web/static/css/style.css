@@ -1,12 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DynaPuff&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gafata&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Unkempt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau:wght@300&display=swap');
+
 
 /* Forms */
 div.form p:not(:has(#id_user_bio))::after {
@@ -34,12 +31,15 @@ textarea,
 select {
     width: 100%;
     border-radius: 20px;
-    border: 1.5px solid #fbd06c;
+    border: 1.5px solid #6cc4fb;
 }
 select {
     text-align: center;
 }
 input {
+    padding: 8px;
+}
+select {
     padding: 8px;
 }
 
@@ -71,34 +71,13 @@ label {
     }
 }
 
-@keyframes scaleIn {
-    0% {
-        transform: scale(0.99);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
 .fadeIn {
     animation-name: fadeIn;
 }
 
-.scaleIn {
-    animation-name: scaleIn;
-}
 
 /* Global */
 body {
-    /* Make the body take up the full height of the page */
-    min-height: 100vh;
-    /* Make the body take up the full width of the page */
-    min-width: 100vw;
-    height: 100%;
-    width: 100%;
     margin: 0;
     padding: 0;
 }
@@ -118,29 +97,15 @@ body {
 .is-dongle {
     font-family: 'Dongle';
 }
-
-.is-dynapuff {
-    font-family: 'DynaPuff';
-}
-
 .is-montserrat {
     font-family: 'Montserrat'
 }
 .is-neucha {
     font-family: 'Neucha';
 }
-.is-patrickhand {
-    font-family: 'Patrick Hand';
-}
 .is-dosis {
     font-family: 'Dosis';
 }
-.is-mukta {
-    font-family: 'Mukta';
-}
-.is-gafata {
-    font-family: 'Gafata';
-}
-.is-unkempt {
-    font-family: 'Unkempt';
+.is-ysabeau {
+    font-family: 'Ysabeau';
 }

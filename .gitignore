@@ -15,3 +15,6 @@ config.json
 # Mobile
 flutter/
 
+# Node
+node_modules/
+

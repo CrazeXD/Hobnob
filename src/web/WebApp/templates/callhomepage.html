@@ -9,8 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,7 +25,7 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body style="background-color: rgb(18, 18, 18);">
+<body style="background-color: rgb(0, 10, 14);">
     <!-- Page Content -->
     <section class="section py-2">
         <nav class="nav py-3">
@@ -39,7 +38,7 @@
         <div class="columns">
             <div class="column">
                 {% if accepted_rules == "False" %}
-                <div class="card has-warning-danger-light has-text-centered px-2 py-2" id="call-rules">
+                <div class="card has-link-primary-light has-text-centered px-2 py-2" id="call-rules">
                     <h1 class="title has-text-centered py-2 has-text-black has-font-code">Call Rules</h1>
                     <p class="has-text-left">
                         1. No bullying, harassment, or hate speech will be tolerated. <br>
@@ -60,7 +59,7 @@
                         7. Recording calls, despite local laws, is not permitted without explicit permission from all
                         parties. <br>
                     </p>
-                    <button class="button is-danger is-centered" onclick="agree()">I Agree to The Rules</button>
+                    <button class="button is-primary is-centered" onclick="agree()">I Agree to The Rules</button>
                 </div>
                 {% endif %}
             </div>
@@ -69,7 +68,7 @@
                     {% csrf_token %}
                     <div class="field has-text-centered">
                         <div class="control">
-                            <button type="submit" class="button is-rounded is-large is-danger is-gafata" id="queue" 
+                            <button type="submit" class="button is-rounded is-large is-primary" id="queue" 
                             {% if accepted_rules == "False" %} disabled {% endif %}>
                                 Add To Queue
                             </button>
@@ -81,7 +80,7 @@
                     <p class="has-text-white px-2 py-2 is-montserrat">Preferred Grade To
                         Match:</p>
                     
-                    <div class="select is-danger">
+                    <div class="select is-primary">
                         <select name="grade" id="grade">
                             <option value="0" selected="selected">No Preference</option>
                             <option value="9">9</option>
@@ -97,7 +96,7 @@
                         <label class="label has-text-white">Interests</label>
                         <div id="tags" class="tags"></div>
                         <div class="control">
-                            <input id="tags-input" class="input is-danger" type="text"
+                            <input id="tags-input" class="input is-primary" type="text"
                                 placeholder="Type your interests here.">
                         </div>
                     </div>
@@ -120,7 +119,7 @@
                             const tag = tagsInput.value.trim();
                             if (tag !== '') {
                                 const tagElement = document.createElement('span');
-                                tagElement.classList.add('tag', 'is-medium', 'is-danger');
+                                tagElement.classList.add('tag', 'is-medium', 'is-primary');
                                 tagElement.textContent = tag;
                                 tagElement.addEventListener('click', () => {
                                     tagElement.remove();

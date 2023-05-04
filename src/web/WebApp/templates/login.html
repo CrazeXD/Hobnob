@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
 
@@ -43,17 +43,17 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body style="background-color: rgb(18, 18, 18);">
+<body style="background-color: rgb(0, 10, 14);">
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
-            <div class="container box has-background-danger-light">
+            <div class="container box has-background-primary-light">
                 <h1 class="has-text-left is-dosis is-size-2">Login</h1>
                 <br>
                 <form method="post" action="/login/">
                     {% csrf_token %}
                     {% if errors %}
-                    <p class="has-text-danger">{{ errors }}</p>
+                    <p class="has-text-primary">{{ errors }}</p>
                     {% endif %}
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <button type="submit" class="button is-danger is-montserrat" style="padding-left: 5%; padding-right: 5%;">Login</button>
+                            <button type="submit" class="button is-primary is-montserrat" style="padding-left: 5%; padding-right: 5%;">Login</button>
                         </div>
                     </div>
                 </form>
