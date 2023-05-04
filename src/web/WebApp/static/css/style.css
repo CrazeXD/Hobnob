@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=McLaren&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ysabeau:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Quattrocento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meera+Inimai&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 
 /* Forms */
 div.form p:not(:has(#id_user_bio))::after {
@@ -94,8 +95,8 @@ body {
     background-size: cover;
 }
 
-.is-dongle {
-    font-family: 'Dongle';
+.is-mclaren {
+    font-family: 'McLaren';
 }
 .is-montserrat {
     font-family: 'Montserrat'
@@ -106,6 +107,12 @@ body {
 .is-dosis {
     font-family: 'Dosis';
 }
-.is-ysabeau {
-    font-family: 'Ysabeau';
+.is-quattrocento {
+    font-family: 'Quattrocento';
+}
+.is-meera {
+    font-family: 'Meera Inimai';
+}
+.is-titillium {
+    font-family: 'Titillium Web';
 }

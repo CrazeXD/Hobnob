@@ -38,14 +38,18 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body style="background-color: rgb(18, 18, 18);">
+<body style="background-color: #121C24; min-height: 100vh;">
     <div class="columns is-multiline"></div>
     <div class="centervert">
         <section class="section has-text-centered">
             {% block content %}
+            
             <div class="container">
+
                 <form method="post" action="/profile" class="box">
-                    <h1 class="title has-text-centered is-dongle is-size-1">Profile</h1>
+                    <a href="/call"><img src="https://img.icons8.com/ios/50/null/delete-sign--v1.png"/ class="is-pulled-right" style="height: 16px; width: 16px;"></a>
+                    <br>
+                    <h1 class="title has-text-centered is-neucha is-size-1">Profile</h1>
                     <div class="field has-text-left">
                         <label class="label">Username:</label>
                         <div class="control">
@@ -102,7 +106,6 @@
                     <div class="field">
                         <a href="/logout" class="button is-primary is-neucha" style="width: 30%;">Logout</a>
                     </div>
-                    <div class="field"><a href="/call" class="button is-dark is-neucha" style="width: 30%">Close</a></div>
                 </form>
 
             </div>

@@ -15,55 +15,50 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8907000010862659"
         crossorigin="anonymous"></script>
+    <style>
+        .parent-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        @media screen and (max-width: 768px) {
+            .parent-container {
+                flex-direction: column;
+            }
+        }
+        body {
+            background-image: url("{% static 'images/background.png' %}");
+            background-size: cover;
+            
+        }
+    </style>
 </head>
+
 
 <noscript>Please enable javascript</noscript>
 
-<body style="background-color: rgb(0, 10, 14); min-height: 100vh;">
+<body style="min-height: 100vh;" class="parent-container">
     <!-- Page Content -->
-    <section class="section py-2">
-        <nav class="nav py-3">
-            <div class="nav-end">
-                <a href="/profile"><img src="{% static 'images/profile.png' %}" class="is-pulled-right"></a>
-            </div>
-        </nav>
-    </section>
-    <div class="centervert">
+    <div>
         <section class="section">
             <div class="columns">
                 <div class="column">
+                </div>
+                <div class="column has-text-centered">
                     {% if accepted_rules == "False" %}
-                    <div class="card has-background-link-light has-text-centered px-2 py-2" id="call-rules">
-                        <h1 class="title has-text-centered py-2 has-text-black has-font-code">Call Rules</h1>
-                        <p class="has-text-left">
-                            1. No bullying, harassment, or hate speech will be tolerated. <br>
-                            2. Users must be at least 13 years old to use the site. Any users found to be younger will be
-                            removed
-                            from the site.<br>
-                            3. Users must follow all applicable laws and regulations while using the app, including those
-                            related
-                            to privacy, data protection, and online conduct.<br>
-                            4. Users will not use the website for illegal or immoral purposes, such as sharing or
-                            distributing
-                            illegal content.<br>
-                            5. Users will not use the website for commercial purposes, such as advertising products or
-                            services.<br>
-                            6. Users are responsible for their own safety and well-being while using the site. The website
-                            is not
-                            responsible for any damages or harm caused by the users during the call.<br>
-                            7. Recording calls, despite local laws, is not permitted without explicit permission from all
-                            parties. <br>
-                        </p>
-                        <button class="button is-primary is-centered" onclick="agree()">I Agree to The Rules</button>
+                    <div id="call-rules">
+                        <p class="has-text-white" style="padding-bottom: 2px;">By joining the call, you agree to all the rules listed at <a href="/rules">this page.</a></p>
+                        <button class="button" onclick="agree()">I Agree to The Rules</button>
+                        <br>
+                        <br>
                     </div>
                     {% endif %}
-                </div>
-                <div class="column">
                     <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
                         {% csrf_token %}
                         <div class="field has-text-centered">
                             <div class="control">
-                                <button type="submit" class="button is-rounded is-large is-primary is-ysabeau" id="queue"
+                                <button type="submit" class="button is-rounded is-large is-dosis is-link" id="queue"
                                 {% if accepted_rules == "False" %} disabled {% endif %}>
                                     Add To Queue
                                 </button>
@@ -74,7 +69,7 @@
                     <div class="field has-text-centered">
                         <p class="has-text-white px-2 py-2 is-montserrat">Preferred Grade To
                             Match:</p>
-                        <div class="select is-primary">
+                        <div class="select is-primary is-rounded">
                             <select name="grade" id="grade">
                                 <option value="0" selected="selected">No Preference</option>
                                 <option value="9">9</option>
@@ -86,11 +81,11 @@
                     </div>
         
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <div class="field">
+                        <div class="field has-text-centered">
                             <label class="label has-text-white is-montserrat">Interests</label>
                             <div id="tags" class="tags"></div>
                             <div class="control">
-                                <input id="tags-input" class="input is-primary" type="text"
+                                <input id="tags-input" class="input is-primary is-rounded" type="text"
                                     placeholder="Type your interests here.">
                             </div>
                         </div>

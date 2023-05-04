@@ -239,3 +239,10 @@ def user_in(request: HttpRequest):
         return HttpResponse("Error")
     
     return HttpResponse("Success")
+
+file = open(f"{settings.BASE_DIR}/assets/rules.txt", "r").readlines()
+def rules(request: HttpRequest) -> HttpResponse:
+    string = ""
+    for line in file:
+        string = string + line + "<br>"
+    return HttpResponse(string)

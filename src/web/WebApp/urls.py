@@ -15,4 +15,5 @@ urlpatterns = [
     path('accept_rules/', views.accept_rules_session, name='accept_rules_session'),
     path('remove_from_queue/', views.remove_user_from_queue, name='remove_from_queue'),
     path('user_in/', views.user_in, name='user_in'),
+    path('rules/', views.rules, name='rules'),
 ]
