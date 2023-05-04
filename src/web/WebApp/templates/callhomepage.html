@@ -19,7 +19,7 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body style="background-color: rgb(0, 10, 14);">
+<body style="background-color: rgb(0, 10, 14); min-height: 100vh;">
     <!-- Page Content -->
     <section class="section py-2">
         <nav class="nav py-3">
@@ -28,108 +28,106 @@
             </div>
         </nav>
     </section>
-    <section class="section">
-        <div class="columns">
-            <div class="column">
-                {% if accepted_rules == "False" %}
-                <div class="card has-link-primary-light has-text-centered px-2 py-2" id="call-rules">
-                    <h1 class="title has-text-centered py-2 has-text-black has-font-code">Call Rules</h1>
-                    <p class="has-text-left">
-                        1. No bullying, harassment, or hate speech will be tolerated. <br>
-                        2. Users must be at least 13 years old to use the site. Any users found to be younger will be
-                        removed
-                        from the site.<br>
-                        3. Users must follow all applicable laws and regulations while using the app, including those
-                        related
-                        to privacy, data protection, and online conduct.<br>
-                        4. Users will not use the website for illegal or immoral purposes, such as sharing or
-                        distributing
-                        illegal content.<br>
-                        5. Users will not use the website for commercial purposes, such as advertising products or
-                        services.<br>
-                        6. Users are responsible for their own safety and well-being while using the site. The website
-                        is not
-                        responsible for any damages or harm caused by the users during the call.<br>
-                        7. Recording calls, despite local laws, is not permitted without explicit permission from all
-                        parties. <br>
-                    </p>
-                    <button class="button is-primary is-centered" onclick="agree()">I Agree to The Rules</button>
+    <div class="centervert">
+        <section class="section">
+            <div class="columns">
+                <div class="column">
+                    {% if accepted_rules == "False" %}
+                    <div class="card has-background-link-light has-text-centered px-2 py-2" id="call-rules">
+                        <h1 class="title has-text-centered py-2 has-text-black has-font-code">Call Rules</h1>
+                        <p class="has-text-left">
+                            1. No bullying, harassment, or hate speech will be tolerated. <br>
+                            2. Users must be at least 13 years old to use the site. Any users found to be younger will be
+                            removed
+                            from the site.<br>
+                            3. Users must follow all applicable laws and regulations while using the app, including those
+                            related
+                            to privacy, data protection, and online conduct.<br>
+                            4. Users will not use the website for illegal or immoral purposes, such as sharing or
+                            distributing
+                            illegal content.<br>
+                            5. Users will not use the website for commercial purposes, such as advertising products or
+                            services.<br>
+                            6. Users are responsible for their own safety and well-being while using the site. The website
+                            is not
+                            responsible for any damages or harm caused by the users during the call.<br>
+                            7. Recording calls, despite local laws, is not permitted without explicit permission from all
+                            parties. <br>
+                        </p>
+                        <button class="button is-primary is-centered" onclick="agree()">I Agree to The Rules</button>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div>
-            <div class="column">
-                <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
-                    {% csrf_token %}
+                <div class="column">
+                    <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
+                        {% csrf_token %}
+                        <div class="field has-text-centered">
+                            <div class="control">
+                                <button type="submit" class="button is-rounded is-large is-primary is-ysabeau" id="queue"
+                                {% if accepted_rules == "False" %} disabled {% endif %}>
+                                    Add To Queue
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
                     <div class="field has-text-centered">
-                        <div class="control">
-                            <button type="submit" class="button is-rounded is-large is-primary" id="queue" 
-                            {% if accepted_rules == "False" %} disabled {% endif %}>
-                                Add To Queue
-                            </button>
+                        <p class="has-text-white px-2 py-2 is-montserrat">Preferred Grade To
+                            Match:</p>
+                        <div class="select is-primary">
+                            <select name="grade" id="grade">
+                                <option value="0" selected="selected">No Preference</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
                         </div>
                     </div>
-                </form>
-                <br>
-                <div class="field has-text-centered">
-                    <p class="has-text-white px-2 py-2 is-montserrat">Preferred Grade To
-                        Match:</p>
-                    
-                    <div class="select is-primary">
-                        <select name="grade" id="grade">
-                            <option value="0" selected="selected">No Preference</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <div class="field">
-                        <label class="label has-text-white">Interests</label>
-                        <div id="tags" class="tags"></div>
-                        <div class="control">
-                            <input id="tags-input" class="input is-primary" type="text"
-                                placeholder="Type your interests here.">
+        
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div class="field">
+                            <label class="label has-text-white is-montserrat">Interests</label>
+                            <div id="tags" class="tags"></div>
+                            <div class="control">
+                                <input id="tags-input" class="input is-primary" type="text"
+                                    placeholder="Type your interests here.">
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <label class="has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once
-                        matched:</label>
-                    <div style="display: inline-flex;">
-                        <input type="checkbox" name="notifs" id="notifs" class="checkbox">
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <label class="has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once
+                            matched:</label>
+                        <div style="display: inline-flex;">
+                            <input type="checkbox" name="notifs" id="notifs" class="checkbox">
+                        </div>
                     </div>
-                </div>
-
-                <script>
-                    const tagsInput = document.getElementById('tags-input');
-                    const tagsDiv = document.getElementById('tags');
-                    tagsInput.addEventListener('keydown', (event) => {
-                        if (event.key === ' ' || event.key === 'Enter') {
-                            event.preventDefault();
-                            const tag = tagsInput.value.trim();
-                            if (tag !== '') {
-                                const tagElement = document.createElement('span');
-                                tagElement.classList.add('tag', 'is-medium', 'is-primary');
-                                tagElement.textContent = tag;
-                                tagElement.addEventListener('click', () => {
-                                    tagElement.remove();
-                                });
-                                tagsDiv.appendChild(tagElement);
-                                tagsInput.value = '';
+                    <script>
+                        const tagsInput = document.getElementById('tags-input');
+                        const tagsDiv = document.getElementById('tags');
+                        tagsInput.addEventListener('keydown', (event) => {
+                            if (event.key === ' ' || event.key === 'Enter') {
+                                event.preventDefault();
+                                const tag = tagsInput.value.trim();
+                                if (tag !== '') {
+                                    const tagElement = document.createElement('span');
+                                    tagElement.classList.add('tag', 'is-medium', 'is-primary');
+                                    tagElement.textContent = tag;
+                                    tagElement.addEventListener('click', () => {
+                                        tagElement.remove();
+                                    });
+                                    tagsDiv.appendChild(tagElement);
+                                    tagsInput.value = '';
+                                }
                             }
-                        }
-                    });
-
-                </script>
+                        });
+                    </script>
+                </div>
+                <div class="column">
+                </div>
             </div>
-            <div class="column">
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
     <script>
         function agree() {
             const button = document.getElementById('queue');
