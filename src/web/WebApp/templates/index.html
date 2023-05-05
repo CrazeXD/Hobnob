@@ -24,40 +24,34 @@
         flex-direction: column;
       }
     }
-
-    .hero-body {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .cta-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
   </style>
-
-  </style>
-
+  E
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
 <noscript>Please enable JavaScript</noscript>
 
 <body class="parent-container" style="background-color: #121C24; min-height: 100vh;">
+  <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_qsgqcwag.json"  background="transparent"  speed="0.5"  style="width: 3840px; height: 2160px; position: fixed"  loop autoplay></lottie-player>
+  <br>
   <div class="container">
     <section class="section">
       <div class="container is-centered">
         <!--Hero-->
-        <section class="hero py-2 animatedHero fadeIn">
+        <section class="hero is-medium py-2 animatedHero fadeIn">
           <div class="hero-body">
-            <div>
-              <h1 class="title is-size-1 is-neucha has-text-white">Hobnob</h1>
-              <h2 class="subtitle is-size-3 is-mclaren has-text-white">Meet classmates you didn't even know you have.</h2>
-            </div>
-            <div class="cta-button">
-              <button class="button is-link is-large is-responsive is-montserrat">Start Calling Now</button>
-              <p class="is-size-5 has-text-centered has-text-white"><a href="/login" class="has-text-primary">Login</a> or <a href="/signup" class="has-text-primary">Sign Up</a>.</p>
+            <div class="container">
+              <div class="columns level">
+                <div class="column is-half">
+                  <h1 class="title is-size-1 is-neucha has-text-white">Hobnob</h1>
+                  <h2 class="subtitle is-size-3 is-mclaren has-text-white">Meet classmates you didn't even know you have.</h2>
+                </div>
+                <br class="is-hidden-desktop">
+                <div class="has-text-centered">
+                  <button class="button is-link is-large is-responsive is-montserrat">Start Calling Now</button>
+                  <p class="is-medium has-text-centered has-text-white"><a href="/login" class="has-text-primary">Login</a> or <a href="/signup" class="has-text-primary">Sign Up</a>.</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
