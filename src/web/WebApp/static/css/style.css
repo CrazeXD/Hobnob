@@ -21,7 +21,7 @@ div.form p span.helptext::before {
     white-space: pre;
 }
 
-.centervert {
+.is-centervert {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -27,18 +27,23 @@
                 flex-direction: column;
             }
         }
-        body {
+        .background {
             background-image: url("{% static 'images/background.png' %}");
             background-size: cover;
-            
         }
     </style>
+    <script>
+        if (window.screen.availWidth > 768) {
+            let body = document.querySelector("body");
+            body.classList.add("background");
+        }
+    </script>
 </head>
 
 
 <noscript>Please enable javascript</noscript>
 
-<body style="min-height: 100vh;" class="parent-container">
+<body style="min-height: 100vh; background-color: #121C24;" class="parent-container">
     <!-- Page Content -->
     <div>
         <section class="section">
