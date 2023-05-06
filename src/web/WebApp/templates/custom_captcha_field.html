@@ -4,7 +4,7 @@
   <div class="form-group">
     <div class="input-group mb-3">
       <div class="input-group-prepend has-text-centered">
-        <img src="{{ image }}" alt="captcha" class="captcha"/>
+        <img src="{{ image }}" alt="captcha" class="captcha" />
       </div>
       {% include "django/forms/widgets/multiwidget.html" %}
     </div>
@@ -14,10 +14,10 @@
   var input = document.getElementById("id_captcha_1");
   input.value = "Enter the text above."
   input.style.textAlign = "center";
-  input.addEventListener("focus", function() {
+  input.addEventListener("focus", function () {
     input.value = "";
   });
-  input.addEventListener("blur", function() {
+  input.addEventListener("blur", function () {
     if (input.value == "") {
       input.value = "Enter the text above.";
     }
