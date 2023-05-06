@@ -44,28 +44,58 @@
 
 <noscript>Please enable javascript</noscript>
 
-<body style="min-height: 100vh; background-color: #121C24;" class="parent-container">
+<body style="min-height: 100vh; background-color: #121C24;">
+    <a href="/profile" style="display: flex; justify-content: right;"><img src="{% static 'images/profile.png' %}"
+            alt="Profile Icon" class="image image is-64x64"></a>
     <!-- Page Content -->
-    <div>
+    <div id="main" class="">
+        <script>
+            let main = document.querySelector("#main");
+            function height() {
+                main.classList.add("parent-container");
+            }
+            if (window.innerWidth > 768) {
+                height();
+            }
+            window.addEventListener("resize", () => {
+                if (window.innerWidth > 768) {
+                    height();
+                } else {
+                    main.classList.remove("parent-container");
+                }
+            });
+            window.addEventListener("load", () => {
+                if (window.innerWidth > 768) {
+                    height();
+                } else {
+                    main.classList.remove("parent-container");
+                }
+            });
+        </script>
         <section class="section">
-            <div class="columns">
-                <div class="column">
-                </div>
-                <div class="column has-text-centered">
-                    {% if accepted_rules == "False" %}
-                    <div id="call-rules">
+            {% if accepted_rules == "False" %}
+            <div class="modal is-active">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div id="call-rules" class="has-text-centered">
                         <p class="has-text-white" style="padding-bottom: 2px;">By joining the call, you agree to all the
                             rules listed at <a href="/rules">this page.</a></p>
-                        <button class="button" onclick="agree()">I Agree to The Rules</button>
+                        <button class="button is-link" onclick="agree()">I Agree to The Rules</button>
                         <br>
                         <br>
                     </div>
-                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            <div class="columns">
+                <div class="column">
+                </div>
+                <div class="column has-text-centered" style="width: min-content;">
                     <form method="post" action="{% url 'add_to_queue' %}" class="form" id="form">
                         {% csrf_token %}
                         <div class="field has-text-centered">
                             <div class="control">
-                                <button type="submit" class="button is-rounded is-large is-dosis is-link" id="queue" 
+                                <button type="submit" class="button is-rounded is-large is-dosis is-primary" id="queue"
                                     {% if accepted_rules == "False" %} disabled {% endif %}>
                                     Add To Queue
                                 </button>
@@ -89,7 +119,7 @@
 
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <div class="field has-text-centered">
-                            <label class="label has-text-white is-montserrat">Interests</label>
+                            <p class="label has-text-white is-montserrat">Interests</p>
                             <div id="tags" class="tags"></div>
                             <div class="control">
                                 <input id="tags-input" class="input is-primary is-rounded" type="text"
@@ -134,6 +164,8 @@
         function agree() {
             const button = document.getElementById('queue');
             button.disabled = false;
+            const modal = document.querySelector(".modal");
+            modal.classList.remove("is-active");
             const xhr = new XMLHttpRequest();
             xhr.open('POST', "{% url 'accept_rules_session' %}");
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
