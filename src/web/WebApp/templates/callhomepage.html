@@ -48,30 +48,7 @@
     <a href="/profile" style="display: flex; justify-content: right;"><img src="{% static 'images/profile.png' %}"
             alt="Profile Icon" class="image image is-64x64"></a>
     <!-- Page Content -->
-    <div id="main" class="parent-container">
-        <script>
-            let main = document.querySelector("#main");
-            function height() {
-                main.classList.add("parent-container");
-            }
-            if (window.innerWidth > 768) {
-                height();
-            }
-            window.addEventListener("resize", () => {
-                if (window.innerWidth > 768) {
-                    height();
-                } else {
-                    main.classList.remove("parent-container");
-                }
-            });
-            window.addEventListener("load", () => {
-                if (window.innerWidth > 768) {
-                    height();
-                } else {
-                    main.classList.remove("parent-container");
-                }
-            });
-        </script>
+    <div class="parent-container">
         <section class="section">
             {% if accepted_rules == "False" %}
             <div class="modal is-active">
