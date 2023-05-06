@@ -75,6 +75,9 @@
         callFrame.on('left-meeting', (event) => {
             window.location.replace('/call')
         });
+        callFrame.on('participant-left', event => {
+            callFrame.leave();
+        })
     </script>
 </body>
 

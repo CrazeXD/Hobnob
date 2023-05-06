@@ -176,6 +176,7 @@ def create_room(room_id):
         return request.json()['url']
     if request.json()['info'] == f"a room named {room_id} already exists":
         return f"https://hobnob.daily.co/{room_id}"
+    
 
 def parse_rooms(request, interests, preferred_grade):
     add_user_to_queue(request.user, interests, preferred_grade)

@@ -173,7 +173,7 @@ def add_to_queue(request: HttpRequest) -> JsonResponse | None:
         preferred_grade = None
     matched_user_chatroom = pair(request.user, interests, preferred_grade)
     if matched_user_chatroom is None:
-        solution = parse_rooms(request, interests, preferred_grade)
+        solution = parse_rooms(request, interests=interests, preferred_grade=preferred_grade)
         redirect_url = solution[0]
         request = solution[1]
     else:
@@ -188,7 +188,7 @@ def add_to_queue(request: HttpRequest) -> JsonResponse | None:
                 failed_partner = matched_user_chatroom.user1 if matched_user_chatroom.user1 != request.user else matched_user_chatroom.user2
                 request.user.recent_calls.remove(failed_partner)
                 failed_partner.recent_calls.remove(request.user)
-                solution = parse_rooms(request)
+                solution = parse_rooms(request, interests=interests, preferred_grade=preferred_grade)
                 redirect_url = solution[0]
                 request = solution[1]
                 return JsonResponse({"redirect_url": redirect_url})
