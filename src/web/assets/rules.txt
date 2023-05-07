@@ -29,3 +29,11 @@ services.
 28. Users will not use the website to promote any form of violence or aggression.
 29. Users will not use the website to post any offensive or derogatory content, including memes or images.
 30. Users will not use the website to violate any school policies or rules.
+31. The website is not responsible for the behavior of users during calls or for any damages or harm caused by users during the call. Users are responsible for their own behavior and any consequences that may result.
+32. The website does not guarantee the accuracy or completeness of any information shared during the call, and is not responsible for any decisions or actions taken by users based on that information.
+33. The website does not endorse or promote any particular viewpoints, opinions, or beliefs expressed by users during the call.
+34. The website reserves the right to terminate or suspend the account of any user who violates these rules or engages in any other behavior deemed inappropriate by the website.
+35. The website may monitor user activity and content for compliance with these rules and for the safety and well-being of users.
+36. Users are solely responsible for obtaining any necessary permissions or consents from other users before sharing personal information, images, or other content during the call.
+37. The website may modify these rules or disclaimers at any time without prior notice to users.
+38. Users will use common sense and good judgment while using the website.
