@@ -154,14 +154,16 @@ def pair(user: User, interests, preferred_grade) -> ChatRoom | None:
     return room
 
 
-def create_room(room_id):
+def create_room(room_id, username):
     """Makes an API request to Daily.co to create a room
 
     Args:
         room_id (int): Room ID
+        username (str): Username of user
 
     Returns:
         str: URL of the room
+        str: Meeting token
     """
     properties = {"exp": int(time.time())+900, "max_participants": 2, "eject_at_room_exp": True}
     request = requests.post(
@@ -169,13 +171,21 @@ def create_room(room_id):
         headers={
             "Authorization": f'Bearer {settings.config["DAILY"]["BEARER"]}'
         },
-        json={"name": str(room_id), "properties": properties},
+        json={"name": str(room_id), "privacy": "private", "properties": properties},
         timeout=5,
     )
+    meeting_token_request = requests.post(
+        url='https://api.daily.co/v1/meeting-tokens/',
+        headers={
+            "Authorization": f'Bearer {settings.config["DAILY"]["BEARER"]}'
+        },
+        json={"properties": {"room_name": str(room_id), "user_name": username}},
+    )
+    meeting_token = meeting_token_request.json()['token']
     if request.status_code == 200:
-        return request.json()['url']
+        return (request.json()['url'], meeting_token)
     if request.json()['info'] == f"a room named {room_id} already exists":
-        return f"https://hobnob.daily.co/{room_id}"
+        return (f"https://hobnob.daily.co/{room_id}", meeting_token)
     
 
 def parse_rooms(request, interests, preferred_grade):

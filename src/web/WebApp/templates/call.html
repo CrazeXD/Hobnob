@@ -48,7 +48,7 @@
                 }
             }
         });
-        callFrame.join({ url: '{{ url }}', userName: '{{ username }}' });
+        callFrame.join({ url: '{{ url }}', userName: '{{ username }}', token: '{{ token }}' });
         callFrame.on('loaded', (event) => {
             // Make a request to the server to update the user's status to in a call
             const xhr = new XMLHttpRequest();
