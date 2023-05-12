@@ -29,7 +29,7 @@ DEBUG = False
 ALLOWED_HOSTS = config["DJANGO"]["ALLOWED_HOSTS"]
 CSRF_TRUSTED_ORIGINS = config["DJANGO"]["CSRF_TRUSTED_ORIGINS"]
 
-AUTH_USER_MODEL = 'WebApp.User'
+AUTH_USER_MODEL = 'Core.User'
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://hobnob.daily.co/'
 # Application definition
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.forms',
-    'WebApp',
+    'Core',
     'captcha',
 ]
 

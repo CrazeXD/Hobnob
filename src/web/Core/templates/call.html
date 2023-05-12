@@ -72,12 +72,23 @@
             };
 
         });
-        callFrame.on('left-meeting', (event) => {
-            window.location.replace('/call')
-        });
+        let timerId = null;
+
         callFrame.on('participant-left', event => {
-            callFrame.leave();
-        })
+            timerId = setTimeout(() => {
+                // leave the callframe if the timer expires
+                callFrame.leave();
+            }, 5000); // 5 seconds
+        });
+
+        callFrame.on('participant-joined', event => {
+            // clear the timer if the join event is triggered within the time period
+            if (timerId) {
+                clearTimeout(timerId);
+                timerId = null;
+            }
+        });
+
     </script>
 </body>
 

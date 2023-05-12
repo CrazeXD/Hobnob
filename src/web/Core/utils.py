@@ -166,7 +166,7 @@ def create_room(room_id, username):
         str: Meeting token
     """
     properties = {"exp": int(time.time())+900, "max_participants": 2, "eject_at_room_exp": True}
-    request = requests.post(
+    meeting_request = requests.post(
         url='https://api.daily.co/v1/rooms/',
         headers={
             "Authorization": f'Bearer {settings.config["DAILY"]["BEARER"]}'
@@ -182,9 +182,9 @@ def create_room(room_id, username):
         json={"properties": {"room_name": str(room_id), "user_name": username}},
     )
     meeting_token = meeting_token_request.json()['token']
-    if request.status_code == 200:
-        return (request.json()['url'], meeting_token)
-    if request.json()['info'] == f"a room named {room_id} already exists":
+    if meeting_request.status_code == 200:
+        return (meeting_request.json()['url'], meeting_token)
+    if meeting_request.json()['info'] == f"a room named {room_id} already exists":
         return (f"https://hobnob.daily.co/{room_id}", meeting_token)
     
 
