@@ -78,6 +78,7 @@
             timerId = setTimeout(() => {
                 // leave the callframe if the timer expires
                 callFrame.leave();
+                window.location.href = '/call'
             }, 5000); // 5 seconds
         });
 
