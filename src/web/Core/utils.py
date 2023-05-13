@@ -189,7 +189,7 @@ def create_room(room_id, username):
     
 
 def parse_rooms(request, interests, preferred_grade):
-    add_user_to_queue(request.user, interests, preferred_grade)
+    add_user_to_queue(request.user, interests, str(preferred_grade))
     while True:
         chatrooms: QuerySet[ChatRoom] = ChatRoom.objects.filter(Q(user1=request.user) | Q(user2=request.user))
         if len(chatrooms) == 0:

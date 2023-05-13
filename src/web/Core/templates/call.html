@@ -89,6 +89,9 @@
                 timerId = null;
             }
         });
+        callFrame.on('left-meeting', event=> {
+            window.location.href = '/call'
+        });
 
     </script>
 </body>

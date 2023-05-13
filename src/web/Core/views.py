@@ -168,9 +168,7 @@ def add_to_queue(request: HttpRequest) -> JsonResponse | None:
         return None
     data = json.loads(request.body)
     interests = data.get("interests", [])
-    preferred_grade = int(data.get("preferred_grade", None))
-    if preferred_grade == 0:
-        preferred_grade = None
+    preferred_grade = data.get("preferred_grade", "0")
     matched_user_chatroom = pair(request.user, interests, preferred_grade)
     if matched_user_chatroom is None:
         solution = parse_rooms(request, interests=interests, preferred_grade=preferred_grade)
