@@ -238,7 +238,8 @@ def user_in(request: HttpRequest):
         room.save()
     else:
         return HttpResponse("Error")
-    
+    if room.user1_in_room and room.user2_in_room:
+        room.delete()
     return HttpResponse("Success")
 
 file = open(f"{settings.BASE_DIR}/assets/rules.txt", "r").readlines()
