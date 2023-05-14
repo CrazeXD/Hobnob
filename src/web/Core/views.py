@@ -169,7 +169,8 @@ def add_to_queue(request: HttpRequest) -> JsonResponse | None:
     data = json.loads(request.body)
     interests = data.get("interests", [])
     preferred_grade = data.get("preferred_grade", "0")
-    matched_user_chatroom = pair(request.user, interests, preferred_grade)
+    fallback = data.get("fallback", True)
+    matched_user_chatroom = pair(request.user, interests, preferred_grade, fallback=fallback)
     if matched_user_chatroom is None:
         solution = parse_rooms(request, interests=interests, preferred_grade=preferred_grade)
         redirect_url = solution[0]

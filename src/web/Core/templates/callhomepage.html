@@ -107,13 +107,25 @@
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <label class="has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once
-                            matched:</label>
-                        <div style="display: inline-flex;">
-                            <input type="checkbox" name="notifs" id="notifs" class="checkbox">
-                        </div>
+                        <label class="label has-text-white px-2 py-2" style="white-space: nowrap;">Receive notification once
+                            matched:
+                            <div style="display: inline-flex; vertical-align:middle;">
+                                <input type="checkbox" name="notifs" id="notifs" class="checkbox">
+                            </div>
+                        </label>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <label class="label has-text-white px-2 py-2" style="white-space: nowrap;">Enable Fallback <a
+                                onclick="fallback()">(What's this?)</a>:
+                            <div style="display: inline-flex; vertical-align:middle;">
+                                <input type="checkbox" name="fallback" id="fallback" class="checkbox" checked>
+                            </div>
+                        </label>
                     </div>
                     <script>
+                        function fallback() {
+                            alert("Fallback is a feature that allows you to be matched with someone who may not fit in your interests or preferred grade. This is useful if you are having trouble finding a match.")
+                        }
                         const tagsInput = document.getElementById('tags-input');
                         const tagsDiv = document.getElementById('tags');
                         tagsInput.addEventListener('keydown', (event) => {
@@ -174,6 +186,7 @@
             // Turn the submit button into a loading indicator
             document.getElementById('queue').classList.add('is-loading');
             grade = document.getElementById('grade').value;
+            fallback = document.getElementById('fallback').checked;
             // Get tags
             const tags = document.getElementById('tags').children;
             var tags_list = [];
@@ -186,7 +199,7 @@
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             xhr.setRequestHeader('X-CSRFToken', csrftoken);
-            xhr.send(JSON.stringify({ "preferred_grade": grade, "interests": tags_list }));
+            xhr.send(JSON.stringify({ "preferred_grade": grade, "interests": tags_list, "fallback": fallback }));
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);

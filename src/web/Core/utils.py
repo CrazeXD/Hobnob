@@ -120,7 +120,7 @@ def ideal_pair(user1: User, user2: User, interests, preferred_grade, user_queue_
     return all((school_match,grade_match,interest_match))
 
 
-def pair(user: User, interests, preferred_grade) -> ChatRoom | None:
+def pair(user: User, interests, preferred_grade, fallback=True) -> ChatRoom | None:
     items = QueueItem.objects.all()
     if ideal_matches := [
         item.user
@@ -128,10 +128,12 @@ def pair(user: User, interests, preferred_grade) -> ChatRoom | None:
         if ideal_pair(user, item.user, interests, preferred_grade, item)
     ]:
         matches = ideal_matches
-    else:
+    elif fallback:
         matches = [item.user for item in items if item.user.school == user.school]
         if not matches:
             return None
+    else:
+        return None
     usertoadd = matches[0]
     if usertoadd == user:
         if len(matches) == 1:
