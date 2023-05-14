@@ -67,3 +67,4 @@ class ChatRoom(models.Model):
     room_id = models.AutoField(primary_key=True)
     user1_in_room = models.BooleanField(default=False)
     user2_in_room = models.BooleanField(default=False)
+    call_completed = models.BooleanField(default=False)
