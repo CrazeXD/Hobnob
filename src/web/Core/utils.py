@@ -186,7 +186,7 @@ def create_room(room_id, username):
     meeting_token = meeting_token_request.json()['token']
     if meeting_request.status_code == 200:
         return (meeting_request.json()['url'], meeting_token)
-    if meeting_request.json()['info'] == f"a room named {room_id} already exists":
+    elif meeting_request.json()['info'] == f"a room named {room_id} already exists":
         return (f"https://hobnob.daily.co/{room_id}", meeting_token)
     
 
