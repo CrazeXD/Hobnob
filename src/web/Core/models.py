@@ -68,3 +68,4 @@ class ChatRoom(models.Model):
     user1_in_room = models.BooleanField(default=False)
     user2_in_room = models.BooleanField(default=False)
     call_completed = models.BooleanField(default=False)
+    exp = models.IntegerField(default=0)

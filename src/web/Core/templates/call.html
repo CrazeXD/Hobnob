@@ -3,22 +3,73 @@
 
 <head>
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/call.css' %}">
     <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
+
     <title>Hobnob</title>
 </head>
 
 <noscript>Please enable javascript</noscript>
 
 <body>
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content has-text-centered">
+            <p class="subtitle has-text-white is-2">Time Remaining</p>
+            <p class="title has-text-white is-1" id="countdown"></p>
+            <button class="button is-link has-text-white is-medium" id="close-modal">Close</div>
+            <script>
+                document.getElementById("close-modal").addEventListener("click", () => {
+                    document.querySelector(".modal").classList.remove("is-active");
+                });
+            </script>
+        </div>
+    </div>
+    <script>
+        const targetTime = parseInt('{{ exp }}');
+
+        // Get the current time in seconds since the epoch
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        // Calculate the remaining time in seconds
+        const remainingTime = targetTime - currentTime;
+
+        // Update the countdown clock every second
+        setInterval(() => {
+            // Get the current time in seconds since the epoch
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Calculate the remaining time in seconds
+            const remainingTime = targetTime - currentTime;
+
+            // Check if the remaining time is negative (i.e., the target time has passed)
+            if (remainingTime < 0) {
+                // Display "Time's up!" message
+                document.getElementById("countdown").textContent = "Time's up!";
+            } else {
+                // Calculate the remaining time in hours, minutes, and seconds
+                const remainingHours = Math.floor(remainingTime / 3600);
+                const remainingMinutes = Math.floor((remainingTime % 3600) / 60);
+                const remainingSeconds = remainingTime % 60;
+
+                // Display the remaining time in the countdown clock
+                document.getElementById("countdown").textContent = `${remainingHours
+                    .toString()
+                    .padStart(2, "0")}:${remainingMinutes
+                        .toString()
+                        .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+            }
+        }, 1000);
+    </script>
     <div class="content">
         <div class="columns">
             <div class="column is-flex" style="padding: 0;">
-                <iframe id="daily-co" style="height: 100vh; width: 100%; border: none;" allow="microphone; camera; autoplay; display-capture";></iframe>
+                <iframe id="daily-co" style="height: 100vh; width: 100%; border: none;"
+                    allow="microphone; camera; autoplay; display-capture" ;></iframe>
             </div>
         </div>
     </div>
@@ -46,9 +97,23 @@
                     "mainAreaText": "#F5F5F5",
                     "supportiveText": "#B3B3B3"
                 }
+            },
+            customTrayButtons: {
+                clock: {
+                    iconPath: 'https://hobnob.social/static/images/clock.png',
+                    iconPathDarkMode: 'https://hobnob.social/static/images/clock.png',
+                    label: 'Clock',
+                    tooltip: 'Remaining Time',
+                }
             }
         });
+        
         callFrame.join({ url: '{{ url }}', userName: '{{ username }}', token: '{{ token }}' });
+        callFrame.on('custom-button-click', (event) => {
+            if (event.button_id === 'clock') {
+                document.querySelector(".modal").classList.add("is-active");
+            }
+        })
         callFrame.on('loaded', (event) => {
             // Make a request to the server to update the user's status to in a call
             const xhr = new XMLHttpRequest();
@@ -79,7 +144,7 @@
                 // leave the callframe if the timer expires
                 callFrame.leave();
                 window.location.href = '/call'
-            }, 5000); // 5 seconds
+            }, 3000); // 3 seconds
         });
 
         callFrame.on('participant-joined', event => {
@@ -89,10 +154,9 @@
                 timerId = null;
             }
         });
-        callFrame.on('left-meeting', event=> {
+        callFrame.on('left-meeting', event => {
             window.location.href = '/call'
         });
-
     </script>
 </body>
 

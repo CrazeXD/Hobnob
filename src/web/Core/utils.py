@@ -140,12 +140,13 @@ def pair(user: User, interests, preferred_grade, fallback=True) -> ChatRoom | No
             return None
         matches.remove(user)
         usertoadd = matches[0]
-    while usertoadd in user.recent_calls.all():
-        if any(i not in user.recent_calls.all() for i in matches):
-            matches.remove(usertoadd)
-            usertoadd = matches[0]
-        elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)):
-            return None
+    if settings.DEBUG == True:
+        while usertoadd in user.recent_calls.all():
+            if any(i not in user.recent_calls.all() for i in matches):
+                matches.remove(usertoadd)
+                usertoadd = matches[0]
+            elif len(matches) == 1 and any(usertoadd == user.recent_calls.all()[i] for i in range(1)):
+                return None
 
     user.recent_calls.add(usertoadd)
     if len(user.recent_calls.all()) > 5:
@@ -167,7 +168,13 @@ def create_room(room_id, username):
         str: URL of the room
         str: Meeting token
     """
-    properties = {"exp": int(time.time())+900, "max_participants": 2, "eject_at_room_exp": True}
+    room = ChatRoom.objects.get(room_id=room_id)
+    if room.exp == 0:
+        exp = room.exp = int(time.time())+900
+        room.save()
+    else:
+        exp = room.exp
+    properties = {"exp": exp, "max_participants": 2, "eject_at_room_exp": True}
     meeting_request = requests.post(
         url='https://api.daily.co/v1/rooms/',
         headers={
@@ -185,9 +192,9 @@ def create_room(room_id, username):
     )
     meeting_token = meeting_token_request.json()['token']
     if meeting_request.status_code == 200:
-        return (meeting_request.json()['url'], meeting_token)
+        return (meeting_request.json()['url'], meeting_token, exp)
     elif meeting_request.json()['info'] == f"a room named {room_id} already exists":
-        return (f"https://hobnob.daily.co/{room_id}", meeting_token)
+        return (f"https://hobnob.daily.co/{room_id}", meeting_token, exp)
     
 
 def parse_rooms(request, interests, preferred_grade):
