@@ -21,13 +21,14 @@
         <div class="modal-content has-text-centered">
             <p class="subtitle has-text-white is-2">Time Remaining</p>
             <p class="title has-text-white is-1" id="countdown"></p>
-            <button class="button is-link has-text-white is-medium" id="close-modal">Close</div>
-            <script>
-                document.getElementById("close-modal").addEventListener("click", () => {
-                    document.querySelector(".modal").classList.remove("is-active");
-                });
-            </script>
+            <button class="button is-link has-text-white is-medium" id="close-modal">Close
         </div>
+        <script>
+            document.getElementById("close-modal").addEventListener("click", () => {
+                document.querySelector(".modal").classList.remove("is-active");
+            });
+        </script>
+    </div>
     </div>
     <script>
         const targetTime = parseInt('{{ exp }}');
@@ -107,7 +108,7 @@
                 }
             }
         });
-        
+
         callFrame.join({ url: '{{ url }}', userName: '{{ username }}', token: '{{ token }}' });
         callFrame.on('custom-button-click', (event) => {
             if (event.button_id === 'clock') {

@@ -106,7 +106,8 @@ def remove_from_queue(user):
     return item
 
 
-def ideal_pair(user1: User, user2: User, interests, preferred_grade, user_queue_item) -> bool:
+def ideal_pair(users: list[User], interests, preferred_grade, user_queue_item) -> bool:
+    user1, user2 = users
     school_match = user1.school == user2.school
     if preferred_grade is None and user_queue_item.preferred_grade is None:
         grade_match = True
@@ -125,7 +126,7 @@ def pair(user: User, interests, preferred_grade, fallback=True) -> ChatRoom | No
     if ideal_matches := [
         item.user
         for item in items
-        if ideal_pair(user, item.user, interests, preferred_grade, item)
+        if ideal_pair([user, item.user], interests, preferred_grade, item)
     ]:
         matches = ideal_matches
     elif fallback:
@@ -170,10 +171,9 @@ def create_room(room_id, username):
     """
     room = ChatRoom.objects.get(room_id=room_id)
     if room.exp == 0:
-        exp = room.exp = int(time.time())+900
+        room.exp = int(time.time())+900
         room.save()
-    else:
-        exp = room.exp
+    exp = room.exp
     properties = {"exp": exp, "max_participants": 2, "eject_at_room_exp": True}
     meeting_request = requests.post(
         url='https://api.daily.co/v1/rooms/',

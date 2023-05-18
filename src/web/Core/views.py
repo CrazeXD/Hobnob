@@ -17,6 +17,7 @@ def index(request: HttpRequest) -> HttpResponse:
         return redirect("call")
     return render(request, "index.html")
 
+
 field_alt_names = {
     "username": "Username",
     "password": "Password",
@@ -30,23 +31,22 @@ field_alt_names = {
 }
 def signup(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
-        form: SignupForm = SignupForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
-            return signup_form_functions(form, request)
+            return signup_functionality(form, request)
         errors = list(form.errors.items())
         for index, error in enumerate(errors):
             if error[0] in field_alt_names:
                 error = list(error)
                 error[0] = field_alt_names[error[0]]
                 errors[index] = tuple(error)
-
         return render(request, "signup.html", {"form": form, "errors": errors})
-    else:
-        form: SignupForm = SignupForm()
+    
+    form = SignupForm()
     return render(request, "signup.html", {"form": form, "errors": None})
 
 
-def signup_form_functions(form, request):
+def signup_functionality(form, request):
     user = get_user(form)
     # Get the school from the form
     school = form.cleaned_data["school"].strip()
@@ -92,7 +92,6 @@ def signup_form_functions(form, request):
         return multiple_schools(related_schools, user, request)
     login(request, user)
     return redirect("call")
-
 
 def multiple_schools(related_schools, user, request):
     string_template = ''
