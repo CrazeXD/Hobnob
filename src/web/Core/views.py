@@ -148,7 +148,10 @@ def profile(request: HttpRequest) -> HttpResponse:
         form: UserEditForm = UserEditForm(request.POST, instance=request.user)
 
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            password = form.cleaned_data["password"]
+            user.set_password(password)
+            user.save()
     else:
         form: UserEditForm = UserEditForm(instance=request.user)
     return render(request, "profile.html", {"form": form})
