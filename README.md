@@ -1,4 +1,4 @@
-# Hobnob
+# Hobnob (Flop)
 A social media website to chat with random people at your school.
 
 ## Datasets
